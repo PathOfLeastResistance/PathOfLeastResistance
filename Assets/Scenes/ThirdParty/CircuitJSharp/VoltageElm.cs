@@ -47,7 +47,7 @@ class VoltageElm : CircuitElm
 
     static double defaultPulseDuty = 1 / (2 * Math.PI);
 
-    VoltageElm(int xx, int yy, WaveForm wf) : base(xx, yy)
+    public VoltageElm(int xx, int yy, WaveForm wf) : base(xx, yy)
     {
         waveform = wf;
         maxVoltage = 5;
@@ -150,7 +150,7 @@ class VoltageElm : CircuitElm
             noiseValue = (sim.random.NextDouble() * 2 - 1) * maxVoltage + bias;
     }
 
-    double getVoltage()
+    public double getVoltage()
     {
         if (waveform != WaveForm.WF_DC && sim.dcAnalysisFlag)
             return bias;

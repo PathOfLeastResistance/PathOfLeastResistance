@@ -369,11 +369,17 @@ public class CirSim
             {
                 // merge nodes; go through map and change all keys pointing to cn2 to point to cn
                 // for (Map.Entry < Point, NodeMapEntry > entry : nodeMap.entrySet())
+                var toReplace = new List<KeyValuePair<Point, NodeMapEntry>>();
                 foreach (var entry in nodeMap)
                 {
-                    if (entry.getValue() == cn2)
-                        entry.setValue(cn);
+                    if (entry.Value == cn2)
+                    {
+                        // entry.setValue(cn);
+                        toReplace.Add(new KeyValuePair<Point, NodeMapEntry>(entry.Key,cn));
+                    }
                 }
+                foreach (var replacer in toReplace)
+                    nodeMap[replacer.Key] = replacer.Value;
 
 //		mergeCount++;
                 continue;
@@ -725,7 +731,7 @@ public class CirSim
                     ce.getNode(1));
                 if (!fpi.findPath(ce.getNode(0)))
                 {
-//		    console(ce + " no path");
+        		    console(ce + " no path");
                     ce.reset();
                 }
             }
@@ -1411,28 +1417,20 @@ public class CirSim
         bool debugprint = dumpMatrix;
         dumpMatrix = false;
         long steprate = (long)(160 * getIterCount());
-        long tm = System.currentTimeMillis();
-        long lit = lastIterTime;
-        if (lit == 0)
-        {
-            lastIterTime = tm;
-            return;
-        }
 
         // Check if we don't need to run simulation (for very slow simulation speeds).
         // If the circuit changed, do at least one iteration to make sure everything is consistent.
-        if (1000 >= steprate * (tm - lastIterTime) && !didAnalyze)
+        if (!didAnalyze)
             return;
 
         bool delayWireProcessing = canDelayWireProcessing();
-
         int timeStepCountAtFrameStart = timeStepCount;
 
         // keep track of iterations completed without convergence issues
         int goodIterations = 100;
         bool goodIteration = true;
 
-        for (iter = 1;; iter++)
+        for (iter = 1; ; iter++)
         {
             if (goodIterations >= 3 && timeStep < maxTimeStep && goodIteration)
             {
@@ -1573,8 +1571,6 @@ public class CirSim
                 lastNodeVoltages[i] = nodeVoltages[i];
 //	    console("set lastrightside at " + t + " " + lastNodeVoltages);
 
-            tm = System.currentTimeMillis();
-            lit = tm;
             // Check whether enough time has elapsed to perform an *additional* iteration after
             // those we have already completed.  But limit total computation time to 50ms (20fps)
             if ((timeStepCount - timeStepCountAtFrameStart) * 1000 >= steprate * (tm - lastIterTime) || (tm - lastFrameTime > 50))
@@ -1583,7 +1579,6 @@ public class CirSim
                 break;
         } // for (iter = 1; ; iter++)
 
-        lastIterTime = lit;
         if (delayWireProcessing)
             calcWireCurrents();
 //	System.out.println((System.currentTimeMillis()-lastFrameTime)/(double) iter);
@@ -1592,7 +1587,7 @@ public class CirSim
 // set node voltages given right side found by solving matrix
     void applySolvedRightSide(double[] rs)
     {
-//	console("setvoltages " + rs);
+    	console("setvoltages " + rs);
         int j;
         for (j = 0; j != circuitMatrixFullSize; j++)
         {
