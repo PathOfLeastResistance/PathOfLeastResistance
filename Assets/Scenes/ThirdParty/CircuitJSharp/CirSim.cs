@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 public class CirSim
 {
-    Random random;
+    public Random random;
 
     // Class addingClass;
     static double pi = 3.14159265358979323846;
@@ -49,10 +49,10 @@ public class CirSim
     bool dragging;
     bool analyzeFlag, needsStamp, savedFlag;
     bool dumpMatrix;
-    bool dcAnalysisFlag;
+    public bool dcAnalysisFlag;
     bool isMac;
     String ctrlMetaKey;
-    double t;
+    public double t;
     int pause = 10;
     int scopeSelected = -1;
     int menuScope = -1;
@@ -276,10 +276,10 @@ public class CirSim
         analyzeFlag = true;
     }
 
-    List<CircuitNode> nodeList;
-    List<Point> postDrawList = new List<Point>();
-    List<Point> badConnectionList = new List<Point>();
-    CircuitElm[] voltageSources;
+    public List<CircuitNode> nodeList;
+    public List<Point> postDrawList = new List<Point>();
+    public List<Point> badConnectionList = new List<Point>();
+    public CircuitElm[] voltageSources;
 
     public CircuitNode getCircuitNode(int n)
     {
@@ -457,14 +457,14 @@ public class CirSim
                         if (notReady) isReady1 = false;
                     }
                 }
-                else if (ce
-                             is LabeledNodeElm && wire is LabeledNodeElm &&
-                         ((LabeledNodeElm)ce).text == ((LabeledNodeElm)wire).text)
-                {
-                    // ce and wire are both labeled nodes with matching labels.  treat them as neighbors
-                    neighbors1.Add(ce);
-                    if (notReady) isReady1 = false;
-                }
+                // else if (ce
+                //              is LabeledNodeElm && wire is LabeledNodeElm &&
+                //          ((LabeledNodeElm)ce).text == ((LabeledNodeElm)wire).text)
+                // {
+                //     // ce and wire are both labeled nodes with matching labels.  treat them as neighbors
+                //     neighbors1.Add(ce);
+                //     if (notReady) isReady1 = false;
+                // }
             }
 
             // does one of the posts have all information necessary to calculate current?
@@ -624,9 +624,9 @@ public class CirSim
         voltageSources = new CircuitElm[vscount];
     }
 
-    List<int> unconnectedNodes;
-    List<CircuitElm> nodesWithGroundConnection;
-    int nodesWithGroundConnectionCount;
+    public List<int> unconnectedNodes;
+    public List<CircuitElm> nodesWithGroundConnection;
+    public int nodesWithGroundConnectionCount;
 
     void findUnconnectedNodes()
     {
@@ -858,7 +858,7 @@ public class CirSim
         // can't use voltageSourceCount here since that counts internal voltage sources, like the one in GroundElm
         bool gotVoltageSource = false;
         showResistanceInVoltageSources = true;
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             if (ce is VoltageElm)
@@ -874,14 +874,14 @@ public class CirSim
         if (!validateCircuit())
             return;
 
-        nodesWithGroundConnectionCount = nodesWithGroundConnection.size();
+        nodesWithGroundConnectionCount = nodesWithGroundConnection.Count;
         // only need this for validation
         nodesWithGroundConnection = null;
 
         timeStep = maxTimeStep;
         needsStamp = true;
 
-        callAnalyzeHook();
+        // callAnalyzeHook();
     }
 
 // stamp the matrix, meaning populate the matrix as required to simulate the circuit (for all linear elements, at least)
@@ -889,17 +889,12 @@ public class CirSim
     {
         int i;
         int matrixSize = nodeList.Count - 1 + voltageSourceCount;
-        circuitMatrix = new double[matrixSize][];
-        for (int l = 0; l < matrixSize; l++)
-            circuitMatrix[l] = new double[matrixSize];
-
+        circuitMatrix = new double[matrixSize, matrixSize];
         circuitRightSide = new double[matrixSize];
         nodeVoltages = new double[nodeList.Count - 1];
         if (lastNodeVoltages == null || lastNodeVoltages.Length != nodeVoltages.Length)
             lastNodeVoltages = new double[nodeList.Count - 1];
-        origMatrix = new double[matrixSize][];
-        for (int l = 0; l < matrixSize; l++)
-            origMatrix[l] = new double[matrixSize];
+        origMatrix = new double[matrixSize, matrixSize];
 
         origRightSide = new double[matrixSize];
         circuitMatrixSize = circuitMatrixFullSize = matrixSize;
@@ -972,7 +967,7 @@ public class CirSim
             // see if this row can be removed
             for (j = 0; j != matrixSize; j++)
             {
-                double q = circuitMatrix[i][j];
+                double q = circuitMatrix[i, j];
                 if (circuitRowInfo[j].type == RowInfo.ROW_CONST)
                 {
                     // keep a running total of const values that have been
@@ -1020,7 +1015,7 @@ public class CirSim
                 circuitRowInfo[i].dropRow = true;
                 // find first row that referenced the element we just deleted
                 for (j = 0; j != i; j++)
-                    if (circuitMatrix[j][qp] != 0)
+                    if (circuitMatrix[j, qp] != 0)
                         break;
                 // start over just before that
                 i = j - 1;
@@ -1082,7 +1077,7 @@ public class CirSim
             origRightSide[i] = circuitRightSide[i];
         for (i = 0; i != matrixSize; i++)
         for (j = 0; j != matrixSize; j++)
-            origMatrix[i][j] = circuitMatrix[i][j];
+            origMatrix[i, j] = circuitMatrix[i, j];
         circuitNeedsMap = true;
         return true;
     }
@@ -1666,7 +1661,7 @@ public class CirSim
 
             // get correct current polarity
             // (LabeledNodes may have wi.post == 1, in which case we flip the current sign)
-            if (wi.post == 0 || (wi.wire is LabeledNodeElm))
+            if (wi.post == 0)  //|| (wi.wire is LabeledNodeElm))
                 wi.wire.setCurrent(-1, cur);
             else
                 wi.wire.setCurrent(-1, -cur);

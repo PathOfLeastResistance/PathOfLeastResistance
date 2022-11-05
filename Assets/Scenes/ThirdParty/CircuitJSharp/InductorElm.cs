@@ -99,7 +99,7 @@ public class InductorElm : CircuitElm
         //    }
         //           if (n == 2)
         //               return new EditInfo("Initial Current (on Reset) (A)", initialCurrent);
-        //    return null;
+            return null;
     }
 
     public void setEditValue(int n, object ei)

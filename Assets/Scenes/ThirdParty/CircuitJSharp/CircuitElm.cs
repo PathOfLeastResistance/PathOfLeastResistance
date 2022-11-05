@@ -25,7 +25,7 @@ public class CircuitElm
 {
     static Point ps1, ps2;
     public static CirSim sim;
-    const double pi = 3.14159265358979323846;
+    public const double pi = 3.14159265358979323846;
 
     // initial point where user created element.  For simple two-terminal elements, this is the first node/post.
     public int x, y;
@@ -35,7 +35,7 @@ public class CircuitElm
 
     public int flags;
     public int[] nodes;
-    int voltSource;
+    public int voltSource;
 
     // length along x and y axes, and sign of difference
     int dx, dy, dsign;
@@ -45,7 +45,7 @@ public class CircuitElm
     double dpx1, dpy1;
 
     // (x,y) and (x2,y2) as Point objects
-    Point point1, point2;
+    public Point point1, point2;
 
     // voltages at each node
     public double[] volts;
@@ -104,7 +104,7 @@ public class CircuitElm
     }
 
     // dump component state for export/undo
-    string dump()
+    public virtual string dump()
     {
         return "";
     }
@@ -299,7 +299,7 @@ public class CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public virtual void setEditValue(int n, object ei)
     {
     }
 
@@ -330,7 +330,7 @@ public class CircuitElm
     }
 
     // is this a wire or equivalent to a wire?  (used for circuit validation)
-    public bool isWireEquivalent()
+    public virtual bool isWireEquivalent()
     {
         return false;
     }
@@ -402,7 +402,7 @@ public class CircuitElm
     }
 
     // get current flowing into node n out of this element
-    public double getCurrentIntoNode(int n)
+    public virtual double getCurrentIntoNode(int n)
     {
         // if we take out the getPostCount() == 2 it gives the wrong value for rails
         if (n == 0 && getPostCount() == 2)
