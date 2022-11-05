@@ -92,7 +92,7 @@ public class CircuitElm
     }
 
     // allocate nodes/volts arrays we need
-    void allocNodes()
+    public void allocNodes()
     {
         int n = getPostCount() + getInternalNodeCount();
         // preserve voltages if possible
@@ -229,7 +229,7 @@ public class CircuitElm
     }
 
     // notify this element that its nth voltage source is v.  This value v can be passed to stampVoltageSource(), etc and will be passed back in calls to setCurrent()
-    public void setVoltageSource(int n, int v)
+    public virtual void setVoltageSource(int n, int v)
     {
         // default implementation only makes sense for subclasses with one voltage source.  If we have 0 this isn't used, if we have >1 this won't work 
         voltSource = v;
@@ -318,13 +318,13 @@ public class CircuitElm
 
     // are n1 and n2 connected by this element?  this is used to determine
     // unconnected nodes, and look for loops
-    public bool getConnection(int n1, int n2)
+    public virtual bool getConnection(int n1, int n2)
     {
         return true;
     }
 
     // is n1 connected to ground somehow?
-    public bool hasGroundConnection(int n1)
+    public virtual bool hasGroundConnection(int n1)
     {
         return false;
     }
@@ -346,7 +346,7 @@ public class CircuitElm
         return getPostCount() <= 2;
     }
 
-    bool comparePair(int x1, int x2, int y1, int y2)
+    public bool comparePair(int x1, int x2, int y1, int y2)
     {
         return ((x1 == y1 && x2 == y2) || (x1 == y2 && x2 == y1));
     }

@@ -721,7 +721,7 @@ public class CirSim
             // look for inductors with no current path
             if (ce is InductorElm)
             {
-                FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
+                FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.INDUCT, ce,
                     ce.getNode(1));
                 if (!fpi.findPath(ce.getNode(0)))
                 {
@@ -734,7 +734,7 @@ public class CirSim
             if (ce is CurrentElm)
             {
                 CurrentElm cur = (CurrentElm)ce;
-                FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
+                FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.INDUCT, ce,
                     ce.getNode(1));
                 cur.setBroken(!fpi.findPath(ce.getNode(0)));
             }
@@ -742,8 +742,7 @@ public class CirSim
             if (ce is VCCSElm)
             {
                 VCCSElm cur = (VCCSElm)ce;
-                FindPathInfo fpi = new FindPathInfo(FindPathInfo.INDUCT, ce,
-                    cur.getOutputNode(0));
+                FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.INDUCT, ce, cur.getOutputNode(0));
                 if (cur.hasCurrentOutput() && !fpi.findPath(cur.getOutputNode(1)))
                 {
                     cur.broken = true;
@@ -1094,7 +1093,7 @@ public class CirSim
         int type;
 
         private CirSim cirsim;
-        
+
         // State object to help find loops in circuit subject to various conditions (depending on type_)
         // elm_ = source and destination element.  dest_ = destination node.
         public FindPathInfo(CirSim sim, int type_, CircuitElm elm_, int dest_)
@@ -1369,7 +1368,7 @@ public class CirSim
     }
 
 // indicate that the values on the left side of row i change in doStep()
-    void stampNonLinear(int i)
+    public void stampNonLinear(int i)
     {
         if (i > 0)
             circuitRowInfo[i - 1].lsChanges = true;
@@ -1396,8 +1395,8 @@ public class CirSim
         // return true;
     }
 
-    bool converged;
-    int subIterations;
+    public bool converged;
+    public int subIterations;
 
     void runCircuit(bool didAnalyze)
     {
@@ -1664,7 +1663,7 @@ public class CirSim
 
             // get correct current polarity
             // (LabeledNodes may have wi.post == 1, in which case we flip the current sign)
-            if (wi.post == 0)  //|| (wi.wire is LabeledNodeElm))
+            if (wi.post == 0) //|| (wi.wire is LabeledNodeElm))
                 wi.wire.setCurrent(-1, cur);
             else
                 wi.wire.setCurrent(-1, -cur);

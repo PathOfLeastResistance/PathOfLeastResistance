@@ -52,7 +52,7 @@ class CurrentElm : CircuitElm
     }
 
     // analyzeCircuit determines if current source has a path or if it's broken
-    void setBroken(bool b)
+    public void setBroken(bool b)
     {
         broken = b;
     }
