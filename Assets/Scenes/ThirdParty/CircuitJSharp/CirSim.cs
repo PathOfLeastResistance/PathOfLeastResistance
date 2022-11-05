@@ -757,7 +757,7 @@ public class CirSim
             {
                 if (ce is VoltageElm)
                 {
-                    FindPathInfo fpi = new FindPathInfo(FindPathInfo.VOLTAGE, ce,
+                    FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.VOLTAGE, ce,
                         ce.getNode(1));
                     if (fpi.findPath(ce.getNode(0)))
                     {
@@ -770,7 +770,7 @@ public class CirSim
             // look for path from rail to ground
             if (ce is RailElm || ce is LogicInputElm)
             {
-                FindPathInfo fpi = new FindPathInfo(FindPathInfo.VOLTAGE, ce, ce.getNode(0));
+                FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.VOLTAGE, ce, ce.getNode(0));
                 if (fpi.findPath(0))
                 {
                     stop("Path to ground with no resistance!", ce);
@@ -781,7 +781,7 @@ public class CirSim
             // look for shorted caps, or caps w/ voltage but no R
             if (ce is CapacitorElm)
             {
-                FindPathInfo fpi = new FindPathInfo(FindPathInfo.SHORT, ce,
+                FindPathInfo fpi = new FindPathInfo(this, FindPathInfo.SHORT, ce,
                     ce.getNode(1));
                 if (fpi.findPath(ce.getNode(0)))
                 {
@@ -795,7 +795,7 @@ public class CirSim
                     // another capacitor with a nonzero voltage; in that case we will get oscillation unless
                     // we reset both capacitors to have the same voltage. Rather than check for that, we just
                     // give an error.
-                    fpi = new FindPathInfo(FindPathInfo.CAP_V, ce, ce.getNode(1));
+                    fpi = new FindPathInfo(this, FindPathInfo.CAP_V, ce, ce.getNode(1));
                     if (fpi.findPath(ce.getNode(0)))
                     {
                         stop("Capacitor loop with no resistance!", ce);
@@ -1093,14 +1093,17 @@ public class CirSim
         CircuitElm firstElm;
         int type;
 
+        private CirSim cirsim;
+        
         // State object to help find loops in circuit subject to various conditions (depending on type_)
         // elm_ = source and destination element.  dest_ = destination node.
-        public FindPathInfo(int type_, CircuitElm elm_, int dest_)
+        public FindPathInfo(CirSim sim, int type_, CircuitElm elm_, int dest_)
         {
             dest = dest_;
             type = type_;
             firstElm = elm_;
-            visited = new bool[nodeList.Count];
+            cirsim = sim;
+            visited = new bool[sim.nodeList.Count];
         }
 
         // look through circuit for loop starting at node n1 of firstElm, for a path back to
@@ -1115,7 +1118,7 @@ public class CirSim
                 return false;
 
             visited[n1] = true;
-            CircuitNode cn = getCircuitNode(n1);
+            CircuitNode cn = cirsim.getCircuitNode(n1);
             int i;
             if (cn == null)
                 return false;
@@ -1129,8 +1132,8 @@ public class CirSim
 
             if (n1 == 0)
             {
-                for (i = 0; i != nodesWithGroundConnection.Count; i++)
-                    if (checkElm(0, nodesWithGroundConnection[i]))
+                for (i = 0; i != cirsim.nodesWithGroundConnection.Count; i++)
+                    if (checkElm(0, cirsim.nodesWithGroundConnection[i]))
                         return true;
             }
 
