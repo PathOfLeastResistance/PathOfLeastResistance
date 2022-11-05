@@ -933,14 +933,14 @@ public class CirSim
         }
 
         // copy elmList to an array to avoid a bunch of calls to canCast() when doing simulation
-        elmArr = new CircuitElm[elmList.Count];
-        int scopeElmCount = 0;
-        for (i = 0; i != elmList.Count; i++)
-        {
-            elmArr[i] = elmList[i];
-            if (elmArr[i] is ScopeElm)
-                scopeElmCount++;
-        }
+        // elmArr = new CircuitElm[elmList.Count];
+        // int scopeElmCount = 0;
+        // for (i = 0; i != elmList.Count; i++)
+        // {
+        //     elmArr[i] = elmList[i];
+        //     if (elmArr[i] is ScopeElm)
+        //         scopeElmCount++;
+        // }
 
         needsStamp = false;
     }

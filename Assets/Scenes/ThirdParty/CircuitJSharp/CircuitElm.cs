@@ -40,7 +40,7 @@ public class CircuitElm
     // length along x and y axes, and sign of difference
     int dx, dy, dsign;
 
-    double dn;
+    public double dn;
 
     double dpx1, dpy1;
 
@@ -110,7 +110,7 @@ public class CircuitElm
     }
 
     // handle reset button
-    public void reset()
+    public virtual void reset()
     {
         int i;
         for (i = 0; i != getPostCount() + getInternalNodeCount(); i++)
@@ -235,7 +235,7 @@ public class CircuitElm
         voltSource = v;
     }
 
-    double getVoltageDiff()
+    public virtual double getVoltageDiff()
     {
         return volts[0] - volts[1];
     }
@@ -289,7 +289,7 @@ public class CircuitElm
     {
     }
 
-    double getPower()
+    public virtual double getPower()
     {
         return getVoltageDiff() * current;
     }
@@ -336,7 +336,7 @@ public class CircuitElm
     }
 
     // is this a wire we can remove?
-    public bool isRemovableWire()
+    public virtual bool isRemovableWire()
     {
         return false;
     }
