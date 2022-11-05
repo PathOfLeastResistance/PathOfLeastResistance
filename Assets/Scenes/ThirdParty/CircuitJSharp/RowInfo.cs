@@ -17,15 +17,20 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System.Collections.Generic;
 
-public class CircuitNode
+// info about each row/column of the matrix for simplification purposes
+public class RowInfo
 {
-    public List<CircuitNodeLink> links;
-    public bool internaL;
+    public static int ROW_NORMAL = 0; // ordinary value
+    public static int ROW_CONST = 1; // value is constant
+    public int type, mapCol, mapRow;
+    public double value;
+    public bool rsChanges; // row's right side changes
+    public bool lsChanges; // row's left side changes
+    public bool dropRow; // row is not needed in matrix
 
-    public CircuitNode()
+    public RowInfo()
     {
-        links = new List<CircuitNodeLink>();
+        type = ROW_NORMAL;
     }
 }

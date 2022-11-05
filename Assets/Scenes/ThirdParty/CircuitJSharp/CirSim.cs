@@ -61,7 +61,7 @@ public class CirSim
     String stopMessage;
 
     // current timestep (time between iterations)
-    double timeStep;
+    public double timeStep;
 
     // maximum timestep (== timeStep unless we reduce it because of trouble
     // converging)
@@ -92,15 +92,15 @@ public class CirSim
     int mousePost = -1;
     CircuitElm plotXElm, plotYElm;
     int draggingPost;
-    SwitchElm heldSwitchElm;
-    double[][] circuitMatrix;
+    double[,] circuitMatrix;
     private double[] circuitRightSide, lastNodeVoltages, nodeVoltages, origRightSide;
-    double[][] origMatrix;
+    double[,] origMatrix;
     int[] circuitPermute;
     bool simRunning;
     bool circuitNonLinear;
     int voltageSourceCount;
     int circuitMatrixSize, circuitMatrixFullSize;
+    RowInfo[] circuitRowInfo;
 
     bool circuitNeedsMap;
 
@@ -124,6 +124,10 @@ public class CirSim
     //     }
     // };
     int FASTTIMER = 16;
+
+    public static void console(string str)
+    {
+    }
 
     int getrand(int x)
     {
@@ -151,7 +155,8 @@ public class CirSim
         transform = new double[6];
         elmList = new List<CircuitElm>();
         random = new Random();
-        setSimRunning(running);
+        // setSimRunning(running);
+        setSimRunning(true);
     }
 
     long lastTime = 0, lastFrameTime, lastIterTime, secTime = 0;
@@ -209,14 +214,14 @@ public class CirSim
             }
         }
 
-        setupScopes();
+        // setupScopes(); VJ
 
         // Run circuit
         if (simRunning)
         {
             if (needsStamp)
             {
-                // console("needsStamp while simRunning?"); LOGGER
+                console("needsStamp while simRunning?");
             }
 
             try
@@ -227,37 +232,8 @@ public class CirSim
             {
                 //LOGGER
                 // debugger();
-                // console("exception in runCircuit " + e);
+                console("exception in runCircuit " + e);
             }
-        }
-
-        long sysTime = System.currentTimeMillis();
-        if (simRunning)
-        {
-            if (lastTime != 0)
-            {
-                int inc = (int)(sysTime - lastTime);
-                double c = currentBar.getValue();
-                c = Math.Exp(c / 3.5 - 14.2);
-                CircuitElm.currentMult = 1.7 * inc * c;
-                if (!conventionCheckItem.getState())
-                    CircuitElm.currentMult = -CircuitElm.currentMult;
-            }
-
-            lastTime = sysTime;
-        }
-        else
-        {
-            lastTime = 0;
-        }
-
-        if (sysTime - secTime >= 1000)
-        {
-            framerate = frames;
-            steprate = steps;
-            frames = 0;
-            steps = 0;
-            secTime = sysTime;
         }
 
         // CircuitElm.powerMult = Math.exp(powerBar.getValue() / 4.762 - 7);
@@ -276,7 +252,7 @@ public class CirSim
 
         // This should always be the last 
         // thing called by updateCircuit();
-        callUpdateHook();
+        // callUpdateHook();
     }
 
     //    public void toggleSwitch(int n) {
@@ -301,8 +277,8 @@ public class CirSim
     }
 
     List<CircuitNode> nodeList;
-    List<Point> postDrawList = new Vector<Point>();
-    List<Point> badConnectionList = new Vector<Point>();
+    List<Point> postDrawList = new List<Point>();
+    List<Point> badConnectionList = new List<Point>();
     CircuitElm[] voltageSources;
 
     public CircuitNode getCircuitNode(int n)
@@ -314,21 +290,21 @@ public class CirSim
 
     public CircuitElm getElm(int n)
     {
-        if (n >= elmList.size())
+        if (n >= elmList.Count)
             return null;
-        return elmList.elementAt(n);
+        return elmList[n];
     }
 
     class NodeMapEntry
     {
-        int node;
+        public int node;
 
-        NodeMapEntry()
+        public NodeMapEntry()
         {
             node = -1;
         }
 
-        NodeMapEntry(int n)
+        public NodeMapEntry(int n)
         {
             node = n;
         }
@@ -336,15 +312,15 @@ public class CirSim
 
     // map points to node numbers
     Dictionary<Point, NodeMapEntry> nodeMap;
-    Dictionary<Point, Integer> postCountMap;
+    Dictionary<Point, int> postCountMap;
 
     class WireInfo
     {
-        CircuitElm wire;
-        List<CircuitElm> neighbors;
-        int post;
+        public CircuitElm wire;
+        public List<CircuitElm> neighbors;
+        public int post;
 
-        WireInfo(CircuitElm w)
+        public WireInfo(CircuitElm w)
         {
             wire = w;
         }
@@ -359,7 +335,7 @@ public class CirSim
     void calculateWireClosure()
     {
         int i;
-        LabeledNodeElm.resetNodeList();
+        // LabeledNodeElm.resetNodeList(); VJ
         GroundElm.resetNodeList();
         nodeMap = new Dictionary<Point, NodeMapEntry>();
 //	int mergeCount = 0;
@@ -370,9 +346,9 @@ public class CirSim
             if (!ce.isRemovableWire())
                 continue;
             ce.hasWireInfo = false;
-            wireInfoList.add(new WireInfo(ce));
+            wireInfoList.Add(new WireInfo(ce));
             Point p0 = ce.getPost(0);
-            NodeMapEntry cn = nodeMap.get(p0);
+            NodeMapEntry cn = nodeMap[p0];
 
             // what post are we connected to
             Point p1 = ce.getConnectedPost();
@@ -382,13 +358,13 @@ public class CirSim
                 if (cn == null)
                 {
                     cn = new NodeMapEntry();
-                    nodeMap.put(p0, cn);
+                    nodeMap.Add(p0, cn);
                 }
 
                 continue;
             }
 
-            NodeMapEntry cn2 = nodeMap.get(p1);
+            nodeMap.TryGetValue(p1, out var cn2);
             if (cn != null && cn2 != null)
             {
                 // merge nodes; go through map and change all keys pointing to cn2 to point to cn
@@ -405,23 +381,23 @@ public class CirSim
 
             if (cn != null)
             {
-                nodeMap.put(p1, cn);
+                nodeMap.Add(p1, cn);
                 continue;
             }
 
             if (cn2 != null)
             {
-                nodeMap.put(p0, cn2);
+                nodeMap.Add(p0, cn2);
                 continue;
             }
 
             // new entry
             cn = new NodeMapEntry();
-            nodeMap.put(p0, cn);
-            nodeMap.put(p1, cn);
+            nodeMap.Add(p0, cn);
+            nodeMap.Add(p1, cn);
         }
 
-//	console("got " + (groupCount-mergeCount) + " groups with " + nodeMap.size() + " nodes " + mergeCount);
+        //console("got " + (groupCount-mergeCount) + " groups with " + nodeMap.size() + " nodes " + mergeCount);
     }
 
     // generate info we need to calculate wire currents.  Most other elements calculate currents using
@@ -440,9 +416,9 @@ public class CirSim
 
         for (i = 0; i != wireInfoList.Count; i++)
         {
-            WireInfo wi = wireInfoList.get(i);
+            WireInfo wi = wireInfoList[i];
             CircuitElm wire = wi.wire;
-            CircuitNode cn1 = nodeList.get(wire.getNode(0)); // both ends of wire have same node #
+            CircuitNode cn1 = nodeList[wire.getNode(0)]; // both ends of wire have same node #
             int j;
 
             List<CircuitElm> neighbors0 = new List<CircuitElm>();
@@ -454,9 +430,9 @@ public class CirSim
 
             // go through elements sharing a node with this wire (may be connected indirectly
             // by other wires, but at least it's faster than going through all elements)
-            for (j = 0; j != cn1.links.size(); j++)
+            for (j = 0; j != cn1.links.Count; j++)
             {
-                CircuitNodeLink cnl = cn1.links.get(j);
+                CircuitNodeLink cnl = cn1.links[j];
                 CircuitElm ce = cnl.elm;
                 if (ce == wire)
                     continue;
@@ -464,12 +440,12 @@ public class CirSim
 
                 // is this a wire that doesn't have wire info yet?  If so we can't use it yet.
                 // That would create a circular dependency.  So that side isn't ready.
-                boolean notReady = (ce.isRemovableWire() && !ce.hasWireInfo);
+                bool notReady = (ce.isRemovableWire() && !ce.hasWireInfo);
 
                 // which post does this element connect to, if any?
                 if (pt.x == wire.x && pt.y == wire.y)
                 {
-                    neighbors0.add(ce);
+                    neighbors0.Add(ce);
                     if (notReady) isReady0 = false;
                 }
                 else if (wire.getPostCount() > 1)
@@ -477,7 +453,7 @@ public class CirSim
                     Point p2 = wire.getConnectedPost();
                     if (pt.x == p2.x && pt.y == p2.y)
                     {
-                        neighbors1.add(ce);
+                        neighbors1.Add(ce);
                         if (notReady) isReady1 = false;
                     }
                 }
@@ -486,7 +462,7 @@ public class CirSim
                          ((LabeledNodeElm)ce).text == ((LabeledNodeElm)wire).text)
                 {
                     // ce and wire are both labeled nodes with matching labels.  treat them as neighbors
-                    neighbors1.add(ce);
+                    neighbors1.Add(ce);
                     if (notReady) isReady1 = false;
                 }
             }
@@ -508,10 +484,12 @@ public class CirSim
             }
             else
             {
-                // no, so move to the end of the list and try again later
-                wireInfoList.add(wireInfoList.remove(i--));
+                // wireInfoList.Add(wireInfoList.remove(i--));
+                var el = wireInfoList[i];
+                wireInfoList.RemoveAt(i--);
+                wireInfoList.Add(el);
                 moved++;
-                if (moved > wireInfoList.size() * 2)
+                if (moved > wireInfoList.Count * 2)
                 {
                     stop("wire loop detected", wire);
                     return false;
@@ -532,7 +510,7 @@ public class CirSim
 
         //System.out.println("ac1");
         // look for voltage or ground element
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             if (ce is GroundElm)
@@ -540,7 +518,7 @@ public class CirSim
                 gotGround = true;
 
                 // set ground node to 0
-                NodeMapEntry nme = nodeMap.get(ce.getPost(0));
+                NodeMapEntry nme = nodeMap[ce.getPost(0)];
                 nme.node = 0;
                 break;
             }
@@ -557,20 +535,20 @@ public class CirSim
         {
             CircuitNode cn = new CircuitNode();
             Point pt = volt.getPost(0);
-            nodeList.addElement(cn);
+            nodeList.Add(cn);
 
             // update node map
-            NodeMapEntry cln = nodeMap.get(pt);
+            NodeMapEntry cln = nodeMap[pt];
             if (cln != null)
                 cln.node = 0;
             else
-                nodeMap.put(pt, new NodeMapEntry(0));
+                nodeMap.Add(pt, new NodeMapEntry(0));
         }
         else
         {
             // otherwise allocate extra node for ground
             CircuitNode cn = new CircuitNode();
-            nodeList.addElement(cn);
+            nodeList.Add(cn);
         }
     }
 
@@ -590,10 +568,10 @@ public class CirSim
             for (j = 0; j != posts; j++)
             {
                 Point pt = ce.getPost(j);
-                Integer g = postCountMap.get(pt);
-                postCountMap.put(pt, g == null ? 1 : g + 1);
-                NodeMapEntry cln = nodeMap.get(pt);
-
+                int g = postCountMap[pt];
+                postCountMap.Add(pt, g == null ? 1 : g + 1);
+                // NodeMapEntry cln = nodeMap[pt];
+                nodeMap.TryGetValue(pt, out var cln);
                 // is this node not in map yet?  or is the node number unallocated?
                 // (we don't allocate nodes before this because changing the allocation order
                 // of nodes changes circuit behavior and breaks backward compatibility;
@@ -604,13 +582,13 @@ public class CirSim
                     CircuitNodeLink cnl = new CircuitNodeLink();
                     cnl.num = j;
                     cnl.elm = ce;
-                    cn.links.addElement(cnl);
+                    cn.links.Add(cnl);
                     ce.setNode(j, nodeList.Count);
                     if (cln != null)
                         cln.node = nodeList.Count;
                     else
-                        nodeMap.put(pt, new NodeMapEntry(nodeList.size()));
-                    nodeList.addElement(cn);
+                        nodeMap.Add(pt, new NodeMapEntry(nodeList.Count));
+                    nodeList.Add(cn);
                 }
                 else
                 {
@@ -618,7 +596,7 @@ public class CirSim
                     CircuitNodeLink cnl = new CircuitNodeLink();
                     cnl.num = j;
                     cnl.elm = ce;
-                    getCircuitNode(n).links.addElement(cnl);
+                    getCircuitNode(n).links.Add(cnl);
                     ce.setNode(j, n);
                     // if it's the ground node, make sure the node voltage is 0,
                     // cause it may not get set later
@@ -634,9 +612,9 @@ public class CirSim
                 CircuitNodeLink cnl = new CircuitNodeLink();
                 cnl.num = j + posts;
                 cnl.elm = ce;
-                cn.links.addElement(cnl);
-                ce.setNode(cnl.num, nodeList.size());
-                nodeList.addElement(cn);
+                cn.links.Add(cnl);
+                ce.setNode(cnl.num, nodeList.Count);
+                nodeList.Add(cn);
             }
 
 // also count voltage sources so we can allocate array
@@ -646,7 +624,7 @@ public class CirSim
         voltageSources = new CircuitElm[vscount];
     }
 
-    List<Integer> unconnectedNodes;
+    List<int> unconnectedNodes;
     List<CircuitElm> nodesWithGroundConnection;
     int nodesWithGroundConnectionCount;
 
@@ -659,7 +637,7 @@ public class CirSim
         // will get a matrix error.
         bool[] closure = new bool[nodeList.Count];
         bool changed = true;
-        unconnectedNodes = new List<Integer>();
+        unconnectedNodes = new List<int>();
         nodesWithGroundConnection = new List<CircuitElm>();
         closure[0] = true;
         while (changed)
@@ -700,18 +678,18 @@ public class CirSim
                 }
 
                 if (hasGround)
-                    nodesWithGroundConnection.add(ce);
+                    nodesWithGroundConnection.Add(ce);
             }
 
             if (changed)
                 continue;
 
             // connect one of the unconnected nodes to ground with a big resistor, then try again
-            for (i = 0; i != nodeList.size(); i++)
+            for (i = 0; i != nodeList.Count; i++)
                 if (!closure[i] && !getCircuitNode(i).internaL)
                 {
-                    unconnectedNodes.add(i);
-                    console("node " + i + " unconnected");
+                    unconnectedNodes.Add(i);
+                    // console("node " + i + " unconnected"); LOGGER
 //		    stampResistor(0, i, 1e8);   // do this later in connectUnconnectedNodes()
                     closure[i] = true;
                     changed = true;
@@ -726,9 +704,9 @@ public class CirSim
     void connectUnconnectedNodes()
     {
         int i;
-        for (i = 0; i != unconnectedNodes.size(); i++)
+        for (i = 0; i != unconnectedNodes.Count; i++)
         {
-            int n = unconnectedNodes.get(i);
+            int n = unconnectedNodes[i];
             stampResistor(0, n, 1e8);
         }
     }
@@ -737,7 +715,7 @@ public class CirSim
     {
         int i, j;
 
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             // look for inductors with no current path
@@ -835,16 +813,16 @@ public class CirSim
     {
         stopMessage = null;
         stopElm = null;
-        if (elmList.isEmpty())
+        if (elmList.Count == 0)
         {
-            postDrawList = new Vector<Point>();
-            badConnectionList = new Vector<Point>();
+            postDrawList = new List<Point>();
+            badConnectionList = new List<Point>();
             return;
         }
 
         int i, j;
-        nodeList = new Vector<CircuitNode>();
-        postCountMap = new HashMap<Point, Integer>();
+        nodeList = new List<CircuitNode>();
+        postCountMap = new Dictionary<Point, int>();
 
         calculateWireClosure();
         setGroundNode();
@@ -852,7 +830,7 @@ public class CirSim
         // allocate nodes and voltage sources
         makeNodeList();
 
-        makePostDrawList();
+        // makePostDrawList(); VJ
         if (!calcWireInfo())
             return;
         nodeMap = null; // done with this
@@ -861,7 +839,7 @@ public class CirSim
         circuitNonLinear = false;
 
         // determine if circuit is nonlinear.  also set voltage sources
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             if (ce.nonLinear())
@@ -878,7 +856,7 @@ public class CirSim
 
         // show resistance in voltage sources if there's only one.
         // can't use voltageSourceCount here since that counts internal voltage sources, like the one in GroundElm
-        boolean gotVoltageSource = false;
+        bool gotVoltageSource = false;
         showResistanceInVoltageSources = true;
         for (i = 0; i != elmList.size(); i++)
         {
@@ -910,13 +888,19 @@ public class CirSim
     void stampCircuit()
     {
         int i;
-        int matrixSize = nodeList.size() - 1 + voltageSourceCount;
-        circuitMatrix = new double[matrixSize][matrixSize];
+        int matrixSize = nodeList.Count - 1 + voltageSourceCount;
+        circuitMatrix = new double[matrixSize][];
+        for (int l = 0; l < matrixSize; l++)
+            circuitMatrix[l] = new double[matrixSize];
+
         circuitRightSide = new double[matrixSize];
-        nodeVoltages = new double[nodeList.size() - 1];
-        if (lastNodeVoltages == null || lastNodeVoltages.length != nodeVoltages.length)
-            lastNodeVoltages = new double[nodeList.size() - 1];
-        origMatrix = new double[matrixSize][matrixSize];
+        nodeVoltages = new double[nodeList.Count - 1];
+        if (lastNodeVoltages == null || lastNodeVoltages.Length != nodeVoltages.Length)
+            lastNodeVoltages = new double[nodeList.Count - 1];
+        origMatrix = new double[matrixSize][];
+        for (int l = 0; l < matrixSize; l++)
+            origMatrix[l] = new double[matrixSize];
+
         origRightSide = new double[matrixSize];
         circuitMatrixSize = circuitMatrixFullSize = matrixSize;
         circuitRowInfo = new RowInfo[matrixSize];
@@ -928,7 +912,7 @@ public class CirSim
         connectUnconnectedNodes();
 
         // stamp linear circuit elements
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             ce.setParentList(elmList);
@@ -961,15 +945,6 @@ public class CirSim
             elmArr[i] = elmList[i];
             if (elmArr[i] is ScopeElm)
                 scopeElmCount++;
-        }
-
-        // copy ScopeElms to an array to avoid a second pass over entire list of elms during simulation
-        scopeElmArr = new ScopeElm[scopeElmCount];
-        int j = 0;
-        for (i = 0; i != elmList.size(); i++)
-        {
-            if (elmArr[i] is ScopeElm)
-                scopeElmArr[j++] = (ScopeElm)elmArr[i];
         }
 
         needsStamp = false;
@@ -1071,7 +1046,7 @@ public class CirSim
 
         // make the new, simplified matrix
         int newsize = nn;
-        double[][] newmatx = new double[newsize][newsize];
+        double[,] newmatx = new double[newsize, newsize];
         double[] newrs = new double[newsize];
         int ii = 0;
         for (i = 0; i != matrixSize; i++)
@@ -1090,9 +1065,9 @@ public class CirSim
             {
                 RowInfo ri = circuitRowInfo[j];
                 if (ri.type == RowInfo.ROW_CONST)
-                    newrs[ii] -= ri.value * circuitMatrix[i][j];
+                    newrs[ii] -= ri.value * circuitMatrix[i, j];
                 else
-                    newmatx[ii][ri.mapCol] += circuitMatrix[i][j];
+                    newmatx[ii, ri.mapCol] += circuitMatrix[i, j];
             }
 
             ii++;
@@ -1114,10 +1089,10 @@ public class CirSim
 
     class FindPathInfo
     {
-        const int INDUCT = 1;
-        const int VOLTAGE = 2;
-        const int SHORT = 3;
-        const int CAP_V = 4;
+        public const int INDUCT = 1;
+        public const int VOLTAGE = 2;
+        public const int SHORT = 3;
+        public const int CAP_V = 4;
         bool[] visited;
         int dest;
         CircuitElm firstElm;
@@ -1125,7 +1100,7 @@ public class CirSim
 
         // State object to help find loops in circuit subject to various conditions (depending on type_)
         // elm_ = source and destination element.  dest_ = destination node.
-        FindPathInfo(int type_, CircuitElm elm_, int dest_)
+        public FindPathInfo(int type_, CircuitElm elm_, int dest_)
         {
             dest = dest_;
             type = type_;
@@ -1135,7 +1110,7 @@ public class CirSim
 
         // look through circuit for loop starting at node n1 of firstElm, for a path back to
         // dest node of firstElm
-        bool findPath(int n1)
+        public bool findPath(int n1)
         {
             if (n1 == dest)
                 return true;
@@ -1149,9 +1124,9 @@ public class CirSim
             int i;
             if (cn == null)
                 return false;
-            for (i = 0; i != cn.links.size(); i++)
+            for (i = 0; i != cn.links.Count; i++)
             {
-                CircuitNodeLink cnl = cn.links.get(i);
+                CircuitNodeLink cnl = cn.links[i];
                 CircuitElm ce = cnl.elm;
                 if (checkElm(n1, ce))
                     return true;
@@ -1199,14 +1174,12 @@ public class CirSim
             {
                 // look for posts which have a ground connection;
                 // our path can go through ground
-                int j;
-                for (j = 0; j != ce.getConnectionNodeCount(); j++)
+                for (int j = 0; j != ce.getConnectionNodeCount(); j++)
                     if (ce.hasGroundConnection(j) && findPath(ce.getConnectionNode(j)))
                         return true;
             }
 
-            int j;
-            for (j = 0; j != ce.getConnectionNodeCount(); j++)
+            for (int j = 0; j != ce.getConnectionNodeCount(); j++)
             {
                 if (ce.getConnectionNode(j) == n1)
                 {
@@ -1240,7 +1213,7 @@ public class CirSim
         }
     }
 
-    void stop(string s, CircuitElm ce)
+    public void stop(string s, CircuitElm ce)
     {
         stopMessage = s;
         circuitMatrix = null; // causes an exception
@@ -1252,7 +1225,7 @@ public class CirSim
 
 // control voltage source vs with voltage from n1 to n2 (must
 // also call stampVoltageSource())
-    void stampVCVS(int n1, int n2, double coef, int vs)
+    public void stampVCVS(int n1, int n2, double coef, int vs)
     {
         int vn = nodeList.Count + vs;
         stampMatrix(vn, n1, coef);
@@ -1260,7 +1233,7 @@ public class CirSim
     }
 
 // stamp independent voltage source #vs, from n1 to n2, amount v
-    void stampVoltageSource(int n1, int n2, int vs, double v)
+    public void stampVoltageSource(int n1, int n2, int vs, double v)
     {
         int vn = nodeList.Count + vs;
         stampMatrix(vn, n1, -1);
@@ -1271,7 +1244,7 @@ public class CirSim
     }
 
 // use this if the amount of voltage is going to be updated in doStep(), by updateVoltageSource()
-    void stampVoltageSource(int n1, int n2, int vs)
+    public void stampVoltageSource(int n1, int n2, int vs)
     {
         int vn = nodeList.Count + vs;
         stampMatrix(vn, n1, -1);
@@ -1281,14 +1254,14 @@ public class CirSim
         stampMatrix(n2, vn, -1);
     }
 
-// update voltage source in doStep()
-    void updateVoltageSource(int n1, int n2, int vs, double v)
+    // update voltage source in doStep()
+    public void updateVoltageSource(int n1, int n2, int vs, double v)
     {
         int vn = nodeList.Count + vs;
         stampRightSide(vn, v);
     }
 
-    void stampResistor(int n1, int n2, double r)
+    public void stampResistor(int n1, int n2, double r)
     {
         double r0 = 1 / r;
         if (Double.IsNaN(r0) || Double.IsInfinity(r0))
@@ -1304,7 +1277,7 @@ public class CirSim
         stampMatrix(n2, n1, -r0);
     }
 
-    void stampConductance(int n1, int n2, double r0)
+    public void stampConductance(int n1, int n2, double r0)
     {
         stampMatrix(n1, n1, r0);
         stampMatrix(n2, n2, r0);
@@ -1313,7 +1286,7 @@ public class CirSim
     }
 
 // specify that current from cn1 to cn2 is equal to voltage from vn1 to 2, divided by g
-    void stampVCCurrentSource(int cn1, int cn2, int vn1, int vn2, double g)
+    public void stampVCCurrentSource(int cn1, int cn2, int vn1, int vn2, double g)
     {
         stampMatrix(cn1, vn1, g);
         stampMatrix(cn2, vn2, g);
@@ -1321,7 +1294,7 @@ public class CirSim
         stampMatrix(cn2, vn1, -g);
     }
 
-    void stampCurrentSource(int n1, int n2, double i)
+    public void stampCurrentSource(int n1, int n2, double i)
     {
         stampRightSide(n1, -i);
         stampRightSide(n2, i);
@@ -1367,13 +1340,13 @@ public class CirSim
                 j--;
             }
 
-            circuitMatrix[i][j] += x;
+            circuitMatrix[i, j] += x;
         }
     }
 
 // stamp value x on the right side of row i, representing an
 // independent current source flowing into node i
-    void stampRightSide(int i, double x)
+    public void stampRightSide(int i, double x)
     {
         if (i > 0)
         {
@@ -1390,7 +1363,7 @@ public class CirSim
     }
 
 // indicate that the value on the right side of row i changes in doStep()
-    void stampRightSide(int i)
+    public void stampRightSide(int i)
     {
         //System.out.println("rschanges true " + (i-1));
         if (i > 0)
@@ -1490,14 +1463,14 @@ public class CirSim
                 {
                     for (i = 0; i != circuitMatrixSize; i++)
                     for (j = 0; j != circuitMatrixSize; j++)
-                        circuitMatrix[i][j] = origMatrix[i][j];
+                        circuitMatrix[i, j] = origMatrix[i, j];
                 }
 
-                for (i = 0; i != elmArr.length; i++)
+                for (i = 0; i != elmArr.Length; i++)
                     elmArr[i].doStep();
                 if (stopMessage != null)
                     return;
-                boolean printit = debugprint;
+                bool printit = debugprint;
                 debugprint = false;
                 if (circuitMatrixSize < 8)
                 {
@@ -1506,8 +1479,8 @@ public class CirSim
                     {
                         for (i = 0; i != circuitMatrixSize; i++)
                         {
-                            double x = circuitMatrix[i][j];
-                            if (Double.isNaN(x) || Double.isInfinite(x))
+                            double x = circuitMatrix[i, j];
+                            if (Double.IsNaN(x) || Double.IsInfinity(x))
                             {
                                 stop("nan/infinite matrix!", null);
                                 console("circuitMatrix " + i + " " + j + " is " + x);
@@ -1523,7 +1496,7 @@ public class CirSim
                     {
                         String x = "";
                         for (i = 0; i != circuitMatrixSize; i++)
-                            x += circuitMatrix[j][i] + ",";
+                            x += circuitMatrix[j, i] + ",";
                         x += "\n";
                         console(x);
                     }
@@ -1589,17 +1562,17 @@ public class CirSim
                 timeStepCount++;
             }
 
-            for (i = 0; i != elmArr.length; i++)
+            for (i = 0; i != elmArr.Length; i++)
                 elmArr[i].stepFinished();
             if (!delayWireProcessing)
                 calcWireCurrents();
-            for (i = 0; i != scopeCount; i++)
-                scopes[i].timeStep();
-            for (i = 0; i != scopeElmArr.length; i++)
-                scopeElmArr[i].stepScope();
-            callTimeStepHook();
+            // for (i = 0; i != scopeCount; i++)
+            //     scopes[i].timeStep();
+            // for (i = 0; i != scopeElmArr.length; i++)
+            //     scopeElmArr[i].stepScope();
+            // callTimeStepHook();
             // save last node voltages so we can restart the next iteration if necessary
-            for (i = 0; i != lastNodeVoltages.length; i++)
+            for (i = 0; i != lastNodeVoltages.Length; i++)
                 lastNodeVoltages[i] = nodeVoltages[i];
 //	    console("set lastrightside at " + t + " " + lastNodeVoltages);
 
@@ -1632,19 +1605,19 @@ public class CirSim
                 res = ri.value;
             else
                 res = rs[ri.mapCol];
-            if (Double.isNaN(res))
+            if (Double.IsNaN(res))
             {
                 converged = false;
                 break;
             }
 
-            if (j < nodeList.size() - 1)
+            if (j < nodeList.Count - 1)
             {
                 nodeVoltages[j] = res;
             }
             else
             {
-                int ji = j - (nodeList.size() - 1);
+                int ji = j - (nodeList.Count - 1);
                 voltageSources[ji].setCurrent(ji, res);
             }
         }
@@ -1656,13 +1629,13 @@ public class CirSim
     void setNodeVoltages(double[] nv)
     {
         int j, k;
-        for (j = 0; j != nv.length; j++)
+        for (j = 0; j != nv.Length; j++)
         {
             double res = nv[j];
             CircuitNode cn = getCircuitNode(j + 1);
-            for (k = 0; k != cn.links.size(); k++)
+            for (k = 0; k != cn.links.Count; k++)
             {
-                CircuitNodeLink cnl = cn.links.elementAt(k);
+                CircuitNodeLink cnl = cn.links[k];
                 cnl.elm.setNodeVoltage(cnl.num, res);
             }
         }
@@ -1678,15 +1651,15 @@ public class CirSim
         //for (i = 0; i != wireInfoList.size(); i++)
         //   wireInfoList.get(i).wire.setCurrent(-1, 1.23);
 
-        for (i = 0; i != wireInfoList.size(); i++)
+        for (i = 0; i != wireInfoList.Count; i++)
         {
-            WireInfo wi = wireInfoList.get(i);
+            WireInfo wi = wireInfoList[i];
             double cur = 0;
             int j;
             Point p = wi.wire.getPost(wi.post);
-            for (j = 0; j != wi.neighbors.size(); j++)
+            for (j = 0; j != wi.neighbors.Count; j++)
             {
-                CircuitElm ce = wi.neighbors.get(j);
+                CircuitElm ce = wi.neighbors[j];
                 int n = ce.getNodeAtPoint(p.x, p.y);
                 cur += ce.getCurrentIntoNode(n);
             }
@@ -1718,11 +1691,8 @@ public class CirSim
             setSimRunning(true);
         t = timeStepAccum = 0;
         timeStepCount = 0;
-        for (i = 0; i != elmList.size(); i++)
+        for (i = 0; i != elmList.Count; i++)
             getElm(i).reset();
-        for (i = 0; i != scopeCount; i++)
-            scopes[i].resetGraph(true);
-        repaint();
     }
 
     const int RC_RETAIN = 1;
@@ -1747,8 +1717,8 @@ public class CirSim
     int locateElm(CircuitElm elm)
     {
         int i;
-        for (i = 0; i != elmList.size(); i++)
-            if (elm == elmList.elementAt(i))
+        for (i = 0; i != elmList.Count; i++)
+            if (elm == elmList[i])
                 return i;
         return -1;
     }
@@ -1757,7 +1727,7 @@ public class CirSim
 // gaussian elimination.  On entry, a[0..n-1][0..n-1] is the
 // matrix to be factored.  ipvt[] returns an integer vector of pivot
 // indices, used in the lu_solve() routine.
-    static bool lu_factor(double[][] a, int n, int[] ipvt)
+    static bool lu_factor(double[,] a, int n, int[] ipvt)
     {
         int i, j, k;
 
@@ -1768,7 +1738,7 @@ public class CirSim
             bool row_all_zeros = true;
             for (j = 0; j != n; j++)
             {
-                if (a[i][j] != 0)
+                if (a[i, j] != 0)
                 {
                     row_all_zeros = false;
                     break;
@@ -1786,10 +1756,10 @@ public class CirSim
             // calculate upper triangular elements for this column
             for (i = 0; i != j; i++)
             {
-                double q = a[i][j];
+                double q = a[i, j];
                 for (k = 0; k != i; k++)
-                    q -= a[i][k] * a[k][j];
-                a[i][j] = q;
+                    q -= a[i, k] * a[k, j];
+                a[i, j] = q;
             }
 
             // calculate lower triangular elements for this column
@@ -1797,10 +1767,10 @@ public class CirSim
             int largestRow = -1;
             for (i = j; i != n; i++)
             {
-                double q = a[i][j];
+                double q = a[i, j];
                 for (k = 0; k != j; k++)
-                    q -= a[i][k] * a[k][j];
-                a[i][j] = q;
+                    q -= a[i, k] * a[k, j];
+                a[i, j] = q;
                 double x = Math.Abs(q);
                 if (x >= largest)
                 {
@@ -1814,16 +1784,16 @@ public class CirSim
             {
                 if (largestRow == -1)
                 {
-                    console("largestRow == -1");
+                    // console("largestRow == -1"); LOGGER
                     return false;
                 }
 
                 double x;
                 for (k = 0; k != n; k++)
                 {
-                    x = a[largestRow][k];
-                    a[largestRow][k] = a[j][k];
-                    a[j][k] = x;
+                    x = a[largestRow, k];
+                    a[largestRow, k] = a[j, k];
+                    a[j, k] = x;
                 }
             }
 
@@ -1834,18 +1804,18 @@ public class CirSim
             // we used to avoid them, but that caused weird bugs.  For example,
             // two inverters with outputs connected together should be flagged
             // as a singular matrix, but it was allowed (with weird currents)
-            if (a[j][j] == 0.0)
+            if (a[j, j] == 0.0)
             {
-                console("didn't avoid zero");
+                // console("didn't avoid zero"); LOGGER
 //		a[j][j]=1e-18;
                 return false;
             }
 
             if (j != n - 1)
             {
-                double mult = 1.0 / a[j][j];
+                double mult = 1.0 / a[j, j];
                 for (i = j + 1; i != n; i++)
-                    a[i][j] *= mult;
+                    a[i, j] *= mult;
             }
         }
 
@@ -1855,7 +1825,7 @@ public class CirSim
 // Solves the set of n linear equations using a LU factorization
 // previously performed by lu_factor.  On input, b[0..n-1] is the right
 // hand side of the equations, and on output, contains the solution.
-    static void lu_solve(double[][] a, int n, int[] ipvt, double[] b)
+    static void lu_solve(double[,] a, int n, int[] ipvt, double[] b)
     {
         int i;
 
@@ -1881,7 +1851,7 @@ public class CirSim
             b[row] = b[i];
             // forward substitution using the lower triangular matrix
             for (j = bi; j < i; j++)
-                tot -= a[i][j] * b[j];
+                tot -= a[i, j] * b[j];
             b[i] = tot;
         }
 
@@ -1892,8 +1862,8 @@ public class CirSim
             // back-substitution using the upper triangular matrix
             int j;
             for (j = i + 1; j != n; j++)
-                tot -= a[i][j] * b[j];
-            b[i] = tot / a[i][i];
+                tot -= a[i, j] * b[j];
+            b[i] = tot / a[i, i];
         }
     }
 
@@ -2291,54 +2261,54 @@ public class CirSim
     public void updateModels()
     {
         int i;
-        for (i = 0; i != elmList.size(); i++)
-            elmList.get(i).updateModels();
+        for (i = 0; i != elmList.Count; i++)
+            elmList[i].updateModels();
     }
 
 // For debugging
     void dumpNodelist()
     {
-        CircuitNode nd;
-        CircuitElm e;
-        int i, j;
-        String s;
-        String cs;
+//         CircuitNode nd;
+//         CircuitElm e;
+//         int i, j;
+//         String s;
+//         String cs;
+// //
+// //	for(i=0; i<nodeList.size(); i++) {
+// //	    s="Node "+i;
+// //	    nd=nodeList.get(i);
+// //	    for(j=0; j<nd.links.size();j++) {
+// //		s=s+" " + nd.links.get(j).num + " " +nd.links.get(j).elm.getDumpType();
+// //	    }
+// //	    console(s);
+// //	}
+//         console("Elm list Dump");
+//         for (i = 0; i < elmList.size(); i++)
+//         {
+//             e = elmList.get(i);
+//             cs = e.getDumpClass().toString();
+//             int p = cs.lastIndexOf('.');
+//             cs = cs.substring(p + 1);
+//             if (cs == "WireElm")
+//                 continue;
+//             if (cs == "LabeledNodeElm")
+//                 cs = cs + " " + ((LabeledNodeElm)e).text;
+//             if (cs == "TransistorElm")
+//             {
+//                 if (((TransistorElm)e).pnp == -1)
+//                     cs = "PTransistorElm";
+//                 else
+//                     cs = "NTransistorElm";
+//             }
 //
-//	for(i=0; i<nodeList.size(); i++) {
-//	    s="Node "+i;
-//	    nd=nodeList.get(i);
-//	    for(j=0; j<nd.links.size();j++) {
-//		s=s+" " + nd.links.get(j).num + " " +nd.links.get(j).elm.getDumpType();
-//	    }
-//	    console(s);
-//	}
-        console("Elm list Dump");
-        for (i = 0; i < elmList.size(); i++)
-        {
-            e = elmList.get(i);
-            cs = e.getDumpClass().toString();
-            int p = cs.lastIndexOf('.');
-            cs = cs.substring(p + 1);
-            if (cs == "WireElm")
-                continue;
-            if (cs == "LabeledNodeElm")
-                cs = cs + " " + ((LabeledNodeElm)e).text;
-            if (cs == "TransistorElm")
-            {
-                if (((TransistorElm)e).pnp == -1)
-                    cs = "PTransistorElm";
-                else
-                    cs = "NTransistorElm";
-            }
-
-            s = cs;
-            for (j = 0; j < e.getPostCount(); j++)
-            {
-                s = s + " " + e.nodes[j];
-            }
-
-            console(s);
-        }
+//             s = cs;
+//             for (j = 0; j < e.getPostCount(); j++)
+//             {
+//                 s = s + " " + e.nodes[j];
+//             }
+//
+//             console(s);
+//         }
     }
 
     void doDCAnalysis()
@@ -2464,13 +2434,13 @@ public class CirSim
 //     return ccm;
 // }
 
-    static void invertMatrix(double[][] a, int n)
+    static void invertMatrix(double[,] a, int n)
     {
         int[] ipvt = new int[n];
         lu_factor(a, n, ipvt);
         int i, j;
         double[] b = new double[n];
-        double[][] inva = new double[n][n];
+        double[,] inva = new double[n, n];
 
         // solve for each column of identity matrix
         for (i = 0; i != n; i++)
@@ -2480,12 +2450,12 @@ public class CirSim
             b[i] = 1;
             lu_solve(a, n, ipvt, b);
             for (j = 0; j != n; j++)
-                inva[j][i] = b[j];
+                inva[j, i] = b[j];
         }
 
         // return in original matrix
         for (i = 0; i != n; i++)
         for (j = 0; j != n; j++)
-            a[i][j] = inva[i][j];
+            a[i, j] = inva[i, j];
     }
 }
