@@ -25,7 +25,7 @@ class SwitchElm : CircuitElm
     bool momentary;
 
     // position 0 == closed, position 1 == open
-    int position, posCount;
+   public  int position, posCount;
 
     public SwitchElm(int xx, int yy) : base(xx, yy)
     {
@@ -34,7 +34,7 @@ class SwitchElm : CircuitElm
         posCount = 2;
     }
 
-    SwitchElm(int xx, int yy, bool mm) : base(xx, yy)
+    public SwitchElm(int xx, int yy, bool mm) : base(xx, yy)
     {
         position = (mm) ? 1 : 0;
         momentary = mm;

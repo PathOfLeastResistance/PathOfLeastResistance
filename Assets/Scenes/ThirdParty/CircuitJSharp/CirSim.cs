@@ -50,7 +50,6 @@ public class CirSim
     bool analyzeFlag, needsStamp, savedFlag;
     bool dumpMatrix;
     public bool dcAnalysisFlag;
-    bool isMac;
     String ctrlMetaKey;
     public double t;
     int pause = 10;
@@ -375,9 +374,10 @@ public class CirSim
                     if (entry.Value == cn2)
                     {
                         // entry.setValue(cn);
-                        toReplace.Add(new KeyValuePair<Point, NodeMapEntry>(entry.Key,cn));
+                        toReplace.Add(new KeyValuePair<Point, NodeMapEntry>(entry.Key, cn));
                     }
                 }
+
                 foreach (var replacer in toReplace)
                     nodeMap[replacer.Key] = replacer.Value;
 
@@ -731,7 +731,7 @@ public class CirSim
                     ce.getNode(1));
                 if (!fpi.findPath(ce.getNode(0)))
                 {
-        		    console(ce + " no path");
+                    console(ce + " no path");
                     ce.reset();
                 }
             }
@@ -1430,7 +1430,7 @@ public class CirSim
         int goodIterations = 100;
         bool goodIteration = true;
 
-        for (iter = 1; ; iter++)
+        for (iter = 1;; iter++)
         {
             if (goodIterations >= 3 && timeStep < maxTimeStep && goodIteration)
             {
@@ -1587,7 +1587,7 @@ public class CirSim
 // set node voltages given right side found by solving matrix
     void applySolvedRightSide(double[] rs)
     {
-    	console("setvoltages " + rs);
+        console("setvoltages " + rs);
         int j;
         for (j = 0; j != circuitMatrixFullSize; j++)
         {
