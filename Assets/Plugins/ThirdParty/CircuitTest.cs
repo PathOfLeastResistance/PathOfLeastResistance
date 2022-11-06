@@ -25,5 +25,6 @@ public class CircuitTest : MonoBehaviour
     private void Update()
     {
         _cirSim.updateCircuit();
+        Debug.Log(_cirSim.t);
     }
 }

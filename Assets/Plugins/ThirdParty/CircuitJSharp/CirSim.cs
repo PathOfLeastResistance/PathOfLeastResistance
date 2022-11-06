@@ -24,6 +24,8 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using Random = System.Random;
 
 public class CirSim
 {
@@ -93,6 +95,7 @@ public class CirSim
 
     public static void console(string str)
     {
+        Debug.LogError(str);
     }
 
     int getrand(int x)
@@ -195,7 +198,8 @@ public class CirSim
             {
                 //LOGGER
                 // debugger();
-                console("exception in runCircuit " + e);
+                Debug.LogError(e);
+                // console("exception in runCircuit " + e);
             }
         }
 
@@ -900,14 +904,14 @@ public class CirSim
         }
 
         // copy elmList to an array to avoid a bunch of calls to canCast() when doing simulation
-        // elmArr = new CircuitElm[elmList.Count];
+        elmArr = new CircuitElm[elmList.Count];
         // int scopeElmCount = 0;
-        // for (i = 0; i != elmList.Count; i++)
-        // {
-        //     elmArr[i] = elmList[i];
-        //     if (elmArr[i] is ScopeElm)
-        //         scopeElmCount++;
-        // }
+        for (i = 0; i != elmList.Count; i++)
+        {
+            elmArr[i] = elmList[i];
+            // if (elmArr[i] is ScopeElm)
+            //     scopeElmCount++;
+        }
 
         needsStamp = false;
     }

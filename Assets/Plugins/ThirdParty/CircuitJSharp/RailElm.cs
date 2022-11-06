@@ -34,11 +34,6 @@ class RailElm : VoltageElm
 
     public static int FLAG_CLOCK = 1;
 
-    int getDumpType()
-    {
-        return 'R';
-    }
-
     public override int getPostCount()
     {
         return 1;
