@@ -30,21 +30,10 @@ public class CirSim
     public Random random;
 
     // Class addingClass;
-    static double pi = 3.14159265358979323846;
-    static int MODE_ADD_ELM = 0;
-    static int MODE_DRAG_ALL = 1;
-    static int MODE_DRAG_ROW = 2;
-    static int MODE_DRAG_COLUMN = 3;
-    static int MODE_DRAG_SELECTED = 4;
-    static int MODE_DRAG_POST = 5;
-    static int MODE_SELECT = 6;
-    static int MODE_DRAG_SPLITTER = 7;
-    static int infoWidth = 160;
+    public static double pi = 3.14159265358979323846;
     int dragGridX, dragGridY, dragScreenX, dragScreenY, initDragGridX, initDragGridY;
     long mouseDownTime;
     long zoomTime;
-    int mouseCursorX = -1;
-    int mouseCursorY = -1;
     int gridSize, gridMask, gridRound;
     bool dragging;
     bool analyzeFlag, needsStamp, savedFlag;
@@ -52,11 +41,6 @@ public class CirSim
     public bool dcAnalysisFlag;
     String ctrlMetaKey;
     public double t;
-    int pause = 10;
-    int scopeSelected = -1;
-    int menuScope = -1;
-    int menuPlot = -1;
-    int hintType = -1, hintItem1, hintItem2;
     String stopMessage;
 
     // current timestep (time between iterations)
@@ -75,20 +59,12 @@ public class CirSim
 
     bool adjustTimeStep;
     bool developerMode;
-    static int HINT_LC = 1;
-    static int HINT_RC = 2;
-    static int HINT_3DB_C = 3;
-    static int HINT_TWINT = 4;
-    static int HINT_3DB_L = 5;
 
     List<CircuitElm> elmList;
 
     // Vector setupList;
     CircuitElm dragElm, menuElm, stopElm;
     CircuitElm[] elmArr;
-    private CircuitElm mouseElm = null;
-    bool didSwitch = false;
-    int mousePost = -1;
     CircuitElm plotXElm, plotYElm;
     int draggingPost;
     double[,] circuitMatrix;
@@ -127,7 +103,7 @@ public class CirSim
         return q % x;
     }
 
-    CirSim()
+    public CirSim()
     {
         theSim = this;
     }
@@ -135,17 +111,18 @@ public class CirSim
     public void init()
     {
         CircuitElm.initClass(this);
-        transform = new double[6];
         elmList = new List<CircuitElm>();
         random = new Random();
         // setSimRunning(running);
         setSimRunning(true);
     }
 
-    long lastTime = 0, lastFrameTime, lastIterTime, secTime = 0;
+    private long lastTime = 0, lastFrameTime, lastIterTime;
+    public long secTime = 0;
     int frames = 0;
     int steps = 0;
-    int framerate = 0, steprate = 0;
+    public int framerate = 0;
+    public int steprate = 0;
     static CirSim theSim;
 
     public void setSimRunning(bool s)
@@ -188,7 +165,7 @@ public class CirSim
             {
                 stampCircuit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 stop("Exception in stampCircuit()", null);
             }
@@ -430,7 +407,7 @@ public class CirSim
                 bool notReady = (ce.isRemovableWire() && !ce.hasWireInfo);
 
                 // which post does this element connect to, if any?
-                if (pt.x == wire.x && pt.y == wire.y)
+                if (pt.x == wire.points[0].x)
                 {
                     neighbors0.Add(ce);
                     if (notReady) isReady0 = false;
@@ -438,7 +415,7 @@ public class CirSim
                 else if (wire.getPostCount() > 1)
                 {
                     Point p2 = wire.getConnectedPost();
-                    if (pt.x == p2.x && pt.y == p2.y)
+                    if (pt.x == p2.x)
                     {
                         neighbors1.Add(ce);
                         if (notReady) isReady1 = false;
@@ -555,8 +532,8 @@ public class CirSim
             for (j = 0; j != posts; j++)
             {
                 Point pt = ce.getPost(j);
-                int g = postCountMap[pt];
-                postCountMap.Add(pt, g == null ? 1 : g + 1);
+                var found = postCountMap.TryGetValue(pt, out var g);
+                postCountMap.Add(pt, !found ? 1 : g + 1);
                 // NodeMapEntry cln = nodeMap[pt];
                 nodeMap.TryGetValue(pt, out var cln);
                 // is this node not in map yet?  or is the node number unallocated?
@@ -700,9 +677,7 @@ public class CirSim
 
     bool validateCircuit()
     {
-        int i, j;
-
-        for (i = 0; i != elmList.Count; i++)
+        for (int i = 0; i != elmList.Count; i++)
         {
             CircuitElm ce = getElm(i);
             // look for inductors with no current path
@@ -1388,7 +1363,7 @@ public class CirSim
     void runCircuit(bool didAnalyze)
     {
         var lastT = t;
-        
+
         if (circuitMatrix == null || elmList.Count == 0)
         {
             circuitMatrix = null;
@@ -1427,7 +1402,7 @@ public class CirSim
             for (i = 0; i != elmArr.Length; i++)
                 elmArr[i].startIteration();
             steps++;
-            int subiterCount = 5000;// (adjustTimeStep && timeStep / 2 > minTimeStep) ? 100 : 5000;
+            int subiterCount = 5000; // (adjustTimeStep && timeStep / 2 > minTimeStep) ? 100 : 5000;
             for (subiter = 0; subiter != subiterCount; subiter++)
             {
                 converged = true;
@@ -1559,7 +1534,7 @@ public class CirSim
             //     break;
             if (t - lastT > timeDelta)
                 break;
-            
+
             if (!simRunning)
                 break;
         } // for (iter = 1; ; iter++)
@@ -1637,7 +1612,7 @@ public class CirSim
             for (j = 0; j != wi.neighbors.Count; j++)
             {
                 CircuitElm ce = wi.neighbors[j];
-                int n = ce.getNodeAtPoint(p.x, p.y);
+                int n = ce.getNodeAtPoint(p.x);
                 cur += ce.getCurrentIntoNode(n);
             }
 

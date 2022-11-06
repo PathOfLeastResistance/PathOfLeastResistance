@@ -29,17 +29,17 @@ class WireElm : CircuitElm
     {
     }
 
-    void stamp()
+    public override void stamp()
     {
     }
 
-    bool mustShowCurrent()
+    public bool mustShowCurrent()
     {
         // return 
         return false;
     }
 
-    bool mustShowVoltage()
+    public bool mustShowVoltage()
     {
         // return (flags & FLAG_SHOWVOLTAGE) != 0;
         return false;
@@ -65,7 +65,7 @@ class WireElm : CircuitElm
         return true;
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // if (n == 0)
         // {
@@ -84,7 +84,7 @@ class WireElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // if (n == 0)
         // {

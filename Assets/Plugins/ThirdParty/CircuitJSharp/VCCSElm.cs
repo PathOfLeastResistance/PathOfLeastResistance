@@ -98,7 +98,7 @@ class VCCSElm : ChipElm
         return "VCCS~";
     } // ~ is for localization 
 
-    bool nonLinear()
+    public override bool nonLinear()
     {
         return true;
     }
@@ -108,7 +108,7 @@ class VCCSElm : ChipElm
         return false;
     }
 
-    void stamp()
+    public override void stamp()
     {
         sim.stampNonLinear(nodes[inputCount]);
         sim.stampNonLinear(nodes[inputCount + 1]);
@@ -139,7 +139,7 @@ class VCCSElm : ChipElm
         return nodes[n + inputCount];
     }
 
-    void doStep()
+    public override void doStep()
     {
         // no current path?  give up
         if (broken)
@@ -206,12 +206,12 @@ class VCCSElm : ChipElm
             lastVolts[i] = volts[i];
     }
 
-    void stepFinished()
+    public override void stepFinished()
     {
         exprState.updateLastValues(pins[inputCount].current);
     }
 
-    int getPostCount()
+    public override int getPostCount()
     {
         return inputCount + 2;
     }
@@ -226,7 +226,7 @@ class VCCSElm : ChipElm
         return 213;
     }
 
-    bool getConnection(int n1, int n2)
+    public override bool getConnection(int n1, int n2)
     {
         return comparePair(inputCount, inputCount + 1, n1, n2);
     }
@@ -251,7 +251,7 @@ class VCCSElm : ChipElm
         return null;
     }
 
-    public void setChipEditValue(int n, object ei)
+    public override void setChipEditValue(int n, object ei)
     {
         // if (n == 0)
         // {
@@ -271,7 +271,7 @@ class VCCSElm : ChipElm
         // }
     }
 
-    void setExpr(String expr)
+    void setExpr(string expr)
     {
         exprString = expr;
         parseExpr();

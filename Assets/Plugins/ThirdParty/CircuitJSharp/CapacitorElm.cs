@@ -75,7 +75,7 @@ class CapacitorElm : CircuitElm
         return base.dump() + " " + capacitance + " " + voltdiff + " " + initialVoltage;
     }
 
-    void stamp()
+    public override void stamp()
     {
         if (sim.dcAnalysisFlag)
         {
@@ -99,7 +99,7 @@ class CapacitorElm : CircuitElm
         sim.stampRightSide(nodes[1]);
     }
 
-    void startIteration()
+    public override void startIteration()
     {
         if (isTrapezoidal())
             curSourceValue = -voltdiff / compResistance - current;
@@ -107,13 +107,13 @@ class CapacitorElm : CircuitElm
             curSourceValue = -voltdiff / compResistance;
     }
 
-    void stepFinished()
+    public override void stepFinished()
     {
         voltdiff = volts[0] - volts[1];
         calculateCurrent();
     }
 
-    void setNodeVoltage(int n, double c)
+    public override void setNodeVoltage(int n, double c)
     {
         // do not calculate current, that only gets done in stepFinished().  otherwise calculateCurrent() may get
         // called while stamping the circuit, which might discharge the cap (since we use that current to calculate
@@ -121,7 +121,7 @@ class CapacitorElm : CircuitElm
         volts[n] = c;
     }
 
-    void calculateCurrent()
+    public override void calculateCurrent()
     {
         double voltdiff = volts[0] - volts[1];
         if (sim.dcAnalysisFlag)
@@ -139,14 +139,14 @@ class CapacitorElm : CircuitElm
 
     double curSourceValue;
 
-    void doStep()
+    public override void doStep()
     {
         if (sim.dcAnalysisFlag)
             return;
         sim.stampCurrentSource(nodes[0], nodes[1], curSourceValue);
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // if (n == 0)
         //     return new EditInfo("Capacitance (F)", capacitance, 1e-6, 1e-3);
@@ -163,7 +163,7 @@ class CapacitorElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // if (n == 0)
         //     capacitance = (ei.value > 0) ? ei.value : 1e-12;

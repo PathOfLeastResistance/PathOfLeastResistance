@@ -58,7 +58,7 @@ class CurrentElm : CircuitElm
     }
 
     // we defer stamping current sources until we can tell if they have a current path or not
-    void stamp()
+    public override void stamp()
     {
         if (broken)
         {

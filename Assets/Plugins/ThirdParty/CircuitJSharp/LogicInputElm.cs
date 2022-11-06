@@ -56,14 +56,9 @@ class LogicInputElm : SwitchElm
         return (flags & FLAG_TERNARY) != 0;
     }
 
-    bool isNumeric()
+    public bool isNumeric()
     {
         return (flags & (FLAG_TERNARY | FLAG_NUMERIC)) != 0;
-    }
-
-    int getDumpType()
-    {
-        return 'L';
     }
 
     public override string dump()
@@ -71,27 +66,27 @@ class LogicInputElm : SwitchElm
         return base.dump() + " " + hiV + " " + loV;
     }
 
-    int getPostCount()
+    public override int getPostCount()
     {
         return 1;
     }
 
-    void setPoints()
-    {
-        base.setPoints();
-    }
+    // public override void setPoints()
+    // {
+    //     base.setPoints();
+    // }
 
 
-    void setCurrent(int vs, double c)
+  public override   void setCurrent(int vs, double c)
     {
         current = c;
     }
 
-    void calculateCurrent()
+    public override void calculateCurrent()
     {
     }
 
-    void stamp()
+    public override void stamp()
     {
         sim.stampVoltageSource(0, nodes[0], voltSource);
     }
@@ -114,12 +109,12 @@ class LogicInputElm : SwitchElm
         sim.updateVoltageSource(0, nodes[0], voltSource, v);
     }
 
-    public int getVoltageSourceCount()
+    public override int getVoltageSourceCount()
     {
         return 1;
     }
 
-    double getVoltageDiff()
+    public override double getVoltageDiff()
     {
         return volts[0];
     }
@@ -129,7 +124,7 @@ class LogicInputElm : SwitchElm
         return true;
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // if (n == 0)
         // {
@@ -159,7 +154,7 @@ class LogicInputElm : SwitchElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // if (n == 0)
         //     momentary = ei.checkbox.getState();

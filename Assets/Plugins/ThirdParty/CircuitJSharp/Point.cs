@@ -20,35 +20,30 @@
 public class Point
 {
     public int x;
-    public int y;
 
-    public Point(int i, int j)
+    public Point(int i)
     {
         x = i;
-        y = j;
     }
 
     public Point(Point p)
     {
         x = p.x;
-        y = p.y;
     }
 
     public Point()
     {
         x = 0;
-        y = 0;
     }
 
     public void setLocation(Point p)
     {
         x = p.x;
-        y = p.y;
     }
 
     public override string ToString()
     {
-        return "Point(" + x + "," + y + ")";
+        return "Point(" + x + ")";
     }
 
     public override bool Equals(object other)
@@ -57,7 +52,7 @@ public class Point
         if (other is Point)
         {
             Point that = (Point)other;
-            result = (this.x == that.x && this.y == that.y);
+            result = (this.x == that.x);
         }
 
         return result;
@@ -65,6 +60,6 @@ public class Point
 
     public override int GetHashCode()
     {
-        return (41 * (41 + x) + y);
+        return x.GetHashCode();
     }
 }

@@ -18,51 +18,58 @@
 */
 
 
-class RailElm : VoltageElm 
+class RailElm : VoltageElm
 {
-	public RailElm(int xx, int yy): base(xx, yy, WaveForm.WF_DC)
-	{ 
-		
-
-	}
-	RailElm(int xx, int yy, WaveForm wf) : 	base (xx, yy, wf)
-	{
-	
-	}
-
-	public RailElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f, st)
-	{
-		
-	}
-
-    
-    static int FLAG_CLOCK = 1;
-    int getDumpType() { return 'R'; }
-    int getPostCount() { return 1; }
-	
-    void setPoints() {
-	base.setPoints();
+    public RailElm(int xx, int yy) : base(xx, yy, WaveForm.WF_DC)
+    {
     }
-    
-  
-    
-    double getVoltageDiff() { return volts[0]; }
-    void stamp() {
-	if (waveform == WaveForm.WF_DC)
-	    sim.stampVoltageSource(0, nodes[0], voltSource, getVoltage());
-	else
-	    sim.stampVoltageSource(0, nodes[0], voltSource);
+
+    RailElm(int xx, int yy, WaveForm wf) : base(xx, yy, wf)
+    {
     }
-    void doStep() {
-	if (waveform != WaveForm.WF_DC)
-	    sim.updateVoltageSource(0, nodes[0], voltSource, getVoltage());
+
+    public RailElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f, st)
+    {
     }
-    bool hasGroundConnection(int n1) { return true; }
-    int getShortcut() { return 'V'; }
+
+    public static int FLAG_CLOCK = 1;
+
+    int getDumpType()
+    {
+        return 'R';
+    }
+
+    public override int getPostCount()
+    {
+        return 1;
+    }
+
+    // public override void setPoints()
+    // {
+    //     base.setPoints();
+    // }
     
-//    void drawHandles(Graphics g, Color c) {
-//    	g.setColor(c);
-//		g.fillRect(x-3, y-3, 7, 7);
-//    }
-    
+    public override double getVoltageDiff()
+    {
+        return volts[0];
+    }
+
+    public override void stamp()
+    {
+        if (waveform == WaveForm.WF_DC)
+            sim.stampVoltageSource(0, nodes[0], voltSource, getVoltage());
+        else
+            sim.stampVoltageSource(0, nodes[0], voltSource);
+    }
+
+    public override void doStep()
+    {
+        if (waveform != WaveForm.WF_DC)
+            sim.updateVoltageSource(0, nodes[0], voltSource, getVoltage());
+    }
+
+    public override bool hasGroundConnection(int n1)
+    {
+        return true;
+    }
 }

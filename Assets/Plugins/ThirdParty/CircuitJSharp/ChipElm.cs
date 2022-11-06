@@ -88,24 +88,24 @@ abstract class ChipElm : CircuitElm
     public abstract void setupPins();
 
     public Pin[] pins;
-    bool lastClock;
+    public bool lastClock;
 
-    void setPoints()
+    public override void setPoints()
     {
         for (int i = 0; i != getPostCount(); i++)
         {
             Pin p = pins[i];
             //TODO: Set pin point
-            p.setPoint(i, i);
+            p.setPoint(i);
         }
     }
 
-    Point getPost(int n)
+    public override Point getPost(int n)
     {
         return pins[n].post;
     }
 
-    public abstract int getVoltageSourceCount(); // output count
+    public override abstract int getVoltageSourceCount(); // output count
 
     public override void setVoltageSource(int j, int vs)
     {
@@ -207,17 +207,12 @@ abstract class ChipElm : CircuitElm
         pins[n].value = value;
     }
 
-    void setCurrent(int x, double c)
+    public override void setCurrent(int x, double c)
     {
         int i;
         for (i = 0; i != getPostCount(); i++)
             if (pins[i].output && pins[i].voltSource == x)
                 pins[i].current = c;
-    }
-
-    String getChipName()
-    {
-        return "chip";
     }
 
     public override bool getConnection(int n1, int n2)
@@ -235,7 +230,7 @@ abstract class ChipElm : CircuitElm
         return pins[n].current;
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // if (n == 0)
         // {
@@ -268,7 +263,7 @@ abstract class ChipElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         if (!isDigitalChip())
         {
@@ -293,7 +288,7 @@ abstract class ChipElm : CircuitElm
     {
     }
 
-    static string writeBits(bool[] data)
+    public static string writeBits(bool[] data)
     {
         StringBuilder sb = new StringBuilder();
         int integer = 0;
@@ -323,7 +318,7 @@ abstract class ChipElm : CircuitElm
         return sb.ToString();
     }
 
-    static void readBits(object st, bool[] output)
+    public static void readBits(object st, bool[] output)
     {
         // int integer = 0;
         // int bitIndex = Integer.MAX_VALUE;
@@ -356,9 +351,9 @@ abstract class ChipElm : CircuitElm
         public bool lineOver, bubble, clock, output, value, state, selected;
         public double curcount, current;
 
-        public void setPoint(int px, int py)
+        public void setPoint(int px)
         {
-            post = new Point(px, py);
+            post = new Point(px);
         }
     }
 }

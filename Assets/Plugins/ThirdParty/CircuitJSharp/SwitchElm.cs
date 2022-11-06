@@ -71,31 +71,21 @@ class SwitchElm : CircuitElm
         return base.dump() + " " + position + " " + momentary;
     }
 
-    Point ps, ps2;
 
-    void setPoints()
+    public override void setPoints()
     {
         base.setPoints();
-        ps = new Point();
-        ps2 = new Point();
     }
 
     public int openhs = 16;
 
-
-    void calculateCurrent()
+    public override void calculateCurrent()
     {
         if (position == 1)
             current = 0;
     }
 
-    void mouseUp()
-    {
-        if (momentary)
-            toggle();
-    }
-
-    void toggle()
+    public void toggle()
     {
         position++;
         if (position >= posCount)
@@ -118,7 +108,7 @@ class SwitchElm : CircuitElm
         return position == 0;
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // if (n == 0)
         // {
@@ -130,7 +120,7 @@ class SwitchElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // if (n == 0)
         //     momentary = ei.checkbox.getState();

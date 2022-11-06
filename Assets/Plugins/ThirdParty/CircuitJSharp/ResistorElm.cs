@@ -21,7 +21,7 @@ class ResistorElm : CircuitElm
 {
     double resistance;
 
-    public ResistorElm(int xx, int yy) : base(xx, yy)
+    public ResistorElm(int x1, int x2) : base(x1, x2)
     {
         resistance = 1000;
     }
@@ -36,12 +36,10 @@ class ResistorElm : CircuitElm
         return base.dump() + " " + resistance;
     }
 
-    Point ps3, ps4;
-
-    public override void setPoints()
-    {
-        base.setPoints();
-    }
+    // public override void setPoints()
+    // {
+    //     base.setPoints();
+    // }
 
     public override void calculateCurrent()
     {
@@ -54,7 +52,7 @@ class ResistorElm : CircuitElm
         sim.stampResistor(nodes[0], nodes[1], resistance);
     }
 
-    public object getEditInfo(int n)
+    public override object getEditInfo(int n)
     {
         // // ohmString doesn't work here on linux
         // if (n == 0)
@@ -62,7 +60,7 @@ class ResistorElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // resistance = (ei.value <= 0) ? 1e-9 : ei.value;
     }

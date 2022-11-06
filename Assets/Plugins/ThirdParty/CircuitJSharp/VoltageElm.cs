@@ -71,8 +71,9 @@ class VoltageElm : CircuitElm
             // phaseShift = new Double(st.nextToken()).doubleValue();
             // dutyCycle = new Double(st.nextToken()).doubleValue();
         }
-        catch (Exception e)
+        catch (Exception)
         {
+            CirSim.console("wtf");
         }
 
         if ((flags & FLAG_COS) != 0)
@@ -110,7 +111,7 @@ class VoltageElm : CircuitElm
         return "";
     }
 
-    void reset()
+    public override void reset()
     {
         freqTimeZero = 0;
         curcount = 0;
@@ -128,7 +129,7 @@ class VoltageElm : CircuitElm
         return voltSource;
     }
 
-    void stamp()
+    public override void stamp()
     {
         if (waveform == WaveForm.WF_DC)
             sim.stampVoltageSource(nodes[0], nodes[1], voltSource,
@@ -137,14 +138,14 @@ class VoltageElm : CircuitElm
             sim.stampVoltageSource(nodes[0], nodes[1], voltSource);
     }
 
-    void doStep()
+    public override void doStep()
     {
         if (waveform != WaveForm.WF_DC)
             sim.updateVoltageSource(nodes[0], nodes[1], voltSource,
                 getVoltage());
     }
 
-    void stepFinished()
+    public override void stepFinished()
     {
         if (waveform == WaveForm.WF_NOISE)
             noiseValue = (sim.random.NextDouble() * 2 - 1) * maxVoltage + bias;
@@ -179,17 +180,17 @@ class VoltageElm : CircuitElm
         base.setPoints();
     }
 
-    int getVoltageSourceCount()
+    public override int getVoltageSourceCount()
     {
         return 1;
     }
 
-    double getPower()
+    public override double getPower()
     {
         return -getVoltageDiff() * current;
     }
 
-    double getVoltageDiff()
+    public override double getVoltageDiff()
     {
         return volts[1] - volts[0];
     }
@@ -227,7 +228,7 @@ class VoltageElm : CircuitElm
         return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         // if (n == 0)
         //     maxVoltage = ei.value;

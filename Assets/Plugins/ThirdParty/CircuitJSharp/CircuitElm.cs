@@ -23,29 +23,16 @@ using System.Collections.Generic;
 // circuit element class
 public class CircuitElm
 {
-    static Point ps1, ps2;
     public static CirSim sim;
     public const double pi = 3.14159265358979323846;
-
-    // initial point where user created element.  For simple two-terminal elements, this is the first node/post.
-    public int x, y;
-
-    // point to which user dragged out element.  For simple two-terminal elements, this is the second node/post
-    int x2, y2;
 
     public int flags;
     public int[] nodes;
     public int voltSource;
 
-    // length along x and y axes, and sign of difference
-    int dx, dy, dsign;
-
     public double dn;
 
-    double dpx1, dpy1;
-
-    // (x,y) and (x2,y2) as Point objects
-    public Point point1, point2;
+    public Point[] points = new Point [2];
 
     // voltages at each node
     public double[] volts;
@@ -67,15 +54,15 @@ public class CircuitElm
     public static void initClass(CirSim s)
     {
         sim = s;
-        ps1 = new Point();
-        ps2 = new Point();
     }
 
     // create new element with one post at xx,yy, to be dragged out by user
-    public CircuitElm(int xx, int yy)
+    public CircuitElm(int xx1, int xx2)
     {
-        x = x2 = xx;
-        y = y2 = yy;
+        points = newPointArray(2);
+        points[0] = new Point(xx1);
+        points[1] = new Point(xx2);
+        
         flags = getDefaultFlags();
         allocNodes();
     }
@@ -83,10 +70,6 @@ public class CircuitElm
     // create element between xa,ya and xb,yb from undump
     public CircuitElm(int xa, int ya, int xb, int yb, int f)
     {
-        x = xa;
-        y = ya;
-        x2 = xb;
-        y2 = yb;
         flags = f;
         allocNodes();
     }
@@ -119,7 +102,7 @@ public class CircuitElm
     }
 
     // set current for voltage source vn to c.  vn will be the same value as in a previous call to setVoltageSource(n, vn) 
-    public void setCurrent(int vn, double c)
+    public virtual void setCurrent(int vn, double c)
     {
         current = c;
     }
@@ -156,7 +139,7 @@ public class CircuitElm
     }
 
     // set voltage of x'th node, called by simulator logic
-    public void setNodeVoltage(int n, double c)
+    public virtual void setNodeVoltage(int n, double c)
     {
         volts[n] = c;
         calculateCurrent();
@@ -170,8 +153,8 @@ public class CircuitElm
     // calculate post locations and other convenience values used for drawing.  Called when element is moved 
     public virtual void setPoints()
     {
-        point1 = new Point(x, y);
-        point2 = new Point(x2, y2);
+        // points[0] = new Point(x, y);
+        // points[1] = new Point(x2, y2);
     }
 
     /**
@@ -200,24 +183,14 @@ public class CircuitElm
         return c + a;
     }
 
-    // this is used to set the position of an internal element so we can draw it inside the parent
-    void setPosition(int x_, int y_, int x2_, int y2_)
-    {
-        x = x_;
-        y = y_;
-        x2 = x2_;
-        y2 = y2_;
-        setPoints();
-    }
-
     // number of voltage sources this element needs 
-    public int getVoltageSourceCount()
+    public virtual int getVoltageSourceCount()
     {
         return 0;
     }
 
     // number of internal nodes (nodes not visible in UI that are needed for implementation)
-    public int getInternalNodeCount()
+    public virtual int getInternalNodeCount()
     {
         return 0;
     }
@@ -245,7 +218,7 @@ public class CircuitElm
         return false;
     }
 
-    public int getPostCount()
+    public virtual int getPostCount()
     {
         return 2;
     }
@@ -257,36 +230,28 @@ public class CircuitElm
     }
 
     // get position of nth node
-    public Point getPost(int n)
+    public virtual Point getPost(int n)
     {
-        return (n == 0) ? point1 : (n == 1) ? point2 : null;
+        return points[n];
     }
 
     // return post we're connected to (for wires, so we can optimize them out in calculateWireClosure())
-    public Point getConnectedPost()
+    public virtual Point getConnectedPost()
     {
-        return point2;
+        return points[1];
     }
 
-    public int getNodeAtPoint(int xp, int yp)
+    public int getNodeAtPoint(int xp)
     {
         int i;
         for (i = 0; i != getPostCount(); i++)
         {
             Point p = getPost(i);
-            if (p.x == xp && p.y == yp)
+            if (p.x == xp)
                 return i;
         }
 
         return 0;
-    }
-
-    void doAdjust()
-    {
-    }
-
-    void setupAdjust()
-    {
     }
 
     public virtual double getPower()
@@ -371,13 +336,6 @@ public class CircuitElm
         return (a > b) ? a : b;
     }
 
-    static double distance(Point p1, Point p2)
-    {
-        double x = p1.x - p2.x;
-        double y = p1.y - p2.y;
-        return Math.Sqrt(x * x + y * y);
-    }
-
     bool needsShortcut()
     {
         return getShortcut() > 0;
@@ -409,23 +367,5 @@ public class CircuitElm
             return -current;
         else
             return current;
-    }
-
-    void flipPosts()
-    {
-        int oldx = x;
-        int oldy = y;
-        x = x2;
-        y = y2;
-        x2 = oldx;
-        y2 = oldy;
-        setPoints();
-    }
-
-    double getVoltageJS(int n)
-    {
-        if (n >= volts.Length)
-            return 0;
-        return volts[n];
     }
 }

@@ -20,7 +20,7 @@
 
 class GroundElm : CircuitElm
 {
-    static int lastSymbolType = 0;
+    public static int lastSymbolType = 0;
 
     // this is needed for old subcircuits which have GroundElm dumped
     static int FLAG_OLD_STYLE = 1;
@@ -34,12 +34,12 @@ class GroundElm : CircuitElm
     {
     }
 
-    int getPostCount()
+    public override int getPostCount()
     {
         return 1;
     }
    
-    void setOldStyle()
+    public void setOldStyle()
     {
         flags |= FLAG_OLD_STYLE;
     }
@@ -50,13 +50,13 @@ class GroundElm : CircuitElm
     }
 
 
-    void stamp()
+    public override void stamp()
     {
         if (isOldStyle())
             sim.stampVoltageSource(0, nodes[0], voltSource, 0);
     }
 
-    void setCurrent(int x, double c)
+    public override void setCurrent(int x, double c)
     {
         current = isOldStyle() ? -c : c;
     }
@@ -66,7 +66,7 @@ class GroundElm : CircuitElm
         return true;
     }
 
-    bool isRemovableWire()
+    public override bool isRemovableWire()
     {
         return true;
     }
@@ -78,20 +78,20 @@ class GroundElm : CircuitElm
         firstGround = null;
     }
 
-    Point getConnectedPost()
+    public override Point getConnectedPost()
     {
         if (firstGround != null)
             return firstGround;
-        firstGround = point1;
+        firstGround = points[0];
         return null;
     }
 
-    double getVoltageDiff()
+    public override double getVoltageDiff()
     {
         return 0;
     }
 
-    bool hasGroundConnection(int n1)
+    public override bool hasGroundConnection(int n1)
     {
         return true;
     }

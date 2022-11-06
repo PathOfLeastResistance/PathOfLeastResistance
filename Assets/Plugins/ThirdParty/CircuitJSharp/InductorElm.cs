@@ -32,7 +32,7 @@ public class InductorElm : CircuitElm
         ind.setup(inductance, current, flags);
     }
 
-    public InductorElm(int xa, int ya, int xb, int yb, int f, object st) : base (xa, ya, xb, yb, f)
+    public InductorElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
     {
         // ind = new Inductor(sim);
         // inductance = new Double(st.nextToken()).doubleValue();
@@ -53,7 +53,7 @@ public class InductorElm : CircuitElm
         base.setPoints();
     }
 
-    void reset()
+    public override void reset()
     {
         volts[0] = volts[1] = curcount = 0;
         current = initialCurrent;
@@ -65,23 +65,23 @@ public class InductorElm : CircuitElm
         ind.stamp(nodes[0], nodes[1]);
     }
 
-    void startIteration()
+    public override void startIteration()
     {
         ind.startIteration(volts[0] - volts[1]);
     }
 
-    bool nonLinear()
+    public override bool nonLinear()
     {
         return ind.nonLinear();
     }
 
-    void calculateCurrent()
+    public override void calculateCurrent()
     {
         double voltdiff = volts[0] - volts[1];
         current = ind.calculateCurrent(voltdiff);
     }
 
-    void doStep()
+    public override void doStep()
     {
         double voltdiff = volts[0] - volts[1];
         ind.doStep(voltdiff);
@@ -99,10 +99,10 @@ public class InductorElm : CircuitElm
         //    }
         //           if (n == 2)
         //               return new EditInfo("Initial Current (on Reset) (A)", initialCurrent);
-            return null;
+        return null;
     }
 
-    public void setEditValue(int n, object ei)
+    public override void setEditValue(int n, object ei)
     {
         //    if (n == 0 && ei.value > 0)
         // inductance = ei.value;
@@ -117,17 +117,12 @@ public class InductorElm : CircuitElm
         //    ind.setup(inductance, current, flags);
     }
 
-    int getShortcut()
-    {
-        return 'L';
-    }
-
     public double getInductance()
     {
         return inductance;
     }
 
-    void setInductance(double l)
+    public void setInductance(double l)
     {
         inductance = l;
         ind.setup(inductance, current, flags);
