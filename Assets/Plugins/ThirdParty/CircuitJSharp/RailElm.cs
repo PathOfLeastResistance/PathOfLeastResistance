@@ -17,18 +17,13 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 class RailElm : VoltageElm
 {
     public RailElm(int xx, int yy) : base(xx, yy, WaveForm.WF_DC)
     {
     }
 
-    RailElm(int xx, int yy, WaveForm wf) : base(xx, yy, wf)
-    {
-    }
-
-    public RailElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f, st)
+    public RailElm(int xx, int yy, WaveForm wf) : base(xx, yy, wf)
     {
     }
 

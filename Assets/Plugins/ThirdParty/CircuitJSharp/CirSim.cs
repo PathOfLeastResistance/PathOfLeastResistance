@@ -118,6 +118,9 @@ public class CirSim
         random = new Random();
         // setSimRunning(running);
         setSimRunning(true);
+        
+        maxTimeStep = 5e-6;
+        minTimeStep = 50e-12;
     }
 
     public void AddElement(CircuitElm elm)
@@ -1557,7 +1560,7 @@ public class CirSim
 // set node voltages given right side found by solving matrix
     void applySolvedRightSide(double[] rs)
     {
-        console("setvoltages " + rs);
+        // console("setvoltages " + rs);
         int j;
         for (j = 0; j != circuitMatrixFullSize; j++)
         {

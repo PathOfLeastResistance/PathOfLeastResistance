@@ -93,7 +93,7 @@ class VCCSElm : ChipElm
         allocNodes();
     }
 
-    string getChipName()
+    public string getChipName()
     {
         return "VCCS~";
     } // ~ is for localization 
@@ -271,7 +271,7 @@ class VCCSElm : ChipElm
         // }
     }
 
-    void setExpr(string expr)
+    public void setExpr(string expr)
     {
         exprString = expr;
         parseExpr();

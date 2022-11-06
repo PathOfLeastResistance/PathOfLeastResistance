@@ -33,19 +33,19 @@ public enum WaveForm
 
 class VoltageElm : CircuitElm
 {
-    static int FLAG_COS = 2;
-    static int FLAG_PULSE_DUTY = 4;
+    public static int FLAG_COS = 2;
+    public static int FLAG_PULSE_DUTY = 4;
     public WaveForm waveform;
 
-    double frequency,
-        maxVoltage,
-        freqTimeZero,
-        bias,
-        phaseShift,
-        dutyCycle,
-        noiseValue;
+    private double frequency;
+    private double maxVoltage;
+    private double freqTimeZero;
+    private double bias;
+    private double phaseShift;
+    private double dutyCycle;
+    private double noiseValue;
 
-    static double defaultPulseDuty = 1 / (2 * Math.PI);
+    public static double defaultPulseDuty = 1 / (2 * Math.PI);
 
     public VoltageElm(int xx, int yy, WaveForm wf) : base(xx, yy)
     {
@@ -54,46 +54,6 @@ class VoltageElm : CircuitElm
         frequency = 40;
         dutyCycle = .5;
         reset();
-    }
-
-    public VoltageElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-    {
-        maxVoltage = 5;
-        frequency = 40;
-        waveform = WaveForm.WF_DC;
-        dutyCycle = .5;
-        try
-        {
-            // waveform = new Integer(st.nextToken()).intValue();
-            // frequency = new Double(st.nextToken()).doubleValue();
-            // maxVoltage = new Double(st.nextToken()).doubleValue();
-            // bias = new Double(st.nextToken()).doubleValue();
-            // phaseShift = new Double(st.nextToken()).doubleValue();
-            // dutyCycle = new Double(st.nextToken()).doubleValue();
-        }
-        catch (Exception)
-        {
-            CirSim.console("wtf");
-        }
-
-        if ((flags & FLAG_COS) != 0)
-        {
-            flags &= ~FLAG_COS;
-            phaseShift = pi / 2;
-        }
-
-        // old circuit files have the wrong duty cycle for pulse waveforms (wasn't configurable in the past)
-        if ((flags & FLAG_PULSE_DUTY) == 0 && waveform == WaveForm.WF_PULSE)
-        {
-            dutyCycle = defaultPulseDuty;
-        }
-
-        reset();
-    }
-
-    int getDumpType()
-    {
-        return 'v';
     }
 
     public override string dump()
@@ -124,7 +84,7 @@ class VoltageElm : CircuitElm
         return 1 - (x - pi) * (2 / pi);
     }
 
-    int getVoltageSource()
+    public int getVoltageSource()
     {
         return voltSource;
     }
@@ -175,10 +135,10 @@ class VoltageElm : CircuitElm
         }
     }
 
-    public override void setPoints()
-    {
-        base.setPoints();
-    }
+    // public override void setPoints()
+    // {
+    //     base.setPoints();
+    // }
 
     public override int getVoltageSourceCount()
     {

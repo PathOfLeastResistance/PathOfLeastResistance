@@ -306,11 +306,6 @@ public class CircuitElm
         return false;
     }
 
-    bool canViewInScope()
-    {
-        return getPostCount() <= 2;
-    }
-
     public bool comparePair(int x1, int x2, int y1, int y2)
     {
         return ((x1 == y1 && x2 == y2) || (x1 == y2 && x2 == y1));
