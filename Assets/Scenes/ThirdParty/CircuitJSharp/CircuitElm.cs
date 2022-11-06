@@ -163,7 +163,7 @@ public class CircuitElm
     }
 
     // calculate current in response to node voltages changing
-    public void calculateCurrent()
+    public virtual void calculateCurrent()
     {
     }
 
