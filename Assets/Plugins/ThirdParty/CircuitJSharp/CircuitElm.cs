@@ -157,30 +157,12 @@ public class CircuitElm
         // points[1] = new Point(x2, y2);
     }
 
-    /**
-     * Calculates two points fraction f along the line between a and b and offest perpendicular by +/-g
-     * @param a 1st point (In)
-     * @param b 2nd point (In)
-     * @param c 1st point (Out)
-     * @param d 2nd point (Out)
-     * @param f Fraction along line
-     * @param g Fraction perpendicular to line
-     */
     Point[] newPointArray(int n)
     {
         Point[] a = new Point[n];
         while (n > 0)
             a[--n] = new Point();
         return a;
-    }
-
-    int CURRENT_TOO_FAST = 100;
-
-    double addCurCount(double c, double a)
-    {
-        if (c == CURRENT_TOO_FAST || c == -CURRENT_TOO_FAST)
-            return c;
-        return c + a;
     }
 
     // number of voltage sources this element needs 
@@ -329,16 +311,6 @@ public class CircuitElm
     static int max(int a, int b)
     {
         return (a > b) ? a : b;
-    }
-
-    bool needsShortcut()
-    {
-        return getShortcut() > 0;
-    }
-
-    int getShortcut()
-    {
-        return 0;
     }
 
     string dumpModel()
