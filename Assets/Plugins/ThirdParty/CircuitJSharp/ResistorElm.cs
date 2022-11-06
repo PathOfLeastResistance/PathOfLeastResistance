@@ -17,7 +17,7 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class ResistorElm : CircuitElm
+public class ResistorElm : CircuitElm
 {
     double resistance;
 

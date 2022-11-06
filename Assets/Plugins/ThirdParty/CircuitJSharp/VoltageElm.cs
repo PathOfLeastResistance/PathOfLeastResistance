@@ -31,7 +31,7 @@ public enum WaveForm
     WF_VAR = 7,
 }
 
-class VoltageElm : CircuitElm
+public class VoltageElm : CircuitElm
 {
     public static int FLAG_COS = 2;
     public static int FLAG_PULSE_DUTY = 4;
