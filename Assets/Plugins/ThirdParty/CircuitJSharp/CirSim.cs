@@ -117,6 +117,12 @@ public class CirSim
         setSimRunning(true);
     }
 
+    public void AddElement(CircuitElm elm)
+    {
+        elmList.Add(elm);
+        needAnalyze();
+    }
+
     private long lastTime = 0, lastFrameTime, lastIterTime;
     public long secTime = 0;
     int frames = 0;
@@ -502,7 +508,7 @@ public class CirSim
             nodeList.Add(cn);
 
             // update node map
-            NodeMapEntry cln = nodeMap[pt];
+            nodeMap.TryGetValue(pt, out var cln);
             if (cln != null)
                 cln.node = 0;
             else
@@ -532,8 +538,8 @@ public class CirSim
             for (j = 0; j != posts; j++)
             {
                 Point pt = ce.getPost(j);
-                var found = postCountMap.TryGetValue(pt, out var g);
-                postCountMap.Add(pt, !found ? 1 : g + 1);
+                // var found = postCountMap.TryGetValue(pt, out var g);
+                // postCountMap.Add(pt, !found ? 1 : g + 1);
                 // NodeMapEntry cln = nodeMap[pt];
                 nodeMap.TryGetValue(pt, out var cln);
                 // is this node not in map yet?  or is the node number unallocated?
@@ -783,7 +789,7 @@ public class CirSim
 
         int i, j;
         nodeList = new List<CircuitNode>();
-        postCountMap = new Dictionary<Point, int>();
+        // postCountMap = new Dictionary<Point, int>();
 
         calculateWireClosure();
         setGroundNode();

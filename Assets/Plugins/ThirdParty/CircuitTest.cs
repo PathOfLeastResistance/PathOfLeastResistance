@@ -17,6 +17,8 @@ public class CircuitTest : MonoBehaviour
         //Create some test elements
         var res = new ResistorElm(0, 1);
         var volt = new VoltageElm(0, 1, WaveForm.WF_DC);
+        _cirSim.AddElement(res);
+        _cirSim.AddElement(volt);
     }
 
     // Update Circtuit
