@@ -105,8 +105,6 @@ public class CirSim
 
     // public boolean useFrame;
     int scopeCount;
-    bool showResistanceInVoltageSources;
-
     double[] transform;
 
     // canvas width/height in px (before device pixel ratio scaling)
@@ -116,13 +114,6 @@ public class CirSim
     const int VERTICALPANELWIDTH = 166; // default
     const int POSTGRABSQ = 25;
     const int MINPOSTGRABSIZE = 256;
-
-    // final Timer timer = new Timer() {
-    //     public void run() {
-    //         updateCircuit();
-    //     }
-    // };
-    int FASTTIMER = 16;
 
     public static void console(string str)
     {
@@ -140,13 +131,6 @@ public class CirSim
     {
         theSim = this;
     }
-
-    String startCircuit = null;
-    String startLabel = null;
-    String startCircuitText = null;
-
-    String startCircuitLink = null;
-//    String baseURL = "http://www.falstad.com/circuit/";
 
     public void init()
     {
@@ -185,11 +169,8 @@ public class CirSim
         return simRunning;
     }
 
-    bool needsRepaint;
-
     // *****************************************************************
     //                     UPDATE CIRCUIT
-
     public void updateCircuit()
     {
         // Analyze circuit
@@ -861,19 +842,19 @@ public class CirSim
 
         // show resistance in voltage sources if there's only one.
         // can't use voltageSourceCount here since that counts internal voltage sources, like the one in GroundElm
-        bool gotVoltageSource = false;
-        showResistanceInVoltageSources = true;
-        for (i = 0; i != elmList.Count; i++)
-        {
-            CircuitElm ce = getElm(i);
-            if (ce is VoltageElm)
-            {
-                if (gotVoltageSource)
-                    showResistanceInVoltageSources = false;
-                else
-                    gotVoltageSource = true;
-            }
-        }
+        // bool gotVoltageSource = false;
+        // showResistanceInVoltageSources = true;
+        // for (i = 0; i != elmList.Count; i++)
+        // {
+        //     CircuitElm ce = getElm(i);
+        //     if (ce is VoltageElm)
+        //     {
+        //         if (gotVoltageSource)
+        //             showResistanceInVoltageSources = false;
+        //         else
+        //             gotVoltageSource = true;
+        //     }
+        // }
 
         findUnconnectedNodes();
         if (!validateCircuit())
@@ -1270,8 +1251,7 @@ public class CirSim
         if (Double.IsNaN(r0) || Double.IsInfinity(r0))
         {
             //System.out.print("bad resistance " + r + " " + r0 + "\n"); LOGGER
-            int a = 0;
-            a /= a;
+            throw new Exception("bad resistance");
         }
 
         stampMatrix(n1, n1, r0);
@@ -1403,9 +1383,12 @@ public class CirSim
 
     public bool converged;
     public int subIterations;
+    public double timeDelta = 0.1;
 
     void runCircuit(bool didAnalyze)
     {
+        var lastT = t;
+        
         if (circuitMatrix == null || elmList.Count == 0)
         {
             circuitMatrix = null;
@@ -1416,12 +1399,11 @@ public class CirSim
         //int maxIter = getIterCount();
         bool debugprint = dumpMatrix;
         dumpMatrix = false;
-        long steprate = (long)(160 * getIterCount());
 
         // Check if we don't need to run simulation (for very slow simulation speeds).
         // If the circuit changed, do at least one iteration to make sure everything is consistent.
-        if (!didAnalyze)
-            return;
+        // if (!didAnalyze)
+        //     return;
 
         bool delayWireProcessing = canDelayWireProcessing();
         int timeStepCountAtFrameStart = timeStepCount;
@@ -1445,7 +1427,7 @@ public class CirSim
             for (i = 0; i != elmArr.Length; i++)
                 elmArr[i].startIteration();
             steps++;
-            int subiterCount = (adjustTimeStep && timeStep / 2 > minTimeStep) ? 100 : 5000;
+            int subiterCount = 5000;// (adjustTimeStep && timeStep / 2 > minTimeStep) ? 100 : 5000;
             for (subiter = 0; subiter != subiterCount; subiter++)
             {
                 converged = true;
@@ -1573,8 +1555,11 @@ public class CirSim
 
             // Check whether enough time has elapsed to perform an *additional* iteration after
             // those we have already completed.  But limit total computation time to 50ms (20fps)
-            if ((timeStepCount - timeStepCountAtFrameStart) * 1000 >= steprate * (tm - lastIterTime) || (tm - lastFrameTime > 50))
+            // if ((timeStepCount - timeStepCountAtFrameStart) * 1000 >= steprate * (tm - lastIterTime) || (tm - lastFrameTime > 50))
+            //     break;
+            if (t - lastT > timeDelta)
                 break;
+            
             if (!simRunning)
                 break;
         } // for (iter = 1; ; iter++)
