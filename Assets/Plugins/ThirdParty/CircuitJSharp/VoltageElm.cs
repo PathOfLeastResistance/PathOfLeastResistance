@@ -51,24 +51,9 @@ public class VoltageElm : CircuitElm
     {
         waveform = wf;
         maxVoltage = 5;
-        frequency = 40;
+        frequency = 5;
         dutyCycle = .5;
         reset();
-    }
-
-    public override string dump()
-    {
-        // // set flag so we know if duty cycle is correct for pulse waveforms
-        // if (waveform == WF_PULSE)
-        //     flags |= FLAG_PULSE_DUTY;
-        // else
-        //     flags &= ~FLAG_PULSE_DUTY;
-        //
-        // return super.dump() + " " + waveform + " " + frequency + " " +
-        //        maxVoltage + " " + bias + " " + phaseShift + " " +
-        //        dutyCycle;
-        // // VarRailElm adds text at the end
-        return "";
     }
 
     public override void reset()

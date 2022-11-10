@@ -66,12 +66,6 @@ class SwitchElm : CircuitElm
         return 's';
     }
 
-    public override string dump()
-    {
-        return base.dump() + " " + position + " " + momentary;
-    }
-
-
     public override void setPoints()
     {
         base.setPoints();

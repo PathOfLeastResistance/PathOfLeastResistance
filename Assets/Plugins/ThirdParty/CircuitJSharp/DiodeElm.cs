@@ -20,9 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.UI;
 
-class DiodeElm : CircuitElm
+public class DiodeElm : CircuitElm
 {
     Diode diode;
     const int FLAG_FWDROP = 1;

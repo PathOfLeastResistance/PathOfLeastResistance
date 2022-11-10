@@ -86,12 +86,6 @@ public class CircuitElm
         }
     }
 
-    // dump component state for export/undo
-    public virtual string dump()
-    {
-        return "";
-    }
-
     // handle reset button
     public virtual void reset()
     {

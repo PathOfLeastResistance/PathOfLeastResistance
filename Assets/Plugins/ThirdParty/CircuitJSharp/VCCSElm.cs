@@ -73,12 +73,6 @@ class VCCSElm : ChipElm
         setupPins();
     }
 
-    public override string dump()
-    {
-        // return base.dump() + " " + inputCount + " " + CustomLogicModel.escape(exprString);
-        return "";
-    }
-
     double[] lastVolts;
 
     public override void setupPins()

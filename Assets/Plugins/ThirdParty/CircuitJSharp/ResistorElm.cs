@@ -31,11 +31,6 @@ public class ResistorElm : CircuitElm
         // resistance = new Double(st.nextToken()).doubleValue();
     }
 
-    public override string dump()
-    {
-        return base.dump() + " " + resistance;
-    }
-
     // public override void setPoints()
     // {
     //     base.setPoints();

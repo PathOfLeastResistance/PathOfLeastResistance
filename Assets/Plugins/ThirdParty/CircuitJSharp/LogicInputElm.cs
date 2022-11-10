@@ -61,11 +61,6 @@ class LogicInputElm : SwitchElm
         return (flags & (FLAG_TERNARY | FLAG_NUMERIC)) != 0;
     }
 
-    public override string dump()
-    {
-        return base.dump() + " " + hiV + " " + loV;
-    }
-
     public override int getPostCount()
     {
         return 1;

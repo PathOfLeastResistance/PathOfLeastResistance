@@ -12,6 +12,7 @@ public class CircuitTest : MonoBehaviour
     private CirSim _cirSim;
     private ResistorElm _resistor;
     private VoltageElm _voltage;
+    private DiodeElm _diode;
 
     private CanvasTexture _canvasTexture;
     private bool _isReady;
@@ -30,12 +31,14 @@ public class CircuitTest : MonoBehaviour
         _cirSim = new CirSim();
         _cirSim.init();
 
-
         //Create some test elements
-        _resistor = new ResistorElm(0, 1);
-        _voltage = new VoltageElm(0, 1, WaveForm.WF_AC);
+        _resistor = new ResistorElm(2, 1);
+        _voltage = new VoltageElm(0, 2, WaveForm.WF_AC);
+        _diode = new DiodeElm(0, 1);
+        
         _cirSim.AddElement(_resistor);
         _cirSim.AddElement(_voltage);
+        _cirSim.AddElement(_diode);
     }
 
     // Update Circtuit
@@ -64,7 +67,7 @@ public class CircuitTest : MonoBehaviour
         _queue.Enqueue(point);
         if (_queue.Count > 100)
             _queue.Dequeue();
-
+        Debug.Log(_resistor.getVoltageDiff());
         var startFrom = _queue.Peek().Time;
         _canvasTexture.ClearWithColor(Color.white);
         _canvasTexture.DrawPolyLine(_queue.Select(x => new float2(x.Time - startFrom, 0.5f + x.Voltage / 10f)).ToList(), 0.05f, Color.red);

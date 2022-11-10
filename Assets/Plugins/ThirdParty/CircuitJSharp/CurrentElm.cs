@@ -41,11 +41,6 @@ class CurrentElm : CircuitElm
         // }
     }
 
-    public override string dump()
-    {
-        return base.dump() + " " + currentValue;
-    }
-
     public override void setPoints()
     {
         base.setPoints();

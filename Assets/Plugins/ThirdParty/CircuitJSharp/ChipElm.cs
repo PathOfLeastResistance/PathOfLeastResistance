@@ -178,28 +178,6 @@ abstract class ChipElm : CircuitElm
         lastClock = false;
     }
 
-    public override string dump()
-    {
-        if (highVoltage == 5)
-            flags &= ~FLAG_CUSTOM_VOLTAGE;
-        else
-            flags |= FLAG_CUSTOM_VOLTAGE;
-
-        String s = base.dump();
-        if (needsBits())
-            s += " " + bits;
-        if (hasCustomVoltage())
-            s += " " + highVoltage;
-        int i;
-        for (i = 0; i != getPostCount(); i++)
-        {
-            if (pins[i].state)
-                s += " " + volts[i];
-        }
-
-        return s;
-    }
-
     public void writeOutput(int n, bool value)
     {
         if (!pins[n].output)

@@ -65,16 +65,6 @@ class CapacitorElm : CircuitElm
         voltdiff = current = curcount = curSourceValue = 0;
     }
 
-    int getDumpType()
-    {
-        return 'c';
-    }
-
-    public override string dump()
-    {
-        return base.dump() + " " + capacitance + " " + voltdiff + " " + initialVoltage;
-    }
-
     public override void stamp()
     {
         if (sim.dcAnalysisFlag)
