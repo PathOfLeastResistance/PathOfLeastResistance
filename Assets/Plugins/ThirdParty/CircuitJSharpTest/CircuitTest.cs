@@ -5,6 +5,12 @@ using Unity.Mathematics;
 using UnityEngine;
 using ViJApps.CanvasTexture;
 
+public struct VoltagePoint
+{
+    public float Time;
+    public float Voltage;
+}
+
 public class CircuitTest : MonoBehaviour
 {
     [SerializeField] private Renderer _renderer;
@@ -16,6 +22,7 @@ public class CircuitTest : MonoBehaviour
 
     private CanvasTexture _canvasTexture;
     private bool _isReady;
+    private Queue<VoltagePoint> _queue = new Queue<VoltagePoint>();
 
     // Init Circuit
     private async void Start()
@@ -39,38 +46,36 @@ public class CircuitTest : MonoBehaviour
         _cirSim.AddElement(_resistor);
         _cirSim.AddElement(_voltage);
         _cirSim.AddElement(_diode);
+
+        _cirSim.OnTimeStepHook += OnTimeStep;
     }
 
-    // Update Circtuit
-    
-    public struct VoltagePoint
+    private double _lastT = double.NegativeInfinity;
+    private void OnTimeStep()
     {
-        public float Time;
-        public float Voltage;
+        if (_cirSim.t - _lastT > 0.01)
+        {
+            _lastT = _cirSim.t;
+            var point = new VoltagePoint()
+            {
+                Time = (float)_cirSim.t,
+                Voltage = (float)_resistor.getVoltageDiff(),
+            };
+            _queue.Enqueue(point);
+            if (_queue.Count > 100)
+                _queue.Dequeue();
+            var startFrom = _queue.Peek().Time;
+            _canvasTexture.ClearWithColor(Color.white);
+            _canvasTexture.DrawPolyLine(_queue.Select(x => new float2(x.Time - startFrom, 0.5f + x.Voltage / 10f)).ToList(), 0.05f, Color.red);
+            _canvasTexture.Flush();
+        }
     }
-
-    private Queue<VoltagePoint> _queue = new Queue<VoltagePoint>();
     
     private void Update()
     {
         if (!_isReady)
             return;
-            
         _cirSim.timeDelta = Time.deltaTime;
         _cirSim.updateCircuit();
-
-        var point = new VoltagePoint()
-        {
-            Time = (float)_cirSim.t,
-            Voltage = (float)_resistor.getVoltageDiff(),
-        };
-        _queue.Enqueue(point);
-        if (_queue.Count > 100)
-            _queue.Dequeue();
-        Debug.Log(_resistor.getVoltageDiff());
-        var startFrom = _queue.Peek().Time;
-        _canvasTexture.ClearWithColor(Color.white);
-        _canvasTexture.DrawPolyLine(_queue.Select(x => new float2(x.Time - startFrom, 0.5f + x.Voltage / 10f)).ToList(), 0.05f, Color.red);
-        _canvasTexture.Flush();
     }
 }
