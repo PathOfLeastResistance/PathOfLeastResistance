@@ -19,13 +19,16 @@
 
 using System.Collections.Generic;
 
-public class CircuitNode
+namespace CircuitJSharp
 {
-    public List<CircuitNodeLink> links;
-    public bool internaL;
-
-    public CircuitNode()
+    public class CircuitNode
     {
-        links = new List<CircuitNodeLink>();
+        public List<CircuitNodeLink> links;
+        public bool internaL;
+
+        public CircuitNode()
+        {
+            links = new List<CircuitNodeLink>();
+        }
     }
 }

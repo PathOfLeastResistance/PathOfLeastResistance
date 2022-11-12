@@ -17,89 +17,90 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-class WireElm : CircuitElm
+namespace CircuitJSharp
 {
-    public WireElm(int xx, int yy) : base(xx, yy)
+    class WireElm : CircuitElm
     {
-    }
+        public WireElm(int xx, int yy) : base(xx, yy)
+        {
+        }
 
-    public WireElm(int xa, int ya, int xb, int yb, int f,
-        object st) : base(xa, ya, xb, yb, f)
-    {
-    }
+        public WireElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
+        {
+        }
 
-    public override void stamp()
-    {
-    }
+        public override void stamp()
+        {
+        }
 
-    public bool mustShowCurrent()
-    {
-        // return 
-        return false;
-    }
+        public bool mustShowCurrent()
+        {
+            // return 
+            return false;
+        }
 
-    public bool mustShowVoltage()
-    {
-        // return (flags & FLAG_SHOWVOLTAGE) != 0;
-        return false;
-    }
-   
-    public override double getPower()
-    {
-        return 0;
-    }
+        public bool mustShowVoltage()
+        {
+            // return (flags & FLAG_SHOWVOLTAGE) != 0;
+            return false;
+        }
 
-    public override double getVoltageDiff()
-    {
-        return volts[0];
-    }
+        public override double getPower()
+        {
+            return 0;
+        }
 
-    public override bool isWireEquivalent()
-    {
-        return true;
-    }
+        public override double getVoltageDiff()
+        {
+            return volts[0];
+        }
 
-    public override bool isRemovableWire()
-    {
-        return true;
-    }
+        public override bool isWireEquivalent()
+        {
+            return true;
+        }
 
-    public override object getEditInfo(int n)
-    {
-        // if (n == 0)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Show Current", mustShowCurrent());
-        //     return ei;
-        // }
-        //
-        // if (n == 1)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Show Voltage", mustShowVoltage());
-        //     return ei;
-        // }
+        public override bool isRemovableWire()
+        {
+            return true;
+        }
 
-        return null;
-    }
+        public override object getEditInfo(int n)
+        {
+            // if (n == 0)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Show Current", mustShowCurrent());
+            //     return ei;
+            // }
+            //
+            // if (n == 1)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Show Voltage", mustShowVoltage());
+            //     return ei;
+            // }
 
-    public override void setEditValue(int n, object ei)
-    {
-        // if (n == 0)
-        // {
-        //     if (ei.checkbox.getState())
-        //         flags |= FLAG_SHOWCURRENT;
-        //     else
-        //         flags &= ~FLAG_SHOWCURRENT;
-        // }
-        //
-        // if (n == 1)
-        // {
-        //     if (ei.checkbox.getState())
-        //         flags |= FLAG_SHOWVOLTAGE;
-        //     else
-        //         flags &= ~FLAG_SHOWVOLTAGE;
-        // }
+            return null;
+        }
+
+        public override void setEditValue(int n, object ei)
+        {
+            // if (n == 0)
+            // {
+            //     if (ei.checkbox.getState())
+            //         flags |= FLAG_SHOWCURRENT;
+            //     else
+            //         flags &= ~FLAG_SHOWCURRENT;
+            // }
+            //
+            // if (n == 1)
+            // {
+            //     if (ei.checkbox.getState())
+            //         flags |= FLAG_SHOWVOLTAGE;
+            //     else
+            //         flags &= ~FLAG_SHOWVOLTAGE;
+            // }
+        }
     }
 }

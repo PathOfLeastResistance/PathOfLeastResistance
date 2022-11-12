@@ -4,6 +4,8 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using ViJApps.CanvasTexture;
+using CircuitJSharp;
+
 
 public struct VoltagePoint
 {

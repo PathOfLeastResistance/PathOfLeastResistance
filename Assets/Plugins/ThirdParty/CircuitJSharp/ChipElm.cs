@@ -21,317 +21,320 @@
 using System;
 using System.Text;
 
-abstract class ChipElm : CircuitElm
+namespace CircuitJSharp
 {
-    int bits;
-    double highVoltage;
-
-    static int FLAG_CUSTOM_VOLTAGE = 1 << 13;
-
-    public ChipElm(int xx, int yy) : base(xx, yy)
+    abstract class ChipElm : CircuitElm
     {
-        if (needsBits())
-            bits = defaultBitCount();
-        highVoltage = 5;
-        setupPins();
-    }
+        int bits;
+        double highVoltage;
 
-    public ChipElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-    {
-        // 
-        // if (needsBits())
-        //     if (st.hasMoreTokens())
-        //         bits = new Integer(st.nextToken()).intValue();
-        //     else
-        //         bits = defaultBitCount();
-        // highVoltage = (hasCustomVoltage()) ? Double.parseDouble(st.nextToken()) : 5;
-        // setupPins();
-        // setSize((f & FLAG_SMALL) != 0 ? 1 : 2);
-        // int i;
-        // for (i = 0; i != getPostCount(); i++)
-        // {
-        //     if (pins == null)
-        //         volts[i] = new Double(st.nextToken()).doubleValue();
-        //     else if (pins[i].state)
-        //     {
-        //         volts[i] = new Double(st.nextToken()).doubleValue();
-        //         pins[i].value = volts[i] > getThreshold();
-        //     }
-        // }
-    }
+        static int FLAG_CUSTOM_VOLTAGE = 1 << 13;
 
-    bool needsBits()
-    {
-        return false;
-    }
-
-    bool hasCustomVoltage()
-    {
-        return (flags & FLAG_CUSTOM_VOLTAGE) != 0;
-    }
-
-    public virtual bool isDigitalChip()
-    {
-        return true;
-    }
-
-    double getThreshold()
-    {
-        return highVoltage / 2;
-    }
-
-    int defaultBitCount()
-    {
-        return 4;
-    }
-
-    public abstract void setupPins();
-
-    public Pin[] pins;
-    public bool lastClock;
-
-    public override void setPoints()
-    {
-        for (int i = 0; i != getPostCount(); i++)
+        public ChipElm(int xx, int yy) : base(xx, yy)
         {
-            Pin p = pins[i];
-            //TODO: Set pin point
-            p.setPoint(i);
+            if (needsBits())
+                bits = defaultBitCount();
+            highVoltage = 5;
+            setupPins();
         }
-    }
 
-    public override Point getPost(int n)
-    {
-        return pins[n].post;
-    }
-
-    public override abstract int getVoltageSourceCount(); // output count
-
-    public override void setVoltageSource(int j, int vs)
-    {
-        int i;
-        for (i = 0; i != getPostCount(); i++)
+        public ChipElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
         {
-            Pin p = pins[i];
-            if (p.output && j-- == 0)
+            // 
+            // if (needsBits())
+            //     if (st.hasMoreTokens())
+            //         bits = new Integer(st.nextToken()).intValue();
+            //     else
+            //         bits = defaultBitCount();
+            // highVoltage = (hasCustomVoltage()) ? Double.parseDouble(st.nextToken()) : 5;
+            // setupPins();
+            // setSize((f & FLAG_SMALL) != 0 ? 1 : 2);
+            // int i;
+            // for (i = 0; i != getPostCount(); i++)
+            // {
+            //     if (pins == null)
+            //         volts[i] = new Double(st.nextToken()).doubleValue();
+            //     else if (pins[i].state)
+            //     {
+            //         volts[i] = new Double(st.nextToken()).doubleValue();
+            //         pins[i].value = volts[i] > getThreshold();
+            //     }
+            // }
+        }
+
+        bool needsBits()
+        {
+            return false;
+        }
+
+        bool hasCustomVoltage()
+        {
+            return (flags & FLAG_CUSTOM_VOLTAGE) != 0;
+        }
+
+        public virtual bool isDigitalChip()
+        {
+            return true;
+        }
+
+        double getThreshold()
+        {
+            return highVoltage / 2;
+        }
+
+        int defaultBitCount()
+        {
+            return 4;
+        }
+
+        public abstract void setupPins();
+
+        public Pin[] pins;
+        public bool lastClock;
+
+        public override void setPoints()
+        {
+            for (int i = 0; i != getPostCount(); i++)
             {
-                p.voltSource = vs;
+                Pin p = pins[i];
+                //TODO: Set pin point
+                p.setPoint(i);
+            }
+        }
+
+        public override Point getPost(int n)
+        {
+            return pins[n].post;
+        }
+
+        public override abstract int getVoltageSourceCount(); // output count
+
+        public override void setVoltageSource(int j, int vs)
+        {
+            int i;
+            for (i = 0; i != getPostCount(); i++)
+            {
+                Pin p = pins[i];
+                if (p.output && j-- == 0)
+                {
+                    p.voltSource = vs;
+                    return;
+                }
+            }
+
+            CirSim.console("setVoltageSource failed for " + this);
+        }
+
+        public override void stamp()
+        {
+            int i;
+            int vsc = 0;
+            for (i = 0; i != getPostCount(); i++)
+            {
+                Pin p = pins[i];
+                if (p.output)
+                {
+                    sim.stampVoltageSource(0, nodes[i], p.voltSource);
+                    vsc++;
+                }
+            }
+
+            if (vsc != getVoltageSourceCount())
+                CirSim.console("voltage source count does not match number of outputs");
+        }
+
+        public virtual void execute()
+        {
+        }
+
+        public override void doStep()
+        {
+            int i;
+            for (i = 0; i != getPostCount(); i++)
+            {
+                Pin p = pins[i];
+                if (!p.output)
+                    p.value = volts[i] > getThreshold();
+            }
+
+            execute();
+            for (i = 0; i != getPostCount(); i++)
+            {
+                Pin p = pins[i];
+                if (p.output)
+                    sim.updateVoltageSource(0, nodes[i], p.voltSource,
+                        p.value ? highVoltage : 0);
+            }
+        }
+
+        public override void reset()
+        {
+            int i;
+            for (i = 0; i != getPostCount(); i++)
+            {
+                pins[i].value = false;
+                pins[i].curcount = 0;
+                volts[i] = 0;
+            }
+
+            lastClock = false;
+        }
+
+        public void writeOutput(int n, bool value)
+        {
+            if (!pins[n].output)
+                CirSim.console("pin " + n + " is not an output!");
+            pins[n].value = value;
+        }
+
+        public override void setCurrent(int x, double c)
+        {
+            int i;
+            for (i = 0; i != getPostCount(); i++)
+                if (pins[i].output && pins[i].voltSource == x)
+                    pins[i].current = c;
+        }
+
+        public override bool getConnection(int n1, int n2)
+        {
+            return false;
+        }
+
+        public override bool hasGroundConnection(int n1)
+        {
+            return pins[n1].output;
+        }
+
+        public override double getCurrentIntoNode(int n)
+        {
+            return pins[n].current;
+        }
+
+        public override object getEditInfo(int n)
+        {
+            // if (n == 0)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Flip X", (flags & FLAG_FLIP_X) != 0);
+            //     return ei;
+            // }
+            //
+            // if (n == 1)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Flip Y", (flags & FLAG_FLIP_Y) != 0);
+            //     return ei;
+            // }
+            //
+            // if (n == 2)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Flip X/Y", (flags & FLAG_FLIP_XY) != 0);
+            //     return ei;
+            // }
+            //
+            // if (!isDigitalChip())
+            //     return getChipEditInfo(n - 3);
+            //
+            // if (n == 3)
+            //     return new EditInfo("High Logic Voltage", highVoltage);
+            //
+            // return getChipEditInfo(n - 4);
+            return null;
+        }
+
+        public override void setEditValue(int n, object ei)
+        {
+            if (!isDigitalChip())
+            {
+                if (n >= 3)
+                    setChipEditValue(n - 3, ei);
                 return;
             }
+
+            // if (n == 3)
+            //     highVoltage = ei.value;
+
+            if (n >= 4)
+                setChipEditValue(n - 4, ei);
         }
 
-        CirSim.console("setVoltageSource failed for " + this);
-    }
-
-    public override void stamp()
-    {
-        int i;
-        int vsc = 0;
-        for (i = 0; i != getPostCount(); i++)
+        public virtual object getChipEditInfo(int n)
         {
-            Pin p = pins[i];
-            if (p.output)
+            return null;
+        }
+
+        public virtual void setChipEditValue(int n, object ei)
+        {
+        }
+
+        public static string writeBits(bool[] data)
+        {
+            StringBuilder sb = new StringBuilder();
+            int integer = 0;
+            int bitIndex = 0;
+            for (int i = 0; i < data.Length; i++)
             {
-                sim.stampVoltageSource(0, nodes[i], p.voltSource);
-                vsc++;
+                if (bitIndex >= sizeof(int))
+                {
+                    //Flush completed integer
+                    sb.Append(' ');
+                    sb.Append(integer);
+                    integer = 0;
+                    bitIndex = 0;
+                }
+
+                if (data[i])
+                    integer |= 1 << bitIndex;
+                bitIndex++;
             }
-        }
 
-        if (vsc != getVoltageSourceCount())
-            CirSim.console("voltage source count does not match number of outputs");
-    }
-
-    public virtual void execute()
-    {
-    }
-
-    public override void doStep()
-    {
-        int i;
-        for (i = 0; i != getPostCount(); i++)
-        {
-            Pin p = pins[i];
-            if (!p.output)
-                p.value = volts[i] > getThreshold();
-        }
-
-        execute();
-        for (i = 0; i != getPostCount(); i++)
-        {
-            Pin p = pins[i];
-            if (p.output)
-                sim.updateVoltageSource(0, nodes[i], p.voltSource,
-                    p.value ? highVoltage : 0);
-        }
-    }
-
-    public override void reset()
-    {
-        int i;
-        for (i = 0; i != getPostCount(); i++)
-        {
-            pins[i].value = false;
-            pins[i].curcount = 0;
-            volts[i] = 0;
-        }
-
-        lastClock = false;
-    }
-
-    public void writeOutput(int n, bool value)
-    {
-        if (!pins[n].output)
-            CirSim.console("pin " + n + " is not an output!");
-        pins[n].value = value;
-    }
-
-    public override void setCurrent(int x, double c)
-    {
-        int i;
-        for (i = 0; i != getPostCount(); i++)
-            if (pins[i].output && pins[i].voltSource == x)
-                pins[i].current = c;
-    }
-
-    public override bool getConnection(int n1, int n2)
-    {
-        return false;
-    }
-
-    public override bool hasGroundConnection(int n1)
-    {
-        return pins[n1].output;
-    }
-
-    public override double getCurrentIntoNode(int n)
-    {
-        return pins[n].current;
-    }
-
-    public override object getEditInfo(int n)
-    {
-        // if (n == 0)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Flip X", (flags & FLAG_FLIP_X) != 0);
-        //     return ei;
-        // }
-        //
-        // if (n == 1)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Flip Y", (flags & FLAG_FLIP_Y) != 0);
-        //     return ei;
-        // }
-        //
-        // if (n == 2)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Flip X/Y", (flags & FLAG_FLIP_XY) != 0);
-        //     return ei;
-        // }
-        //
-        // if (!isDigitalChip())
-        //     return getChipEditInfo(n - 3);
-        //
-        // if (n == 3)
-        //     return new EditInfo("High Logic Voltage", highVoltage);
-        //
-        // return getChipEditInfo(n - 4);
-        return null;
-    }
-
-    public override void setEditValue(int n, object ei)
-    {
-        if (!isDigitalChip())
-        {
-            if (n >= 3)
-                setChipEditValue(n - 3, ei);
-            return;
-        }
-
-        // if (n == 3)
-        //     highVoltage = ei.value;
-
-        if (n >= 4)
-            setChipEditValue(n - 4, ei);
-    }
-
-    public virtual object getChipEditInfo(int n)
-    {
-        return null;
-    }
-
-    public virtual void setChipEditValue(int n, object ei)
-    {
-    }
-
-    public static string writeBits(bool[] data)
-    {
-        StringBuilder sb = new StringBuilder();
-        int integer = 0;
-        int bitIndex = 0;
-        for (int i = 0; i < data.Length; i++)
-        {
-            if (bitIndex >= sizeof(int))
+            if (bitIndex > 0)
             {
-                //Flush completed integer
                 sb.Append(' ');
                 sb.Append(integer);
-                integer = 0;
-                bitIndex = 0;
             }
 
-            if (data[i])
-                integer |= 1 << bitIndex;
-            bitIndex++;
+            return sb.ToString();
         }
 
-        if (bitIndex > 0)
+        public static void readBits(object st, bool[] output)
         {
-            sb.Append(' ');
-            sb.Append(integer);
+            // int integer = 0;
+            // int bitIndex = Integer.MAX_VALUE;
+            // for (int i = 0; i < output.length; i++)
+            // {
+            //     if (bitIndex >= Integer.SIZE)
+            //         if (st.hasMoreTokens())
+            //         {
+            //             integer = Integer.parseInt(st.nextToken()); //Load next integer
+            //             bitIndex = 0;
+            //         }
+            //         else
+            //             break; //Data is absent
+            //
+            //     output[i] = (integer & (1 << bitIndex)) != 0;
+            //     bitIndex++;
+            // }
         }
 
-        return sb.ToString();
-    }
-
-    public static void readBits(object st, bool[] output)
-    {
-        // int integer = 0;
-        // int bitIndex = Integer.MAX_VALUE;
-        // for (int i = 0; i < output.length; i++)
-        // {
-        //     if (bitIndex >= Integer.SIZE)
-        //         if (st.hasMoreTokens())
-        //         {
-        //             integer = Integer.parseInt(st.nextToken()); //Load next integer
-        //             bitIndex = 0;
-        //         }
-        //         else
-        //             break; //Data is absent
-        //
-        //     output[i] = (integer & (1 << bitIndex)) != 0;
-        //     bitIndex++;
-        // }
-    }
-
-    public class Pin
-    {
-        public Pin(int p, int s, string t)
+        public class Pin
         {
-            pos = p;
-            side0 = side = s;
-        }
+            public Pin(int p, int s, string t)
+            {
+                pos = p;
+                side0 = side = s;
+            }
 
-        public Point post;
-        public int pos, side, side0, voltSource, bubbleX, bubbleY;
-        public bool lineOver, bubble, clock, output, value, state, selected;
-        public double curcount, current;
+            public Point post;
+            public int pos, side, side0, voltSource, bubbleX, bubbleY;
+            public bool lineOver, bubble, clock, output, value, state, selected;
+            public double curcount, current;
 
-        public void setPoint(int px)
-        {
-            post = new Point(px);
+            public void setPoint(int px)
+            {
+                post = new Point(px);
+            }
         }
     }
 }

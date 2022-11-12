@@ -19,104 +19,99 @@
 
 
 // SPST switch
-
-class SwitchElm : CircuitElm
+namespace CircuitJSharp
 {
-    bool momentary;
-
-    // position 0 == closed, position 1 == open
-   public  int position, posCount;
-
-    public SwitchElm(int xx, int yy) : base(xx, yy)
+    class SwitchElm : CircuitElm
     {
-        momentary = false;
-        position = 0;
-        posCount = 2;
-    }
+        bool momentary;
 
-    public SwitchElm(int xx, int yy, bool mm) : base(xx, yy)
-    {
-        position = (mm) ? 1 : 0;
-        momentary = mm;
-        posCount = 2;
-    }
+        // position 0 == closed, position 1 == open
+        public int position, posCount;
 
-    public SwitchElm(int xa, int ya, int xb, int yb, int f,
-        object st) : base(xa, ya, xb, yb, f)
-    {
-        // String str = st.nextToken();
-        // if (str.compareTo("true") == 0)
-        //     position = (this
-        //         is LogicInputElm)
-        //         ? 0
-        //         : 1;
-        // else if (str.compareTo("false") == 0)
-        //     position = (this
-        //         is LogicInputElm)
-        //         ? 1
-        //         : 0;
-        // else
-        //     position = new Integer(str).intValue();
-        // momentary = new Boolean(st.nextToken()).booleanValue();
-        // posCount = 2;
-    }
-
-    int getDumpType()
-    {
-        return 's';
-    }
-
-    public override void setPoints()
-    {
-        base.setPoints();
-    }
-
-    public int openhs = 16;
-
-    public override void calculateCurrent()
-    {
-        if (position == 1)
-            current = 0;
-    }
-
-    public void toggle()
-    {
-        position++;
-        if (position >= posCount)
+        public SwitchElm(int xx, int yy) : base(xx, yy)
+        {
+            momentary = false;
             position = 0;
-    }
+            posCount = 2;
+        }
 
+        public SwitchElm(int xx, int yy, bool mm) : base(xx, yy)
+        {
+            position = (mm) ? 1 : 0;
+            momentary = mm;
+            posCount = 2;
+        }
 
-    public override bool  getConnection(int n1, int n2)
-    {
-        return position == 0;
-    }
+        public SwitchElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
+        {
+            // String str = st.nextToken();
+            // if (str.compareTo("true") == 0)
+            //     position = (this
+            //         is LogicInputElm)
+            //         ? 0
+            //         : 1;
+            // else if (str.compareTo("false") == 0)
+            //     position = (this
+            //         is LogicInputElm)
+            //         ? 1
+            //         : 0;
+            // else
+            //     position = new Integer(str).intValue();
+            // momentary = new Boolean(st.nextToken()).booleanValue();
+            // posCount = 2;
+        }
 
-    public override bool isWireEquivalent()
-    {
-        return position == 0;
-    }
+        public override void setPoints()
+        {
+            base.setPoints();
+        }
 
-    public override bool isRemovableWire()
-    {
-        return position == 0;
-    }
+        public int openhs = 16;
 
-    public override object getEditInfo(int n)
-    {
-        // if (n == 0)
-        // {
-        //     EditInfo ei = new EditInfo("", 0, -1, -1);
-        //     ei.checkbox = new Checkbox("Momentary Switch", momentary);
-        //     return ei;
-        // }
+        public override void calculateCurrent()
+        {
+            if (position == 1)
+                current = 0;
+        }
 
-        return null;
-    }
+        public void toggle()
+        {
+            position++;
+            if (position >= posCount)
+                position = 0;
+        }
 
-    public override void setEditValue(int n, object ei)
-    {
-        // if (n == 0)
-        //     momentary = ei.checkbox.getState();
+        public override bool getConnection(int n1, int n2)
+        {
+            return position == 0;
+        }
+
+        public override bool isWireEquivalent()
+        {
+            return position == 0;
+        }
+
+        public override bool isRemovableWire()
+        {
+            return position == 0;
+        }
+
+        public override object getEditInfo(int n)
+        {
+            // if (n == 0)
+            // {
+            //     EditInfo ei = new EditInfo("", 0, -1, -1);
+            //     ei.checkbox = new Checkbox("Momentary Switch", momentary);
+            //     return ei;
+            // }
+
+            return null;
+        }
+
+        public override void setEditValue(int n, object ei)
+        {
+            // if (n == 0)
+            //     momentary = ei.checkbox.getState();
+        }
     }
 }

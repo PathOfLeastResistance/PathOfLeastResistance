@@ -17,8 +17,11 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-public class CircuitNodeLink
+namespace CircuitJSharp
 {
-    public int num;
-    public CircuitElm elm;
+    public class CircuitNodeLink
+    {
+        public int num;
+        public CircuitElm elm;
+    }
 }

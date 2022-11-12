@@ -17,110 +17,112 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-class GroundElm : CircuitElm
+namespace CircuitJSharp
 {
-    public static int lastSymbolType = 0;
-
-    // this is needed for old subcircuits which have GroundElm dumped
-    static int FLAG_OLD_STYLE = 1;
-
-    public GroundElm(int xx, int yy) : base(xx, yy)
+    class GroundElm : CircuitElm
     {
-    }
+        public static int lastSymbolType = 0;
 
-    public GroundElm(int xa, int ya, int xb, int yb, int f,
-        object st) : base(xa, ya, xb, yb, f)
-    {
-    }
+        // this is needed for old subcircuits which have GroundElm dumped
+        static int FLAG_OLD_STYLE = 1;
 
-    public override int getPostCount()
-    {
-        return 1;
-    }
-   
-    public void setOldStyle()
-    {
-        flags |= FLAG_OLD_STYLE;
-    }
+        public GroundElm(int xx, int yy) : base(xx, yy)
+        {
+        }
 
-    bool isOldStyle()
-    {
-        return (flags & FLAG_OLD_STYLE) != 0;
-    }
+        public GroundElm(int xa, int ya, int xb, int yb, int f,
+            object st) : base(xa, ya, xb, yb, f)
+        {
+        }
+
+        public override int getPostCount()
+        {
+            return 1;
+        }
+
+        public void setOldStyle()
+        {
+            flags |= FLAG_OLD_STYLE;
+        }
+
+        bool isOldStyle()
+        {
+            return (flags & FLAG_OLD_STYLE) != 0;
+        }
 
 
-    public override void stamp()
-    {
-        if (isOldStyle())
-            sim.stampVoltageSource(0, nodes[0], voltSource, 0);
-    }
+        public override void stamp()
+        {
+            if (isOldStyle())
+                sim.stampVoltageSource(0, nodes[0], voltSource, 0);
+        }
 
-    public override void setCurrent(int x, double c)
-    {
-        current = isOldStyle() ? -c : c;
-    }
+        public override void setCurrent(int x, double c)
+        {
+            current = isOldStyle() ? -c : c;
+        }
 
-    public override bool isWireEquivalent()
-    {
-        return true;
-    }
+        public override bool isWireEquivalent()
+        {
+            return true;
+        }
 
-    public override bool isRemovableWire()
-    {
-        return true;
-    }
+        public override bool isRemovableWire()
+        {
+            return true;
+        }
 
-    static Point firstGround;
+        static Point firstGround;
 
-    public static void resetNodeList()
-    {
-        firstGround = null;
-    }
+        public static void resetNodeList()
+        {
+            firstGround = null;
+        }
 
-    public override Point getConnectedPost()
-    {
-        if (firstGround != null)
-            return firstGround;
-        firstGround = points[0];
-        return null;
-    }
+        public override Point getConnectedPost()
+        {
+            if (firstGround != null)
+                return firstGround;
+            firstGround = points[0];
+            return null;
+        }
 
-    public override double getVoltageDiff()
-    {
-        return 0;
-    }
+        public override double getVoltageDiff()
+        {
+            return 0;
+        }
 
-    public override bool hasGroundConnection(int n1)
-    {
-        return true;
-    }
+        public override bool hasGroundConnection(int n1)
+        {
+            return true;
+        }
 
-    public override object getEditInfo(int n)
-    {
-        // if (n == 0)
-        // {
-        //     EditInfo ei = new EditInfo("Symbol", 0);
-        //     ei.choice = new Choice();
-        //     ei.choice.add("Earth");
-        //     ei.choice.add("Chassis");
-        //     ei.choice.add("Signal");
-        //     ei.choice.add("Common");
-        //     ei.choice.select(symbolType);
-        //     return ei;
-        // }
+        public override object getEditInfo(int n)
+        {
+            // if (n == 0)
+            // {
+            //     EditInfo ei = new EditInfo("Symbol", 0);
+            //     ei.choice = new Choice();
+            //     ei.choice.add("Earth");
+            //     ei.choice.add("Chassis");
+            //     ei.choice.add("Signal");
+            //     ei.choice.add("Common");
+            //     ei.choice.select(symbolType);
+            //     return ei;
+            // }
 
-        return null;
-    }
+            return null;
+        }
 
-    public override void setEditValue(int n, object ei)
-    {
-        // if (n == 0)
-        //     lastSymbolType = symbolType = ei.choice.getSelectedIndex();
-    }
+        public override void setEditValue(int n, object ei)
+        {
+            // if (n == 0)
+            //     lastSymbolType = symbolType = ei.choice.getSelectedIndex();
+        }
 
-    public override double getCurrentIntoNode(int n)
-    {
-        return -current;
+        public override double getCurrentIntoNode(int n)
+        {
+            return -current;
+        }
     }
 }
