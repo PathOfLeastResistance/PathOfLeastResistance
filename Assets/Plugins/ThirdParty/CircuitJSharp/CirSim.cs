@@ -121,7 +121,7 @@ namespace CircuitJSharp
             // setSimRunning(running);
             setSimRunning(true);
 
-            maxTimeStep = 5e-6;
+            maxTimeStep = 5e-5;
             minTimeStep = 50e-12;
         }
 
