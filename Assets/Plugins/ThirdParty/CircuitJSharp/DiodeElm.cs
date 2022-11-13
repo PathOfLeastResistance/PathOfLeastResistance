@@ -25,50 +25,23 @@ namespace CircuitJSharp
 {
     public class DiodeElm : CircuitElm
     {
-        Diode diode;
-        const int FLAG_FWDROP = 1;
-        const int FLAG_MODEL = 2;
-        string modelName;
-        DiodeModel model;
-        static string lastModelName = "default";
-        bool hasResistance;
-        int diodeEndNode;
-
+        private const int hs = 8;
+        private const int FLAG_FWDROP = 1;
+        private const int FLAG_MODEL = 2;
+        
+        private Diode diode;
+        private string modelName;
+        private DiodeModel model;
+        private static string lastModelName = "default";
+        private bool hasResistance;
+        private int diodeEndNode;
+        private Point[] cathode;
+        private List<DiodeModel> models;
+        
         public DiodeElm(int xx, int yy) : base(xx, yy)
         {
             modelName = lastModelName;
             diode = new Diode(sim);
-            setup();
-        }
-
-        public DiodeElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-            double defaultdrop = .805904783;
-            diode = new Diode(sim);
-            double fwdrop = defaultdrop;
-            double zvoltage = 0;
-            if ((f & FLAG_MODEL) != 0)
-            {
-                // modelName = CustomLogicModel.unescape(st.nextToken());
-            }
-            else
-            {
-                if ((f & FLAG_FWDROP) > 0)
-                {
-                    try
-                    {
-                        // fwdrop = new Double(st.nextToken()).doubleValue();
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                model = DiodeModel.getModelWithParameters(fwdrop, zvoltage);
-                modelName = model.name;
-//	    CirSim.console("model name wparams = " + modelName);
-            }
-
             setup();
         }
 
@@ -77,9 +50,9 @@ namespace CircuitJSharp
             return true;
         }
 
-        void setup()
+        private void setup()
         {
-//	CirSim.console("setting up for model " + modelName + " " + model);
+            //	CirSim.console("setting up for model " + modelName + " " + model);
             model = DiodeModel.getModelWithNameOrCopy(modelName, model);
             modelName = model.name; // in case we couldn't find that model
             diode.setup(model);
@@ -96,14 +69,6 @@ namespace CircuitJSharp
         public override void updateModels()
         {
             setup();
-        }
-
-        const int hs = 8;
-        Point[] cathode;
-
-        public override void setPoints()
-        {
-            base.setPoints();
         }
 
         public override void reset()
@@ -138,53 +103,6 @@ namespace CircuitJSharp
             current = diode.calculateCurrent(volts[0] - volts[diodeEndNode]);
         }
 
-        List<DiodeModel> models;
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("Model", 0, -1, -1);
-            //     models = DiodeModel.getModelList(this instanceof ZenerElm);
-            //     ei.choice = new Choice();
-            //     int i;
-            //     for (i = 0; i != models.size(); i++)
-            //     {
-            //         DiodeModel dm = models.get(i);
-            //         ei.choice.add(dm.getDescription());
-            //         if (dm == model)
-            //             ei.choice.select(i);
-            //     }
-            //
-            //     return ei;
-            // }
-            //
-            // if (n == 1)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.button = new Button(Locale.LS("Create New Simple Model"));
-            //     return ei;
-            // }
-            //
-            // if (n == 2)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.button = new Button(Locale.LS("Create New Advanced Model"));
-            //     return ei;
-            // }
-            //
-            // if (n == 3)
-            // {
-            //     if (model.readOnly)
-            //         return null;
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.button = new Button(Locale.LS("Edit Model"));
-            //     return ei;
-            // }
-
-            return null;
-        }
-
         public void newModelCreated(DiodeModel dm)
         {
             model = dm;
@@ -192,51 +110,7 @@ namespace CircuitJSharp
             setup();
         }
 
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            // {
-            //     model = models.get(ei.choice.getSelectedIndex());
-            //     modelName = model.name;
-            //     setup();
-            //     ei.newDialog = true;
-            //     return;
-            // }
-            //
-            // if (n == 1 || n == 2)
-            // {
-            //     DiodeModel newModel = new DiodeModel(model);
-            //     newModel.setSimple(n == 1);
-            //     if (newModel.isSimple())
-            //         newModel.setForwardVoltage();
-            //     EditDialog editDialog = new EditDiodeModelDialog(newModel, sim, this);
-            //     CirSim.diodeModelEditDialog = editDialog;
-            //     editDialog.show();
-            //     return;
-            // }
-            //
-            // if (n == 3)
-            // {
-            //     if (model.readOnly)
-            //     {
-            //         // probably never reached
-            //         Window.alert(Locale.LS("This model cannot be modified.  Change the model name to allow customization."));
-            //         return;
-            //     }
-            //
-            //     if (model.isSimple())
-            //         model.setForwardVoltage();
-            //     EditDialog editDialog = new EditDiodeModelDialog(model, sim, null);
-            //     CirSim.diodeModelEditDialog = editDialog;
-            //     editDialog.show();
-            //     return;
-            // }
-        }
-
-        void setLastModelName(String n)
-        {
-            lastModelName = n;
-        }
+        private void setLastModelName(String n) => lastModelName = n;
 
         public override void stepFinished()
         {

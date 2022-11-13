@@ -29,24 +29,6 @@ namespace CircuitJSharp
             currentValue = .01;
         }
 
-        public CurrentElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-            //
-            // try
-            // {
-            //     currentValue = new Double(st.nextToken()).doubleValue();
-            // }
-            // catch (Exception e)
-            // {
-            //     currentValue = .01;
-            // }
-        }
-
-        public override void setPoints()
-        {
-            base.setPoints();
-        }
-
         // analyzeCircuit determines if current source has a path or if it's broken
         public void setBroken(bool b)
         {
@@ -68,18 +50,6 @@ namespace CircuitJSharp
                 sim.stampCurrentSource(nodes[0], nodes[1], currentValue);
                 current = currentValue;
             }
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            //     return new EditInfo("Current (A)", currentValue, 0, .1);
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // currentValue = ei.value;
         }
 
         public override double getVoltageDiff()

@@ -42,30 +42,6 @@ namespace CircuitJSharp
             posCount = 2;
         }
 
-        public SwitchElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-            // String str = st.nextToken();
-            // if (str.compareTo("true") == 0)
-            //     position = (this
-            //         is LogicInputElm)
-            //         ? 0
-            //         : 1;
-            // else if (str.compareTo("false") == 0)
-            //     position = (this
-            //         is LogicInputElm)
-            //         ? 1
-            //         : 0;
-            // else
-            //     position = new Integer(str).intValue();
-            // momentary = new Boolean(st.nextToken()).booleanValue();
-            // posCount = 2;
-        }
-
-        public override void setPoints()
-        {
-            base.setPoints();
-        }
-
         public int openhs = 16;
 
         public override void calculateCurrent()
@@ -94,24 +70,6 @@ namespace CircuitJSharp
         public override bool isRemovableWire()
         {
             return position == 0;
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Momentary Switch", momentary);
-            //     return ei;
-            // }
-
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            //     momentary = ei.checkbox.getState();
         }
     }
 }

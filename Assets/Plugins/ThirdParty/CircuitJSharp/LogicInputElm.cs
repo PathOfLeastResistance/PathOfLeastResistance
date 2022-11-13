@@ -31,27 +31,6 @@ namespace CircuitJSharp
             loV = 0;
         }
 
-        public LogicInputElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f, st)
-        {
-            hiV = 5;
-            loV = 0;
-            if (isTernary())
-                posCount = 3;
-            // try
-            // {
-            //     hiV = new Double(st.nextToken()).doubleValue();
-            //     loV = new Double(st.nextToken()).doubleValue();
-            // }
-            // catch (Exception e)
-            // {
-            //     hiV = 5;
-            //     loV = 0;
-            // }
-            //
-            // if (isTernary())
-            //     posCount = 3;
-        }
-
         bool isTernary()
         {
             return (flags & FLAG_TERNARY) != 0;
@@ -118,62 +97,6 @@ namespace CircuitJSharp
         public override bool hasGroundConnection(int n1)
         {
             return true;
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, 0, 0);
-            //     ei.checkbox = new Checkbox("Momentary Switch", momentary);
-            //     return ei;
-            // }
-            //
-            // if (n == 1)
-            //     return new EditInfo("High Logic Voltage", hiV, 10, -10);
-            // if (n == 2)
-            //     return new EditInfo("Low Voltage", loV, 10, -10);
-            // if (n == 3)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, 0, 0);
-            //     ei.checkbox = new Checkbox("Numeric", isNumeric());
-            //     return ei;
-            // }
-            //
-            // if (n == 4)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, 0, 0);
-            //     ei.checkbox = new Checkbox("Ternary", isTernary());
-            //     return ei;
-            // }
-            //
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            //     momentary = ei.checkbox.getState();
-            // if (n == 1)
-            //     hiV = ei.value;
-            // if (n == 2)
-            //     loV = ei.value;
-            // if (n == 3)
-            // {
-            //     if (ei.checkbox.getState())
-            //         flags |= FLAG_NUMERIC;
-            //     else
-            //         flags &= ~FLAG_NUMERIC;
-            // }
-            //
-            // if (n == 4)
-            // {
-            //     if (ei.checkbox.getState())
-            //         flags |= FLAG_TERNARY;
-            //     else
-            //         flags &= ~FLAG_TERNARY;
-            //     posCount = (isTernary()) ? 3 : 2;
-            // }
         }
 
         public override double getCurrentIntoNode(int n)

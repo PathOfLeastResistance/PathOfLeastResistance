@@ -55,20 +55,11 @@ namespace CircuitJSharp
             flags = FLAG_SHOW_VALUES;
         }
 
-        public override int getPostCount()
-        {
-            return 3;
-        }
+        public override int getPostCount() => 3;
 
         public override Point getPost(int n)
         {
             return (n == 0) ? points[0] : (n == 1) ? points[1] : points[2];
-        }
-
-        public void execute()
-        {
-            sim.analyzeFlag = true;
-            setPoints();
         }
 
         public override void reset()
@@ -101,43 +92,6 @@ namespace CircuitJSharp
             resistance2 = maxResistance * (1 - position);
             sim.stampResistor(nodes[0], nodes[2], resistance1);
             sim.stampResistor(nodes[2], nodes[1], resistance2);
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // // ohmString doesn't work here on linux
-            // if (n == 0)
-            //     return new EditInfo("Resistance (ohms)", maxResistance, 0, 0);
-            // if (n == 1)
-            // {
-            //     EditInfo ei = new EditInfo("Slider Text", 0, -1, -1);
-            //     ei.text = sliderText;
-            //     return ei;
-            // }
-            //
-            // if (n == 2)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Show Values", (flags & FLAG_SHOW_VALUES) != 0);
-            //     return ei;
-            // }
-
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            //     maxResistance = ei.value;
-            // if (n == 1)
-            // {
-            //     sliderText = ei.textf.getText();
-            //     label.setText(sliderText);
-            //     sim.setiFrameHeight();
-            // }
-            //
-            // if (n == 2)
-            //     flags = ei.changeFlag(flags, FLAG_SHOW_VALUES);
         }
     }
 }

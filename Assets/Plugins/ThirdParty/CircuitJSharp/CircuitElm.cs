@@ -25,33 +25,25 @@ namespace CircuitJSharp
 // circuit element class
     public class CircuitElm
     {
-        public static CirSim sim;
         public const double pi = 3.14159265358979323846;
-
-        public int flags;
-        public int[] nodes;
-        public int voltSource;
-
-        public double dn;
-
+        
         public Point[] points = new Point [2];
 
-        // voltages at each node
-        public double[] volts;
+        protected static CirSim sim;
+        protected int flags;
+        protected int[] nodes;
+        protected int voltSource;
 
-        public double current, curcount;
+        // voltages at each node
+        protected double[] volts;
+        protected double current;
+        protected double curcount;
 
         public bool hasWireInfo; // used in calcWireInfo()
 
-        int getDefaultFlags()
-        {
-            return 0;
-        }
+        int getDefaultFlags() => 0;
 
-        bool hasFlag(int f)
-        {
-            return (flags & f) != 0;
-        }
+        bool hasFlag(int f) =>  (flags & f) != 0;
 
         public static void initClass(CirSim s)
         {
@@ -69,15 +61,8 @@ namespace CircuitJSharp
             allocNodes();
         }
 
-        // create element between xa,ya and xb,yb from undump
-        public CircuitElm(int xa, int ya, int xb, int yb, int f)
-        {
-            flags = f;
-            allocNodes();
-        }
-
         // allocate nodes/volts arrays we need
-        public void allocNodes()
+        protected void allocNodes()
         {
             int n = getPostCount() + getInternalNodeCount();
             // preserve voltages if possible
@@ -91,8 +76,7 @@ namespace CircuitJSharp
         // handle reset button
         public virtual void reset()
         {
-            int i;
-            for (i = 0; i != getPostCount() + getInternalNodeCount(); i++)
+            for (int i = 0; i != getPostCount() + getInternalNodeCount(); i++)
                 volts[i] = 0;
             curcount = 0;
         }
@@ -146,83 +130,37 @@ namespace CircuitJSharp
         {
         }
 
-        // calculate post locations and other convenience values used for drawing.  Called when element is moved 
-        public virtual void setPoints()
-        {
-            // points[0] = new Point(x, y);
-            // points[1] = new Point(x2, y2);
-        }
-
-        Point[] newPointArray(int n)
-        {
-            Point[] a = new Point[n];
-            while (n > 0)
-                a[--n] = new Point();
-            return a;
-        }
-
         // number of voltage sources this element needs 
-        public virtual int getVoltageSourceCount()
-        {
-            return 0;
-        }
+        public virtual int getVoltageSourceCount() => 0;
 
         // number of internal nodes (nodes not visible in UI that are needed for implementation)
-        public virtual int getInternalNodeCount()
-        {
-            return 0;
-        }
+        public virtual int getInternalNodeCount() => 0;
 
         // notify this element that its pth node is n.  This value n can be passed to stampMatrix()
-        public void setNode(int p, int n)
-        {
-            nodes[p] = n;
-        }
+        public void setNode(int p, int n) => nodes[p] = n;
 
         // notify this element that its nth voltage source is v.  This value v can be passed to stampVoltageSource(), etc and will be passed back in calls to setCurrent()
-        public virtual void setVoltageSource(int n, int v)
-        {
-            // default implementation only makes sense for subclasses with one voltage source.  If we have 0 this isn't used, if we have >1 this won't work 
-            voltSource = v;
-        }
+        // default implementation only makes sense for subclasses with one voltage source.  If we have 0 this isn't used, if we have >1 this won't work 
+        public virtual void setVoltageSource(int n, int v) => voltSource = v;
 
-        public virtual double getVoltageDiff()
-        {
-            return volts[0] - volts[1];
-        }
+        public virtual double getVoltageDiff() => volts[0] - volts[1];
 
-        public virtual bool nonLinear()
-        {
-            return false;
-        }
+        public virtual bool nonLinear() => false;
 
-        public virtual int getPostCount()
-        {
-            return 2;
-        }
+        public virtual int getPostCount() => 2;
 
         // get (global) node number of nth node
-        public int getNode(int n)
-        {
-            return nodes[n];
-        }
+        public int getNode(int n) => nodes[n];
 
         // get position of nth node
-        public virtual Point getPost(int n)
-        {
-            return points[n];
-        }
+        public virtual Point getPost(int n) => points[n];
 
         // return post we're connected to (for wires, so we can optimize them out in calculateWireClosure())
-        public virtual Point getConnectedPost()
-        {
-            return points[1];
-        }
+        public virtual Point getConnectedPost() => points[1];
 
         public int getNodeAtPoint(int xp)
         {
-            int i;
-            for (i = 0; i != getPostCount(); i++)
+            for (int i = 0; i != getPostCount(); i++)
             {
                 Point p = getPost(i);
                 if (p.x == xp)
@@ -232,104 +170,49 @@ namespace CircuitJSharp
             return 0;
         }
 
-        public virtual double getPower()
-        {
-            return getVoltageDiff() * current;
-        }
-
-        public virtual object getEditInfo(int n)
-        {
-            return null;
-        }
-
-        public virtual void setEditValue(int n, object ei)
-        {
-        }
+        public virtual double getPower() => getVoltageDiff() * current;
 
         // get number of nodes that can be retrieved by getConnectionNode()
-        public int getConnectionNodeCount()
-        {
-            return getPostCount();
-        }
+        public int getConnectionNodeCount() => getPostCount();
 
         // get nodes that can be passed to getConnection(), to test if this element connects
         // those two nodes; this is the same as getNode() for all but labeled nodes.
-        public int getConnectionNode(int n)
-        {
-            return getNode(n);
-        }
+        public int getConnectionNode(int n) => getNode(n);
 
         // are n1 and n2 connected by this element?  this is used to determine
         // unconnected nodes, and look for loops
-        public virtual bool getConnection(int n1, int n2)
-        {
-            return true;
-        }
+        public virtual bool getConnection(int n1, int n2) => true;
 
         // is n1 connected to ground somehow?
-        public virtual bool hasGroundConnection(int n1)
-        {
-            return false;
-        }
+        public virtual bool hasGroundConnection(int n1) => false;
 
         // is this a wire or equivalent to a wire?  (used for circuit validation)
-        public virtual bool isWireEquivalent()
-        {
-            return false;
-        }
+        public virtual bool isWireEquivalent() => false;
 
         // is this a wire we can remove?
-        public virtual bool isRemovableWire()
-        {
-            return false;
-        }
+        public virtual bool isRemovableWire() => false;
 
-        public bool comparePair(int x1, int x2, int y1, int y2)
+        protected Point[] newPointArray(int n)
         {
-            return ((x1 == y1 && x2 == y2) || (x1 == y2 && x2 == y1));
+            var a = new Point[n];
+            while (n > 0)
+                a[--n] = new Point();
+            return a;
         }
-
-        static int abs(int x)
-        {
-            return x < 0 ? -x : x;
-        }
-
-        static int sign(int x)
-        {
-            return (x < 0) ? -1 : (x == 0) ? 0 : 1;
-        }
-
-        static int min(int a, int b)
-        {
-            return (a < b) ? a : b;
-        }
-
-        static int max(int a, int b)
-        {
-            return (a > b) ? a : b;
-        }
-
-        string dumpModel()
-        {
-            return null;
-        }
-
-        public virtual void updateModels()
-        {
-        }
-
+        
+        public bool comparePair(int x1, int x2, int y1, int y2) => (x1 == y1 && x2 == y2) || (x1 == y2 && x2 == y1);
+        
         public virtual void stepFinished()
         {
         }
 
         // get current flowing into node n out of this element
-        public virtual double getCurrentIntoNode(int n)
+        // if we take out the getPostCount() == 2 it gives the wrong value for rails
+        public virtual double getCurrentIntoNode(int n) =>  (n == 0 && getPostCount() == 2) ? -current : current;
+
+
+        public virtual void updateModels()
         {
-            // if we take out the getPostCount() == 2 it gives the wrong value for rails
-            if (n == 0 && getPostCount() == 2)
-                return -current;
-            else
-                return current;
         }
     }
 }

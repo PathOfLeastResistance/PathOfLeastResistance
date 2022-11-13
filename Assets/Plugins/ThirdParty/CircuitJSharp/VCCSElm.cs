@@ -50,20 +50,12 @@ namespace CircuitJSharp
 
     class VCCSElm : ChipElm
     {
-        double gain;
-        int inputCount;
-        Expr expr;
-        ExprState exprState;
-        string exprString;
+        private double gain;
+        private int inputCount;
+        private Expr expr;
+        private ExprState exprState;
+        private string exprString;
         public bool broken;
-
-        public VCCSElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f, st)
-        {
-            inputCount = 2; // Integer.parseInt(st.nextToken());
-            exprString = ".1*(a-b)"; // CustomLogicModel.unescape(st.nextToken());
-            parseExpr();
-            setupPins();
-        }
 
         public VCCSElm(int xx, int yy) : base(xx, yy)
         {
@@ -92,15 +84,9 @@ namespace CircuitJSharp
             return "VCCS~";
         } // ~ is for localization 
 
-        public override bool nonLinear()
-        {
-            return true;
-        }
+        public override bool nonLinear() => true;
 
-        public override bool isDigitalChip()
-        {
-            return false;
-        }
+        protected override bool isDigitalChip() => false;
 
         public override void stamp()
         {
@@ -123,15 +109,9 @@ namespace CircuitJSharp
             return .1;
         }
 
-        public bool hasCurrentOutput()
-        {
-            return true;
-        }
+        public bool hasCurrentOutput() => true;
 
-        public int getOutputNode(int n)
-        {
-            return nodes[n + inputCount];
-        }
+        public int getOutputNode(int n) => nodes[inputCount + n];
 
         public override void doStep()
         {
@@ -200,35 +180,18 @@ namespace CircuitJSharp
                 lastVolts[i] = volts[i];
         }
 
-        public override void stepFinished()
-        {
-            exprState.updateLastValues(pins[inputCount].current);
-        }
+        public override void stepFinished() => exprState.updateLastValues(pins[inputCount].current);
 
-        public override int getPostCount()
-        {
-            return inputCount + 2;
-        }
+        public override int getPostCount() => inputCount + 2;
 
-        public override int getVoltageSourceCount()
-        {
-            return 0;
-        }
-
-        int getDumpType()
-        {
-            return 213;
-        }
+        public override int getVoltageSourceCount() => 0;
 
         public override bool getConnection(int n1, int n2)
         {
             return comparePair(inputCount, inputCount + 1, n1, n2);
         }
 
-        public override bool hasGroundConnection(int n1)
-        {
-            return false;
-        }
+        public override bool hasGroundConnection(int n1) => false;
 
         public override object getChipEditInfo(int n)
         {
@@ -279,7 +242,6 @@ namespace CircuitJSharp
             //    if (err != null)
             // Window.alert(Locale.LS("Parse error in expression") + ": " + exprString + ": " + err);
         }
-
 
         public override void reset()
         {

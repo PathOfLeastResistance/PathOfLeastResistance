@@ -28,16 +28,6 @@ namespace CircuitJSharp
             resistance = 1000;
         }
 
-        public ResistorElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-            // resistance = new Double(st.nextToken()).doubleValue();
-        }
-
-        // public override void setPoints()
-        // {
-        //     base.setPoints();
-        // }
-
         public override void calculateCurrent()
         {
             current = (volts[0] - volts[1]) / resistance;
@@ -47,29 +37,6 @@ namespace CircuitJSharp
         public override void stamp()
         {
             sim.stampResistor(nodes[0], nodes[1], resistance);
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // // ohmString doesn't work here on linux
-            // if (n == 0)
-            //     return new EditInfo("Resistance (ohms)", resistance, 0, 0);
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // resistance = (ei.value <= 0) ? 1e-9 : ei.value;
-        }
-
-        public double getResistance()
-        {
-            return resistance;
-        }
-
-        public void setResistance(double r)
-        {
-            resistance = r;
         }
     }
 }

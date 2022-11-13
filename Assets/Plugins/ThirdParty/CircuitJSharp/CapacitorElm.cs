@@ -21,9 +21,11 @@ namespace CircuitJSharp
 {
     class CapacitorElm : CircuitElm
     {
-        double capacitance;
-        double compResistance, voltdiff;
-        double initialVoltage;
+        private double capacitance;
+        private double compResistance, voltdiff;
+        private double initialVoltage;
+        private double curSourceValue;
+
         public static int FLAG_BACK_EULER = 2;
 
         public CapacitorElm(int xx, int yy) : base(xx, yy)
@@ -32,25 +34,7 @@ namespace CircuitJSharp
             initialVoltage = 1e-3;
         }
 
-        public CapacitorElm(int xa, int ya, int xb, int yb, int f,
-            object st) : base(xa, ya, xb, yb, f)
-        {
-            // capacitance = new Double(st.nextToken()).doubleValue();
-            // voltdiff = new Double(st.nextToken()).doubleValue();
-            // initialVoltage = 1e-3;
-            // try
-            // {
-            //     initialVoltage = new Double(st.nextToken()).doubleValue();
-            // }
-            // catch (Exception e)
-            // {
-            // }
-        }
-
-        bool isTrapezoidal()
-        {
-            return (flags & FLAG_BACK_EULER) == 0;
-        }
+        protected virtual bool isTrapezoidal()  => (flags & FLAG_BACK_EULER) == 0;
 
         public override void reset()
         {
@@ -114,10 +98,10 @@ namespace CircuitJSharp
 
         public override void calculateCurrent()
         {
-            double voltdiff = volts[0] - volts[1];
+            double vDiff = volts[0] - volts[1];
             if (sim.dcAnalysisFlag)
             {
-                current = voltdiff / 1e8;
+                current = vDiff / 1e8;
                 return;
             }
 
@@ -125,59 +109,14 @@ namespace CircuitJSharp
             // before stamp(), which sets compResistance, causing
             // infinite current
             if (compResistance > 0)
-                current = voltdiff / compResistance + curSourceValue;
+                current = vDiff / compResistance + curSourceValue;
         }
-
-        double curSourceValue;
 
         public override void doStep()
         {
             if (sim.dcAnalysisFlag)
                 return;
             sim.stampCurrentSource(nodes[0], nodes[1], curSourceValue);
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            //     return new EditInfo("Capacitance (F)", capacitance, 1e-6, 1e-3);
-            // if (n == 1)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Trapezoidal Approximation", isTrapezoidal());
-            //     return ei;
-            // }
-            //
-            // if (n == 2)
-            //     return new EditInfo("Initial Voltage (on Reset)", initialVoltage);
-            // if you add more things here, check PolarCapacitorElm
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            //     capacitance = (ei.value > 0) ? ei.value : 1e-12;
-            // if (n == 1)
-            // {
-            //     if (ei.checkbox.getState())
-            //         flags &= ~FLAG_BACK_EULER;
-            //     else
-            //         flags |= FLAG_BACK_EULER;
-            // }
-            //
-            // if (n == 2)
-            //     initialVoltage = ei.value;
-        }
-
-        public double getCapacitance()
-        {
-            return capacitance;
-        }
-
-        public void setCapacitance(double c)
-        {
-            capacitance = c;
         }
     }
 }

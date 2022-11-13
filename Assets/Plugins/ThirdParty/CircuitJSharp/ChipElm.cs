@@ -25,10 +25,9 @@ namespace CircuitJSharp
 {
     abstract class ChipElm : CircuitElm
     {
-        int bits;
-        double highVoltage;
-
-        static int FLAG_CUSTOM_VOLTAGE = 1 << 13;
+        protected int bits;
+        protected double highVoltage;
+        protected static int FLAG_CUSTOM_VOLTAGE = 1 << 13;
 
         public ChipElm(int xx, int yy) : base(xx, yy)
         {
@@ -38,69 +37,34 @@ namespace CircuitJSharp
             setupPins();
         }
 
-        public ChipElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-            // 
-            // if (needsBits())
-            //     if (st.hasMoreTokens())
-            //         bits = new Integer(st.nextToken()).intValue();
-            //     else
-            //         bits = defaultBitCount();
-            // highVoltage = (hasCustomVoltage()) ? Double.parseDouble(st.nextToken()) : 5;
-            // setupPins();
-            // setSize((f & FLAG_SMALL) != 0 ? 1 : 2);
-            // int i;
-            // for (i = 0; i != getPostCount(); i++)
-            // {
-            //     if (pins == null)
-            //         volts[i] = new Double(st.nextToken()).doubleValue();
-            //     else if (pins[i].state)
-            //     {
-            //         volts[i] = new Double(st.nextToken()).doubleValue();
-            //         pins[i].value = volts[i] > getThreshold();
-            //     }
-            // }
-        }
+        protected virtual bool needsBits() => false;
 
-        bool needsBits()
-        {
-            return false;
-        }
+        protected virtual bool hasCustomVoltage() => (flags & FLAG_CUSTOM_VOLTAGE) != 0;
 
-        bool hasCustomVoltage()
-        {
-            return (flags & FLAG_CUSTOM_VOLTAGE) != 0;
-        }
-
-        public virtual bool isDigitalChip()
-        {
-            return true;
-        }
+        protected virtual bool isDigitalChip() => true;
 
         double getThreshold()
         {
             return highVoltage / 2;
         }
 
-        int defaultBitCount()
-        {
-            return 4;
-        }
+        int defaultBitCount() => 4;
 
         public abstract void setupPins();
 
         public Pin[] pins;
         public bool lastClock;
 
-        public override void setPoints()
-        {
-            for (int i = 0; i != getPostCount(); i++)
-            {
-                Pin p = pins[i];
-                //TODO: Set pin point
-                p.setPoint(i);
-            }
-        }
+        //TODO: think about pin initialization. 
+        // public override void setPoints()
+        // {
+        //     for (int i = 0; i != getPostCount(); i++)
+        //     {
+        //         Pin p = pins[i];
+        //         //TODO: Set pin point
+        //         p.setPoint(i);
+        //     }
+        // }
 
         public override Point getPost(int n)
         {
@@ -111,8 +75,7 @@ namespace CircuitJSharp
 
         public override void setVoltageSource(int j, int vs)
         {
-            int i;
-            for (i = 0; i != getPostCount(); i++)
+            for (int i = 0; i != getPostCount(); i++)
             {
                 Pin p = pins[i];
                 if (p.output && j-- == 0)
@@ -127,9 +90,8 @@ namespace CircuitJSharp
 
         public override void stamp()
         {
-            int i;
             int vsc = 0;
-            for (i = 0; i != getPostCount(); i++)
+            for (int i = 0; i != getPostCount(); i++)
             {
                 Pin p = pins[i];
                 if (p.output)
@@ -210,63 +172,9 @@ namespace CircuitJSharp
             return pins[n].current;
         }
 
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Flip X", (flags & FLAG_FLIP_X) != 0);
-            //     return ei;
-            // }
-            //
-            // if (n == 1)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Flip Y", (flags & FLAG_FLIP_Y) != 0);
-            //     return ei;
-            // }
-            //
-            // if (n == 2)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Flip X/Y", (flags & FLAG_FLIP_XY) != 0);
-            //     return ei;
-            // }
-            //
-            // if (!isDigitalChip())
-            //     return getChipEditInfo(n - 3);
-            //
-            // if (n == 3)
-            //     return new EditInfo("High Logic Voltage", highVoltage);
-            //
-            // return getChipEditInfo(n - 4);
-            return null;
-        }
+        public abstract object getChipEditInfo(int n);
 
-        public override void setEditValue(int n, object ei)
-        {
-            if (!isDigitalChip())
-            {
-                if (n >= 3)
-                    setChipEditValue(n - 3, ei);
-                return;
-            }
-
-            // if (n == 3)
-            //     highVoltage = ei.value;
-
-            if (n >= 4)
-                setChipEditValue(n - 4, ei);
-        }
-
-        public virtual object getChipEditInfo(int n)
-        {
-            return null;
-        }
-
-        public virtual void setChipEditValue(int n, object ei)
-        {
-        }
+        public abstract void setChipEditValue(int n, object ei);
 
         public static string writeBits(bool[] data)
         {
@@ -296,26 +204,6 @@ namespace CircuitJSharp
             }
 
             return sb.ToString();
-        }
-
-        public static void readBits(object st, bool[] output)
-        {
-            // int integer = 0;
-            // int bitIndex = Integer.MAX_VALUE;
-            // for (int i = 0; i < output.length; i++)
-            // {
-            //     if (bitIndex >= Integer.SIZE)
-            //         if (st.hasMoreTokens())
-            //         {
-            //             integer = Integer.parseInt(st.nextToken()); //Load next integer
-            //             bitIndex = 0;
-            //         }
-            //         else
-            //             break; //Data is absent
-            //
-            //     output[i] = (integer & (1 << bitIndex)) != 0;
-            //     bitIndex++;
-            // }
         }
 
         public class Pin

@@ -30,11 +30,6 @@ namespace CircuitJSharp
         {
         }
 
-        public GroundElm(int xa, int ya, int xb, int yb, int f,
-            object st) : base(xa, ya, xb, yb, f)
-        {
-        }
-
         public override int getPostCount()
         {
             return 1;
@@ -95,29 +90,6 @@ namespace CircuitJSharp
         public override bool hasGroundConnection(int n1)
         {
             return true;
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("Symbol", 0);
-            //     ei.choice = new Choice();
-            //     ei.choice.add("Earth");
-            //     ei.choice.add("Chassis");
-            //     ei.choice.add("Signal");
-            //     ei.choice.add("Common");
-            //     ei.choice.select(symbolType);
-            //     return ei;
-            // }
-
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            //     lastSymbolType = symbolType = ei.choice.getSelectedIndex();
         }
 
         public override double getCurrentIntoNode(int n)

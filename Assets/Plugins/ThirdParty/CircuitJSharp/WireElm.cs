@@ -25,82 +25,22 @@ namespace CircuitJSharp
         {
         }
 
-        public WireElm(int xa, int ya, int xb, int yb, int f, object st) : base(xa, ya, xb, yb, f)
-        {
-        }
-
         public override void stamp()
         {
         }
 
-        public bool mustShowCurrent()
-        {
-            // return 
-            return false;
-        }
+        //This may be changed if we want to show data from wire TODO: Make this a setting
+        public bool mustShowCurrent() => false;
 
-        public bool mustShowVoltage()
-        {
-            // return (flags & FLAG_SHOWVOLTAGE) != 0;
-            return false;
-        }
+        // return (flags & FLAG_SHOWVOLTAGE) != 0;
+        public bool mustShowVoltage() => false;
 
-        public override double getPower()
-        {
-            return 0;
-        }
+        public override double getPower() => 0;
 
-        public override double getVoltageDiff()
-        {
-            return volts[0];
-        }
+        public override double getVoltageDiff() =>  volts[0];
 
-        public override bool isWireEquivalent()
-        {
-            return true;
-        }
+        public override bool isWireEquivalent() => true;
 
-        public override bool isRemovableWire()
-        {
-            return true;
-        }
-
-        public override object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Show Current", mustShowCurrent());
-            //     return ei;
-            // }
-            //
-            // if (n == 1)
-            // {
-            //     EditInfo ei = new EditInfo("", 0, -1, -1);
-            //     ei.checkbox = new Checkbox("Show Voltage", mustShowVoltage());
-            //     return ei;
-            // }
-
-            return null;
-        }
-
-        public override void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            // {
-            //     if (ei.checkbox.getState())
-            //         flags |= FLAG_SHOWCURRENT;
-            //     else
-            //         flags &= ~FLAG_SHOWCURRENT;
-            // }
-            //
-            // if (n == 1)
-            // {
-            //     if (ei.checkbox.getState())
-            //         flags |= FLAG_SHOWVOLTAGE;
-            //     else
-            //         flags &= ~FLAG_SHOWVOLTAGE;
-            // }
-        }
+        public override bool isRemovableWire() => true;
     }
 }
