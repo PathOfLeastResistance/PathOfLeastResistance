@@ -271,10 +271,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ResetPids: 0
-  Kp: 0
-  Ki: 0
-  Kd: 0
-  N: 0
+  Kp: 20
+  Ki: 1
+  Kd: 1
+  N: 1
 --- !u!114 &5634673920208122419
 MonoBehaviour:
   m_ObjectHideFlags: 0
