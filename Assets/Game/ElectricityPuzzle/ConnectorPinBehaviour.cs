@@ -10,9 +10,9 @@ using Zenject;
 public class ConnectorPinBehaviour : MonoBehaviour
 {
     [Inject] private UniqueIdProvider mIdProvider;
-
+    [SerializeField] private Transform m_pinConnectionTransform;
+    
     private uint m_id;
-
     private InteractionObject m_interactionObject;
     private Func<int> mPostGetter;
 
@@ -20,8 +20,25 @@ public class ConnectorPinBehaviour : MonoBehaviour
     private event Action<ConnectorPinBehaviour, Vector3> PinDragEvent;
     private event Action<ConnectorPinBehaviour, Vector3> PinDragEndEvent;
 
-    private bool m_isInited = false;
+    private event Action<Vector3> PinPositionChangeEvent;
 
+    private bool m_isInited = false;
+    
+    public uint Id => m_id;
+
+    public bool HasId => m_id != 0;
+
+    public int Post => mPostGetter();
+    
+    public Vector3 ConnectionPoint => m_pinConnectionTransform.position;
+
+    public IDisposable SubscribePinPosition(Action<Vector3> pinPositionHandler)
+    {
+        pinPositionHandler?.Invoke(ConnectionPoint);
+        PinPositionChangeEvent += pinPositionHandler;
+        return new DisposableAction(() => PinPositionChangeEvent -= pinPositionHandler);
+    }
+    
     public IDisposable SubscribePinDrag(Action<ConnectorPinBehaviour, Vector3> dragStart, Action<ConnectorPinBehaviour, Vector3> drag, Action<ConnectorPinBehaviour, Vector3> dragEnd)
     {
         PinDragStartEvent += dragStart;
@@ -34,12 +51,6 @@ public class ConnectorPinBehaviour : MonoBehaviour
             PinDragEndEvent -= dragEnd;
         });
     }
-
-    public uint Id => m_id;
-
-    public bool HasId => m_id != 0;
-
-    public int GetPost() => mPostGetter();
 
     public void Init(Func<int> postGetter, ulong id = 0)
     {
@@ -59,4 +70,15 @@ public class ConnectorPinBehaviour : MonoBehaviour
     private void OnDrag(object sender, PointerDragInteractionEventArgs args) => PinDragEvent?.Invoke(this, args.PointerPosition);
 
     private void OnDragEnd(object sender, PointerDragInteractionEventArgs args) => PinDragEndEvent?.Invoke(this, args.PointerPrevPosition);
+
+    private Vector3 m_lastPos;
+    
+    private void Update()
+    {
+        if (!m_lastPos.Equals(ConnectionPoint))
+        {
+            m_lastPos = ConnectionPoint;
+            PinPositionChangeEvent?.Invoke(ConnectionPoint);
+        }
+    }
 }

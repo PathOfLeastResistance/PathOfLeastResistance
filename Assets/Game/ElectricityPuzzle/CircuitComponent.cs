@@ -35,7 +35,7 @@ public class CircuitComponent : MonoBehaviour
         RegisterPins();
     }
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }

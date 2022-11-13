@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityTools;
 
@@ -20,8 +21,24 @@ namespace Game
                 result = hit.point;
                 return true;
             }
+
             result = Vector3.zero;
-            return  false;
+            return false;
+        }
+
+        public bool TryGetComponentUnderPosition<T>(Vector3 point, out T result) where T : Component
+        {
+            var ray = m_camera.ScreenPointToRay(point);
+            var hits = Physics.RaycastAll(ray);
+            Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+            for (int i = hits.Length; i < hits.Length; i++)
+            {
+                if (hits[i].collider.TryGetComponent<T>(out result))
+                    return true;
+            }
+
+            result = null;
+            return false;
         }
 
         /// <summary>
