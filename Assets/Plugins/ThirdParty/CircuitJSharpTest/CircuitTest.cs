@@ -86,7 +86,7 @@ public class CircuitTest : MonoBehaviour
         //Refresh screen
         var startFrom = _queue.Peek().Time;
         _canvasTexture.ClearWithColor(Color.white);
-        _canvasTexture.DrawPolyLine(_queue.Select(x => new float2(x.Time - startFrom, 0.5f + x.Voltage / 10f)).ToList(), 0.05f, Color.red);
+        _canvasTexture.DrawPolyLine(_queue.Select(x => new float2(x.Time - startFrom, 0.5f + x.Voltage / 10f)).ToList(), 0.025f, Color.red);
         _canvasTexture.Flush();
     }
 }

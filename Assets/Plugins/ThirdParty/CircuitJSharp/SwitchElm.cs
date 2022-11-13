@@ -27,21 +27,12 @@ namespace CircuitJSharp
 
         // position 0 == closed, position 1 == open
         protected int position;
-        protected bool momentary;
-        
         private int posCount;
 
         public SwitchElm(int xx, int yy) : base(xx, yy)
         {
-            momentary = false;
-            position = 0;
+            position = 1;
             posCount = 2;
-        }
-
-        public override void calculateCurrent()
-        {
-            if (position == 1)
-                current = 0;
         }
 
         public void toggle()
@@ -51,20 +42,17 @@ namespace CircuitJSharp
                 position = 0;
             sim.needAnalyze();
         }
-
-        public override bool getConnection(int n1, int n2)
+        
+        public override void calculateCurrent()
         {
-            return position == 0;
+            if (position == 1)
+                current = 0;
         }
 
-        public override bool isWireEquivalent()
-        {
-            return position == 0;
-        }
+        public override bool getConnection(int n1, int n2) => position == 0;
 
-        public override bool isRemovableWire()
-        {
-            return position == 0;
-        }
+        public override bool isWireEquivalent() => position == 0;
+
+        public override bool isRemovableWire() => position == 0;
     }
 }
