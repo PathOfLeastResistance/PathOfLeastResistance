@@ -1,0 +1,18 @@
+{
+    "name": "CircuitJSharpTest",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a51089cfb94f54b34a8ed3f87bb805de",
+        "GUID:ff8e1dee04c4b45c2a09b31c6281cc13",
+        "GUID:d8b63aba1907145bea998dd612889d6b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
