@@ -2,26 +2,18 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityTools;
-
-public class UniqueIdProvider
-{
-    private uint mIdCounter = 0;
-
-    public uint GetId()
-    {
-        return ++mIdCounter;
-    }
-}
+using Zenject;
 
 /// <summary>
 /// The pin behaviour, user can drag and drop this pin to connect to other pins
 /// </summary>
 public class ConnectorPinBehaviour : MonoBehaviour
 {
+    [Inject] private UniqueIdProvider mIdProvider;
+
     private uint m_id;
 
     private InteractionObject m_interactionObject;
-    private UniqueIdProvider mIdProvider;
     private Func<int> mPostGetter;
 
     private event Action<ConnectorPinBehaviour, Vector3> PinDragStartEvent;
@@ -54,7 +46,6 @@ public class ConnectorPinBehaviour : MonoBehaviour
         if (m_isInited)
             return;
 
-        m_interactionObject = GetComponent<InteractionObject>();
         if (id == 0)
             m_id = mIdProvider.GetId();
 
