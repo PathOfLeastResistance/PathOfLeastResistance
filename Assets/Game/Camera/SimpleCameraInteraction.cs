@@ -22,6 +22,9 @@ namespace Game
         
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private CinemachineTransposer m_Transposer;
+        private Vector3 m_TargetDragStartPoint;
+        private Vector3 m_TotalDelta;
+        private float m_WheelSensitive = 0.01f;
         
         public float Distance
         {
@@ -42,15 +45,13 @@ namespace Game
         private void Awake()
         {
             InputManager.Instance.RegisterCamera(m_camera);
+            GameExtraInput.Instance.OnWheelEvent += OnWheel;
             m_Transposer = m_virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
             m_InteractionObject.SubscribePointerDragEvent(OnPointerDragStart, OnPointerDrag, OnPointerDragEnd);
 
             TargetPosition = Vector3.zero;
             Distance = 1;
         }
-
-        private Vector3 m_TargetDragStartPoint;
-        private Vector3 m_TotalDelta;
         
         private void OnPointerDragStart(object sender, PointerDragInteractionEventArgs args)
         {
@@ -60,6 +61,11 @@ namespace Game
                 m_TargetDragStartPoint = TargetPosition;
                 m_TotalDelta = Vector3.zero;
             }
+        }
+
+        private void OnWheel(float delta)
+        {
+            Distance += delta * m_WheelSensitive;
         }
         
         private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
