@@ -33,7 +33,7 @@ namespace CircuitJSharp
         WF_VAR = 7,
     }
 
-    public class VoltageElm : CircuitElm
+    public class VoltageElm : TwoNodeElm
     {
         public static int FLAG_COS = 2;
         public static int FLAG_PULSE_DUTY = 4;

@@ -19,7 +19,7 @@
 
 namespace CircuitJSharp
 {
-    class GroundElm : CircuitElm
+    class GroundElm : TwoNodeElm
     {
         public static int lastSymbolType = 0;
 

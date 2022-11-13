@@ -23,13 +23,13 @@ using System.Text;
 
 namespace CircuitJSharp
 {
-    abstract class ChipElm : CircuitElm
+    abstract class ChipElm : MultipleNodeElm
     {
         protected int bits;
         protected double highVoltage;
         protected static int FLAG_CUSTOM_VOLTAGE = 1 << 13;
 
-        public ChipElm(int xx, int yy) : base(xx, yy)
+        public ChipElm(int[] points) : base(points)
         {
             if (needsBits())
                 bits = defaultBitCount();

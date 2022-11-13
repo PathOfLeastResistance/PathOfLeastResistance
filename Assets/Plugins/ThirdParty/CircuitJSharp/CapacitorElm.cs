@@ -19,7 +19,7 @@
 
 namespace CircuitJSharp
 {
-    class CapacitorElm : CircuitElm
+    class CapacitorElm : TwoNodeElm
     {
         private double capacitance;
         private double compResistance, voltdiff;

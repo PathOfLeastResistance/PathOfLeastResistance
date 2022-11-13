@@ -19,24 +19,18 @@
 
 namespace CircuitJSharp
 {
-    public class ResistorElm : CircuitElm
+    public class ResistorElm : TwoNodeElm
     {
         double resistance;
 
-        public ResistorElm(int x1, int x2) : base(x1, x2)
+        public ResistorElm(int x0, int x1, float res = 1000f) : base(x0, x1)
         {
-            resistance = 1000;
+            resistance = res;
         }
 
-        public override void calculateCurrent()
-        {
-            current = (volts[0] - volts[1]) / resistance;
-            //System.out.print(this + " res current set to " + current + "\n");
-        }
+        //System.out.print(this + " res current set to " + current + "\n");
+        public override void calculateCurrent() => current = (volts[0] - volts[1]) / resistance;
 
-        public override void stamp()
-        {
-            sim.stampResistor(nodes[0], nodes[1], resistance);
-        }
+        public override void stamp() => sim.stampResistor(nodes[0], nodes[1], resistance);
     }
 }

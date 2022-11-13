@@ -21,7 +21,7 @@ using System;
 
 namespace CircuitJSharp
 {
-    public class InductorElm : CircuitElm
+    public class InductorElm : TwoNodeElm
     {
         Inductor ind;
         double inductance;

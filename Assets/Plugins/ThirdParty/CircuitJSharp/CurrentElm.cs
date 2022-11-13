@@ -19,7 +19,7 @@
 
 namespace CircuitJSharp
 {
-    class CurrentElm : CircuitElm
+    class CurrentElm : TwoNodeElm
     {
         double currentValue;
         bool broken;

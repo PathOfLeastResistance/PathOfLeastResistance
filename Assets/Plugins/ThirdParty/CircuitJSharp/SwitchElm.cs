@@ -21,12 +21,15 @@
 // SPST switch
 namespace CircuitJSharp
 {
-    class SwitchElm : CircuitElm
+    public class SwitchElm : TwoNodeElm
     {
-        bool momentary;
+        public int openhs = 16;
 
         // position 0 == closed, position 1 == open
-        public int position, posCount;
+        protected int position;
+        protected bool momentary;
+        
+        private int posCount;
 
         public SwitchElm(int xx, int yy) : base(xx, yy)
         {
@@ -34,15 +37,6 @@ namespace CircuitJSharp
             position = 0;
             posCount = 2;
         }
-
-        public SwitchElm(int xx, int yy, bool mm) : base(xx, yy)
-        {
-            position = (mm) ? 1 : 0;
-            momentary = mm;
-            posCount = 2;
-        }
-
-        public int openhs = 16;
 
         public override void calculateCurrent()
         {
@@ -55,6 +49,7 @@ namespace CircuitJSharp
             position++;
             if (position >= posCount)
                 position = 0;
+            sim.needAnalyze();
         }
 
         public override bool getConnection(int n1, int n2)

@@ -22,12 +22,37 @@ using System.Collections.Generic;
 
 namespace CircuitJSharp
 {
+    public abstract class TwoNodeElm : CircuitElm
+    {
+        protected TwoNodeElm(int x0, int x1)
+        {
+            points = new Point[2];
+            points[0] = new Point(x0);
+            points[1] = new Point(x1);
+        }
+    }
+
+    public abstract class MultipleNodeElm : CircuitElm
+    {
+        protected MultipleNodeElm(int[] pointConnections)
+        {
+            if (pointConnections.Length != getPostCount())
+                throw new Exception("Incorrect node count");
+            for(int i =0; i< pointConnections.Length; i++)
+            {
+                points[i] = new Point(pointConnections[i]);
+            }
+        }
+
+        public override abstract int getPostCount();
+    }
+
 // circuit element class
     public class CircuitElm
     {
         public const double pi = 3.14159265358979323846;
-        
-        public Point[] points = new Point [2];
+
+        public Point[] points;
 
         protected static CirSim sim;
         protected int flags;
@@ -41,25 +66,21 @@ namespace CircuitJSharp
 
         public bool hasWireInfo; // used in calcWireInfo()
 
-        int getDefaultFlags() => 0;
-
-        bool hasFlag(int f) =>  (flags & f) != 0;
-
         public static void initClass(CirSim s)
         {
             sim = s;
         }
 
-        // create new element with one post at xx,yy, to be dragged out by user
-        public CircuitElm(int xx1, int xx2)
+        // create new element
+        public CircuitElm()
         {
-            points = newPointArray(2);
-            points[0] = new Point(xx1);
-            points[1] = new Point(xx2);
-
             flags = getDefaultFlags();
             allocNodes();
         }
+
+        int getDefaultFlags() => 0;
+
+        bool hasFlag(int f) => (flags & f) != 0;
 
         // allocate nodes/volts arrays we need
         protected void allocNodes()
@@ -192,23 +213,15 @@ namespace CircuitJSharp
         // is this a wire we can remove?
         public virtual bool isRemovableWire() => false;
 
-        protected Point[] newPointArray(int n)
-        {
-            var a = new Point[n];
-            while (n > 0)
-                a[--n] = new Point();
-            return a;
-        }
-        
         public bool comparePair(int x1, int x2, int y1, int y2) => (x1 == y1 && x2 == y2) || (x1 == y2 && x2 == y1);
-        
+
         public virtual void stepFinished()
         {
         }
 
         // get current flowing into node n out of this element
         // if we take out the getPostCount() == 2 it gives the wrong value for rails
-        public virtual double getCurrentIntoNode(int n) =>  (n == 0 && getPostCount() == 2) ? -current : current;
+        public virtual double getCurrentIntoNode(int n) => (n == 0 && getPostCount() == 2) ? -current : current;
 
 
         public virtual void updateModels()

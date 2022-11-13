@@ -41,11 +41,12 @@ public class CircuitTest : MonoBehaviour
         _cirSim.init();
 
         //Create diode rectifier
-        _resistor = new ResistorElm(1, 3);
+        _resistor = new ResistorElm(1, 3, 500f);
         _voltage = new VoltageElm(0, 2, WaveForm.WF_AC);
         _cirSim.AddElement(_resistor);
         _cirSim.AddElement(_voltage);
 
+        //Diode full rectifier
         _diodes = new DiodeElm[4];
         _diodes[0] = new DiodeElm(0, 1);
         _diodes[1] = new DiodeElm(2, 1);
@@ -72,7 +73,6 @@ public class CircuitTest : MonoBehaviour
             _queue.Enqueue(point);
             if (_queue.Count > 100)
                 _queue.Dequeue();
-
         }
     }
     

@@ -227,23 +227,7 @@ namespace CircuitJSharp
             // callUpdateHook();
         }
 
-        //    public void toggleSwitch(int n) {
-//	int i;
-//	for (i = 0; i != elmList.size(); i++) {
-//	    CircuitElm ce = getElm(i);
-//	    if (ce instanceof SwitchElm) {
-//		n--;
-//		if (n == 0) {
-//		    ((SwitchElm) ce).toggle();
-//		    analyzeFlag = true;
-//		    cv.repaint();
-//		    return;
-//		}
-//	    }
-//	}
-//    }
-
-        void needAnalyze()
+        public void needAnalyze()
         {
             analyzeFlag = true;
         }

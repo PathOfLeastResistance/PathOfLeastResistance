@@ -57,7 +57,7 @@ namespace CircuitJSharp
         private string exprString;
         public bool broken;
 
-        public VCCSElm(int xx, int yy) : base(xx, yy)
+        public VCCSElm(int[] points) : base(points)
         {
             inputCount = 2;
             exprString = ".1*(a-b)";

@@ -19,19 +19,19 @@
 
 namespace CircuitJSharp
 {
-    class LogicInputElm : SwitchElm
+    public class LogicInputElm : SwitchElm
     {
         static int FLAG_TERNARY = 1;
         static int FLAG_NUMERIC = 2;
         double hiV, loV;
 
-        public LogicInputElm(int xx, int yy) : base(xx, yy, false)
+        public LogicInputElm(int xx, int yy) : base(xx, yy)
         {
             hiV = 5;
             loV = 0;
         }
 
-        bool isTernary()
+        private bool isTernary()
         {
             return (flags & FLAG_TERNARY) != 0;
         }
@@ -41,40 +41,19 @@ namespace CircuitJSharp
             return (flags & (FLAG_TERNARY | FLAG_NUMERIC)) != 0;
         }
 
-        public override int getPostCount()
-        {
-            return 1;
-        }
+        public override int getPostCount() => 1;
 
-        // public override void setPoints()
-        // {
-        //     base.setPoints();
-        // }
-
-
-        public override void setCurrent(int vs, double c)
-        {
-            current = c;
-        }
+        public override void setCurrent(int vs, double c) => current = c;
 
         public override void calculateCurrent()
         {
         }
 
-        public override void stamp()
-        {
-            sim.stampVoltageSource(0, nodes[0], voltSource);
-        }
+        public override void stamp() => sim.stampVoltageSource(0, nodes[0], voltSource);
 
-        public override bool isWireEquivalent()
-        {
-            return false;
-        }
+        public override bool isWireEquivalent() => false;
 
-        public override bool isRemovableWire()
-        {
-            return false;
-        }
+        public override bool isRemovableWire() => false;
 
         public override void doStep()
         {
@@ -84,24 +63,12 @@ namespace CircuitJSharp
             sim.updateVoltageSource(0, nodes[0], voltSource, v);
         }
 
-        public override int getVoltageSourceCount()
-        {
-            return 1;
-        }
+        public override int getVoltageSourceCount() => 1;
 
-        public override double getVoltageDiff()
-        {
-            return volts[0];
-        }
+        public override double getVoltageDiff() =>  volts[0];
 
-        public override bool hasGroundConnection(int n1)
-        {
-            return true;
-        }
+        public override bool hasGroundConnection(int n1) => true;
 
-        public override double getCurrentIntoNode(int n)
-        {
-            return current;
-        }
+        public override double getCurrentIntoNode(int n) => current;
     }
 }

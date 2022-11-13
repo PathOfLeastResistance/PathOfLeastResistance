@@ -17,38 +17,38 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 using System;
 using System.Collections.Generic;
 
 namespace CircuitJSharp
 {
-    public class DiodeElm : CircuitElm
+    public class DiodeElm : TwoNodeElm
     {
         private const int hs = 8;
         private const int FLAG_FWDROP = 1;
         private const int FLAG_MODEL = 2;
-        
+
         private Diode diode;
         private string modelName;
         private DiodeModel model;
-        private static string lastModelName = "default";
+        private static string lastModelName = "spice-default";
         private bool hasResistance;
         private int diodeEndNode;
         private Point[] cathode;
         private List<DiodeModel> models;
-        
-        public DiodeElm(int xx, int yy) : base(xx, yy)
+
+        public DiodeElm(int xx, int yy) : this(xx, yy, lastModelName)
         {
-            modelName = lastModelName;
+        }
+
+        public DiodeElm(int xx, int yy, string diodeModel) : base(xx, yy)
+        {
+            modelName = diodeModel;
             diode = new Diode(sim);
             setup();
         }
 
-        public override bool nonLinear()
-        {
-            return true;
-        }
+        public override bool nonLinear() => true;
 
         private void setup()
         {
@@ -61,15 +61,9 @@ namespace CircuitJSharp
             allocNodes();
         }
 
-        public override int getInternalNodeCount()
-        {
-            return hasResistance ? 1 : 0;
-        }
+        public override int getInternalNodeCount() => hasResistance ? 1 : 0;
 
-        public override void updateModels()
-        {
-            setup();
-        }
+        public override void updateModels() => setup();
 
         public override void reset()
         {
@@ -93,15 +87,9 @@ namespace CircuitJSharp
                 diode.stamp(nodes[0], nodes[1]);
         }
 
-        public override void doStep()
-        {
-            diode.doStep(volts[0] - volts[diodeEndNode]);
-        }
+        public override void doStep() => diode.doStep(volts[0] - volts[diodeEndNode]);
 
-        public override void calculateCurrent()
-        {
-            current = diode.calculateCurrent(volts[0] - volts[diodeEndNode]);
-        }
+        public override void calculateCurrent() => current = diode.calculateCurrent(volts[0] - volts[diodeEndNode]);
 
         public void newModelCreated(DiodeModel dm)
         {

@@ -116,7 +116,7 @@ namespace CircuitJSharp
             dm.name = name;
         }
 
-        DiodeModel setInternal()
+        public DiodeModel setInternal()
         {
             internaL = true;
             return this;
@@ -147,13 +147,13 @@ namespace CircuitJSharp
             if (zvoltage != 0)
                 name = name + " zvoltage=" + zvoltage;
             DiodeModel dm = getModelWithName(name);
-//	CirSim.console("got model with name " + name);
+        //	CirSim.console("got model with name " + name);
             dm.saturationCurrent = leakage;
             dm.emissionCoefficient = emcoef;
             dm.breakdownVoltage = zvoltage;
             dm.readOnly = dm.oldStyle = true;
-//	CirSim.console("at drop current is " + (leakage*(Math.exp(fwdrop*vdcoef)-1)));
-//	CirSim.console("sat " + leakage + " em " + emcoef);
+        //	CirSim.console("at drop current is " + (leakage*(Math.exp(fwdrop*vdcoef)-1)));
+        //	CirSim.console("sat " + leakage + " em " + emcoef);
             dm.updateModel();
             return dm;
         }
@@ -162,25 +162,6 @@ namespace CircuitJSharp
         {
             return getModelWithName("default");
         }
-
-        // static void loadInternalModel(String s)
-        // {
-        //     StringTokenizer st = new StringTokenizer(s);
-        //     DiodeModel dm = undumpModel(st);
-        //     dm.builtIn = dm.internaL = true;
-        // }
-
-        // static void clearDumpedFlags()
-        // {
-        //     if (modelMap == null)
-        //         return;
-        //     Iterator it = modelMap.entrySet().iterator();
-        //     while (it.hasNext())
-        //     {
-        //         Map.Entry<String, DiodeModel> pair = (Map.Entry)it.next();
-        //         pair.getValue().dumped = false;
-        //     }
-        // }
 
         static List<DiodeModel> getModelList(bool zener)
         {
@@ -202,15 +183,8 @@ namespace CircuitJSharp
 
         public int CompareTo(DiodeModel dm)
         {
-            return name.CompareTo(dm.name);
+            return String.Compare(name, dm.name, StringComparison.Ordinal);
         }
-
-        // String getDescription()
-        // {
-        //     if (description == null)
-        //         return name;
-        //     return name + " (" + Locale.LS(description) + ")";
-        // }
 
         DiodeModel()
         {
@@ -232,98 +206,8 @@ namespace CircuitJSharp
             updateModel();
         }
 
-        // static DiodeModel undumpModel(StringTokenizer st)
-        // {
-        //     String name = CustomLogicModel.unescape(st.nextToken());
-        //     DiodeModel dm = DiodeModel.getModelWithName(name);
-        //     dm.undump(st);
-        //     return dm;
-        // }
-        //
-        // void undump(StringTokenizer st)
-        // {
-        //     flags = new Integer(st.nextToken()).intValue();
-        //     saturationCurrent = Double.parseDouble(st.nextToken());
-        //     seriesResistance = Double.parseDouble(st.nextToken());
-        //     emissionCoefficient = Double.parseDouble(st.nextToken());
-        //     breakdownVoltage = Double.parseDouble(st.nextToken());
-        //     try
-        //     {
-        //         forwardCurrent = Double.parseDouble(st.nextToken());
-        //     }
-        //     catch (Exception e)
-        //     {
-        //     }
-        //
-        //     updateModel();
-        // }
-
-        public object getEditInfo(int n)
-        {
-            // if (n == 0)
-            // {
-            //     EditInfo ei = new EditInfo("Model Name", 0);
-            //     ei.text = name == null ? "" : name;
-            //     return ei;
-            // }
-            //
-            // if (n == 1)
-            //     return new EditInfo("Saturation Current", saturationCurrent, -1, -1);
-            // if (isSimple())
-            // {
-            //     if (n == 2)
-            //         return new EditInfo("Forward Voltage", forwardVoltage, -1, -1);
-            //     if (n == 3)
-            //         return new EditInfo("Current At Above Voltage (A)", forwardCurrent, -1, -1);
-            // }
-            // else
-            // {
-            //     if (n == 2)
-            //         return new EditInfo("Series Resistance", seriesResistance, -1, -1);
-            //     if (n == 3)
-            //         return new EditInfo(EditInfo.makeLink("diodecalc.html", "Emission Coefficient"), emissionCoefficient, -1, -1);
-            // }
-            //
-            // if (n == 4)
-            //     return new EditInfo("Breakdown Voltage", breakdownVoltage, -1, -1);
-            return null;
-        }
-
-        public void setEditValue(int n, object ei)
-        {
-            // if (n == 0)
-            // {
-            //     name = ei.textf.getText();
-            //     if (name.length() > 0)
-            //         modelMap.put(name, this);
-            // }
-            //
-            // if (n == 1)
-            //     saturationCurrent = ei.value;
-            // if (isSimple())
-            // {
-            //     if (n == 2)
-            //         forwardVoltage = ei.value;
-            //     if (n == 3)
-            //         forwardCurrent = ei.value;
-            //     setEmissionCoefficient();
-            // }
-            // else
-            // {
-            //     if (n == 2)
-            //         seriesResistance = ei.value;
-            //     if (n == 3)
-            //         emissionCoefficient = ei.value;
-            // }
-            //
-            // if (n == 4)
-            //     breakdownVoltage = Math.Abs(ei.value);
-            // updateModel();
-            // CirSim.theSim.updateModels();
-        }
-
 // set emission coefficient for simple mode if we have enough data  
-        void setEmissionCoefficient()
+        private void setEmissionCoefficient()
         {
             if (forwardCurrent > 0 && forwardVoltage > 0)
                 emissionCoefficient = (forwardVoltage / Math.Log(forwardCurrent / saturationCurrent + 1)) / vt;
@@ -331,7 +215,7 @@ namespace CircuitJSharp
             seriesResistance = 0;
         }
 
-        public void setForwardVoltage()
+        private void setForwardVoltage()
         {
             if (forwardCurrent == 0)
                 forwardCurrent = 1;
@@ -345,43 +229,14 @@ namespace CircuitJSharp
             fwdrop = Math.Log(1 / saturationCurrent + 1) * emissionCoefficient * vt;
         }
 
-        // String dump()
-        // {
-        //     dumped = true;
-        //     return "34 " + CustomLogicModel.escape(name) + " " + flags + " " + saturationCurrent + " " + seriesResistance + " " + emissionCoefficient + " " + breakdownVoltage + " " + forwardCurrent;
-        // }
-
-        bool isSimple()
+        private bool isSimple()
         {
             return (flags & FLAGS_SIMPLE) != 0;
         }
 
-        void setSimple(bool s)
+        private void setSimple(bool s)
         {
             flags = (s) ? FLAGS_SIMPLE : 0;
         }
-
-        // void pickName()
-        // {
-        //     if (breakdownVoltage > 0 && breakdownVoltage < 20)
-        //         name = "zener-" + CircuitElm.showFormat.format(breakdownVoltage);
-        //     else if (isSimple())
-        //         name = "fwdrop=" + CircuitElm.showFormat.format(forwardVoltage);
-        //     else
-        //         name = "diodemodel";
-        //     if (modelMap.get(name) != null)
-        //     {
-        //         int num = 2;
-        //         for (;; num++)
-        //         {
-        //             String n = name + "-" + num;
-        //             if (modelMap.get(n) == null)
-        //             {
-        //                 name = n;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

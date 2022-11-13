@@ -19,7 +19,7 @@
 
 namespace CircuitJSharp
 {
-    class WireElm : CircuitElm
+    class WireElm : TwoNodeElm
     {
         public WireElm(int xx, int yy) : base(xx, yy)
         {

@@ -17,9 +17,11 @@
     along with CircuitJS1.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System;
+
 namespace CircuitJSharp
 {
-    public class PotElm : CircuitElm
+    public class PotElm : MultipleNodeElm
     {
         private const int FLAG_SHOW_VALUES = 1;
         private double position;
@@ -29,10 +31,11 @@ namespace CircuitJSharp
 
         private double current1;
         private double current2;
+
         private double current3;
-        private double curcount1;
-        private double curcount2;
-        private double curcount3;
+        // private double curcount1;
+        // private double curcount2;
+        // private double curcount3;
 
         private Point post3;
         private Point corner2;
@@ -44,29 +47,22 @@ namespace CircuitJSharp
         private Point ps4;
         private int bodyLen;
 
-        public PotElm(int xx, int yy, int zz) : base(xx, yy)
+        public PotElm(int xx, int yy, int zz, double res = 1000f, double pos = 0.5f) : base(new[] { xx, yy, zz })
         {
-            points[0] = new Point(xx);
-            points[1] = new Point(yy);
-            points[2] = new Point(zz);
-
-            maxResistance = 1000;
-            position = .5;
+            maxResistance = res;
+            position = pos;
             flags = FLAG_SHOW_VALUES;
+        }
+
+        public double sliderPos
+        {
+            get => position;
+            set => position = Math.Clamp(value, 1e-3, 1 - 1e-3); //Do not allow zero resistance
         }
 
         public override int getPostCount() => 3;
 
-        public override Point getPost(int n)
-        {
-            return (n == 0) ? points[0] : (n == 1) ? points[1] : points[2];
-        }
-
-        public override void reset()
-        {
-            curcount1 = curcount2 = curcount3 = 0;
-            base.reset();
-        }
+        public override Point getPost(int n) => points[n];
 
         public override void calculateCurrent()
         {
