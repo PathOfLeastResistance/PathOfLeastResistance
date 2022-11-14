@@ -30,28 +30,11 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.editorcoroutines": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.film-internal-utilities": {
-      "version": "0.16.0-preview",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.uielements": "1.0.0",
-        "com.unity.timeline": "1.2.18"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
@@ -93,24 +76,6 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.meshsync": {
-      "version": "0.15.1-preview",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.film-internal-utilities": "0.16.0-preview",
-        "com.unity.editorcoroutines": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
-        "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.cloth": "1.0.0",
-        "com.unity.modules.director": "1.0.0",
-        "com.unity.modules.particlesystem": "1.0.0",
-        "com.unity.modules.screencapture": "1.0.0",
-        "com.unity.sharp-zip-lib": "1.3.2-preview",
-        "com.unity.timeline": "1.2.18"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
@@ -157,13 +122,6 @@
         "com.unity.render-pipelines.core": "14.0.3",
         "com.unity.searcher": "4.9.2"
       }
-    },
-    "com.unity.sharp-zip-lib": {
-      "version": "1.3.2-preview",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
     },
     "com.unity.sysroot": {
       "version": "2.0.3",
