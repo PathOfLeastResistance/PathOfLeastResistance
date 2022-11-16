@@ -31,10 +31,14 @@ namespace Game
             var ray = m_camera.ScreenPointToRay(point);
             var hits = Physics.RaycastAll(ray);
             Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-            for (int i = hits.Length; i < hits.Length; i++)
+            foreach (var t in hits)
             {
-                if (hits[i].collider.TryGetComponent<T>(out result))
+                var component = t.collider.GetComponentInParent<T>();
+                if (component != null)
+                {
+                    result = component;
                     return true;
+                }
             }
 
             result = null;
