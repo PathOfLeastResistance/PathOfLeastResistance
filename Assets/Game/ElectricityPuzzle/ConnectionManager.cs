@@ -12,13 +12,15 @@ public class ConnectionManager : MonoBehaviour
     [Inject] private CableBehaviour.Factory cablesFactory;
     [Inject] private CameraRaycaster m_cameraRaycaster;
 
+    [SerializeField] private Transform m_CablesPlaneTransform;
+
     private CableBehaviour m_createdCable;
 
     private Dictionary<Connection, CircuitElm> m_connections = new Dictionary<Connection, CircuitElm>();
     private Dictionary<ulong, ConnectorPinBehaviour> m_connectors = new Dictionary<ulong, ConnectorPinBehaviour>();
     private CirSim m_sim;
 
-    private Plane mPinInteractionPlane;
+    public Plane PinInteractionPlane { get; private set; }
 
     public CirSim Sim => m_sim;
 
@@ -26,6 +28,7 @@ public class ConnectionManager : MonoBehaviour
     {
         m_sim.timeDelta = Time.deltaTime;
         m_sim.updateCircuit();
+        PinInteractionPlane = new Plane(Vector3.up, m_CablesPlaneTransform.position);
     }
 
     private void Awake()
@@ -66,8 +69,7 @@ public class ConnectionManager : MonoBehaviour
 
     private void OnPinDragStart(ConnectorPinBehaviour pin, Vector3 position)
     {
-        mPinInteractionPlane = new Plane(Vector3.up, pin.ConnectionPoint);
-        m_cameraRaycaster.RaycastPointOnPlane(position, mPinInteractionPlane, out var result);
+        m_cameraRaycaster.RaycastPointOnPlane(position, PinInteractionPlane, out var result);
 
         m_createdCable = cablesFactory.Create();
         m_createdCable.CableEnding1.Pin = pin;
@@ -76,8 +78,8 @@ public class ConnectionManager : MonoBehaviour
 
     private void OnPinDrag(ConnectorPinBehaviour pin, Vector3 position)
     {
-        mPinInteractionPlane = new Plane(Vector3.up, pin.ConnectionPoint);
-        m_cameraRaycaster.RaycastPointOnPlane(position, mPinInteractionPlane, out var result);
+        PinInteractionPlane = new Plane(Vector3.up, pin.ConnectionPoint);
+        m_cameraRaycaster.RaycastPointOnPlane(position, PinInteractionPlane, out var result);
         m_createdCable.CableEnding2.Position = result;
     }
 
@@ -89,7 +91,7 @@ public class ConnectionManager : MonoBehaviour
         }
         else
         {
-            Destroy(m_createdCable.gameObject);
+            m_createdCable.Dispose();
         }
     }
 
@@ -102,25 +104,6 @@ public class ConnectionManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerable<ConnectorPinBehaviour> GetAvailablePins(ulong pinId)
     {
-        var pin = m_connectors[pinId];
         return m_connectors.Values.Where(c => c.Id != pinId && !m_connections.Keys.Any(connection => connection.Connector1Id == c.Id || connection.Connector2Id == c.Id));
-    }
-
-    public bool TryCreateConnection(ulong id1, ulong id2)
-    {
-        // var connection = new Connection(id1, id2);
-        // if (m_connections.Contains(connection))
-        // {
-        //     Debug.LogWarning($"connection exists {id1} {id2}");
-        //     return false;
-        // }
-        //
-        // m_connections.Add(connection);
-        // var cable = Instantiate(m_cableViewPrefab);
-        // var connector1 = m_connectors[id1];
-        // var connector2 = m_connectors[id2];
-        // cable.SetPins(connector1, connector2);
-        //
-        return true;
     }
 }

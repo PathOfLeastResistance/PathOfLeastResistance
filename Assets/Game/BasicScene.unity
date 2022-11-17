@@ -576,8 +576,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_cableBehaviourPrefab: {fileID: 1771377451146486733, guid: 27fa34a80b560463ca9a7ee5c4c0ea15,
     type: 3}
-  m_cableViewPrefab: {fileID: 8668042708346178387, guid: e9c4bb1815b47470aa2463ee6aa8ba37,
-    type: 3}
 --- !u!4 &1293320148
 Transform:
   m_ObjectHideFlags: 0
@@ -659,12 +657,12 @@ PrefabInstance:
     - target: {fileID: 1291665337848220125, guid: a93bc9c9a926f4a31bf0ddd2b7c6fa22,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 2.7847457e-14
+      value: -2.7847457e-14
       objectReference: {fileID: 0}
     - target: {fileID: 1291665337848220125, guid: a93bc9c9a926f4a31bf0ddd2b7c6fa22,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 2.7847469e-14
+      value: -2.7847469e-14
       objectReference: {fileID: 0}
     - target: {fileID: 5401264885066846652, guid: a93bc9c9a926f4a31bf0ddd2b7c6fa22,
         type: 3}
@@ -674,7 +672,7 @@ PrefabInstance:
     - target: {fileID: 5401264885066846652, guid: a93bc9c9a926f4a31bf0ddd2b7c6fa22,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1.6940657e-21
+      value: 1.6940657e-21
       objectReference: {fileID: 0}
     - target: {fileID: 7419595411922237881, guid: a93bc9c9a926f4a31bf0ddd2b7c6fa22,
         type: 3}

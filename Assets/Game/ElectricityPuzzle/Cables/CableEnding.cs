@@ -1,9 +1,13 @@
 using System;
+using Game;
 using UnityEngine;
 using UnityTools;
+using Zenject;
 
 public class CableEnding : MonoBehaviour
 {
+    [Inject] private CameraRaycaster m_cameraRaycaster;
+    [Inject] private ConnectionManager m_connectionManager;
     [SerializeField] private InteractionObject m_interactionObject;
 
     private ConnectorPinBehaviour m_pin;
@@ -52,7 +56,7 @@ public class CableEnding : MonoBehaviour
         m_interactionObject.SubscribePointerDragEvent(OnDragStart, OnDrag, OnDragEnd);
         m_owner = GetComponentInParent<CableBehaviour>();
     }
-    
+
     public IDisposable SubscribePin(Action<ConnectorPinBehaviour> pinChangeHandle)
     {
         pinChangeHandle?.Invoke(m_pin);
@@ -66,18 +70,30 @@ public class CableEnding : MonoBehaviour
         m_positionChangeEvent += positionChangeHandle;
         return new DisposableAction(() => m_positionChangeEvent -= positionChangeHandle);
     }
-    
+
     private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
     {
-        Pin = null;
+        Pin = null; //Disconnect element on drag start
+        if (m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_connectionManager.PinInteractionPlane, out var position))
+            Position = position;
+
+        //TODO: Notify that connection is dragged
     }
 
     private void OnDrag(object sender, PointerDragInteractionEventArgs args)
     {
+        if (m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_connectionManager.PinInteractionPlane, out var position))
+            Position = position;
+
+        //TODO: Search for pin to snap
     }
 
     private void OnDragEnd(object sender, PointerDragInteractionEventArgs args)
     {
+        //TODO: Notify that connection is dropped, create new connection
+        if (m_cameraRaycaster.TryGetComponentUnderPosition(args.PointerPosition, out ConnectorPinBehaviour pin))
+            Pin = pin;
+        
         if (Pin == null)
             m_owner.Dispose();
     }

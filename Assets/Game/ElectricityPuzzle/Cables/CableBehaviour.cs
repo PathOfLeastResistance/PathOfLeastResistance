@@ -27,13 +27,13 @@ public class CableBehaviour : DisposableMonobehaviour
     {
         base.OnAwake();
 
-        m_cableEnding1.SubscribePosition((pos) => OnPositionsChanged());
-        m_cableEnding2.SubscribePosition((pos) => OnPositionsChanged());
+        m_cableEnding1.SubscribePosition((pos) => OnPositionsChanged()).DisposeWhenNotifierDisposed(this);
+        m_cableEnding2.SubscribePosition((pos) => OnPositionsChanged()).DisposeWhenNotifierDisposed(this);
 
         m_cableEnding1.SubscribePin(OnPin1Changed);
         m_cableEnding2.SubscribePin(OnPin2Changed);
     }
-
+    
     private void OnPin1Changed(ConnectorPinBehaviour pin)
     {
         SetPins(pin, m_pin2);
