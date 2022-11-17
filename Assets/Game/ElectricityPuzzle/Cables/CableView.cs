@@ -3,8 +3,6 @@ using Zenject;
 
 public class CableView : MonoBehaviour
 {
-    public class Factory : PlaceholderFactory<CableView> { }
-    
     [SerializeField] private LineRenderer m_lineRenderer;
     [SerializeField] private Transform m_colliderRoot;
     [SerializeField] private Transform m_cableStart;

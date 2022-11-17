@@ -1,91 +1,81 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityTools;
 using Zenject;
 
-public class CableBehaviour : MonoBehaviour
+public class CableBehaviour : DisposableMonobehaviour
 {
     public class Factory : PlaceholderFactory<CableBehaviour>
     {
     }
-    
-    [Inject] private ConnectionManager m_connectionManager;
-    
-    [SerializeField] private InteractionObject m_interactionObject;
-    [SerializeField] private InteractionObject m_FromInteractionObject;
-    [SerializeField] private InteractionObject m_ToInteractionObject;
+
+    [Inject] private ConnectionManager m_connectionsManager;
+
     [SerializeField] private CableView m_cableView;
+    [SerializeField] private CableEnding m_cableEnding1;
+    [SerializeField] private CableEnding m_cableEnding2;
 
-    private Vector3 m_fromPosition;
-    private Vector3 m_ToPosition;
+    private ConnectorPinBehaviour m_pin1;
+    private ConnectorPinBehaviour m_pin2;
 
-    private IDisposable m_Pin1Subscription;
-    private IDisposable m_Pin2Subscription;
+    public CableEnding CableEnding1 => m_cableEnding1;
 
-    public Vector3 FromPosition
+    public CableEnding CableEnding2 => m_cableEnding2;
+
+    protected override void OnAwake()
     {
-        get => m_fromPosition;
-        set
+        base.OnAwake();
+
+        m_cableEnding1.SubscribePosition((pos) => OnPositionsChanged());
+        m_cableEnding2.SubscribePosition((pos) => OnPositionsChanged());
+
+        m_cableEnding1.SubscribePin(OnPin1Changed);
+        m_cableEnding2.SubscribePin(OnPin2Changed);
+    }
+
+    private void OnPin1Changed(ConnectorPinBehaviour pin)
+    {
+        SetPins(pin, m_pin2);
+    }
+
+    private void OnPin2Changed(ConnectorPinBehaviour pin)
+    {
+        SetPins(m_pin1, pin);
+    }
+
+    private void SetPins(ConnectorPinBehaviour pin1, ConnectorPinBehaviour pin2)
+    {
+        if (pin1 != null && pin2 != null)
         {
-            m_fromPosition = value;
-            OnPositionsChanged();
-        }
-    }
+            //We had the connection before. remove it (not sure we need this part)
+            if (m_pin1 != null && m_pin2 != null)
+            {
+                m_connectionsManager.Disconnect(new Connection(m_pin1.Id, m_pin2.Id));
+                Debug.Log("Disconnected");
+            }
 
-    public Vector3 ToPosition
-    {
-        get => m_ToPosition;
-        set
+            // the connection is not the same as before. add it
+            if (m_pin1 != pin1 || m_pin2 != pin2)
+            {
+                m_connectionsManager.Connect(new Connection(pin1.Id, pin2.Id));
+                Debug.Log("Connected");
+            }
+        }
+        //We lost the connection. remove it
+        else if (m_pin1 != null && m_pin2 != null)
         {
-            m_ToPosition = value;
-            OnPositionsChanged();
+            m_connectionsManager.Disconnect(new Connection(m_pin1.Id, m_pin2.Id));
+            Debug.Log("Disconnected");
         }
-    }
 
-    public void SetPins(ConnectorPinBehaviour pin1, ConnectorPinBehaviour pin2)
-    {
-        m_Pin1Subscription?.Dispose();
-        m_Pin2Subscription?.Dispose();
-
-        m_Pin1Subscription = pin1.SubscribePinPosition((pos) => FromPosition = pos);
-        m_Pin2Subscription = pin2.SubscribePinPosition((pos) => ToPosition = pos);
-    }
-
-    private void Awake()
-    {
-        m_FromInteractionObject.SubscribePointerDragEvent(OnFromDragStart, OnFromDrag, OnFromDragEnd);
-        m_ToInteractionObject.SubscribePointerDragEvent(OnToDragStart, OnToDrag, OnToDragEnd);
+        m_pin1 = pin1;
+        m_pin2 = pin2;
     }
 
     private void OnPositionsChanged()
     {
-        m_cableView.From = m_fromPosition;
-        m_cableView.To = m_ToPosition;
-    }
-
-    private void OnFromDragStart(object sender, PointerDragInteractionEventArgs args)
-    {
-    }
-
-    private void OnFromDrag(object sender, PointerDragInteractionEventArgs args)
-    {
-    }
-
-    private void OnFromDragEnd(object sender, PointerDragInteractionEventArgs args)
-    {
-    }
-
-    private void OnToDragStart(object sender, PointerDragInteractionEventArgs args)
-    {
-    }
-
-    private void OnToDrag(object sender, PointerDragInteractionEventArgs args)
-    {
-    }
-
-    private void OnToDragEnd(object sender, PointerDragInteractionEventArgs args)
-    {
+        m_cableView.From = m_cableEnding1.Position;
+        m_cableView.To = m_cableEnding2.Position;
     }
 }

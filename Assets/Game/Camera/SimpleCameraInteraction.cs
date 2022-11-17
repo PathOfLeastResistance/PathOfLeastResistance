@@ -6,11 +6,14 @@ using Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityTools;
+using Zenject;
 
 namespace Game
 {
     public class SimpleCameraInteraction : MonoBehaviour
     {
+        [Inject] private CameraRaycaster m_cameraRaycaster;
+        
         [SerializeField] private Camera m_camera;
         [SerializeField] private float m_distance = 1f;
         [SerializeField] private float2 m_MinMaxDistance = new float2(1f, 10f);
@@ -77,7 +80,7 @@ namespace Game
 
         private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
         {
-            if (CameraRaycaster.Instance.ProjectDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
+            if (m_cameraRaycaster.ProjectDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
             {
                 m_TotalDelta += detla;
                 TargetPosition = m_TargetDragStartPoint - m_TotalDelta;

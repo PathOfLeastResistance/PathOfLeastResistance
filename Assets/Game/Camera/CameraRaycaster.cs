@@ -4,7 +4,7 @@ using UnityTools;
 
 namespace Game
 {
-    public class CameraRaycaster : SingletonMonobehaviour<CameraRaycaster>
+    public class CameraRaycaster : MonoBehaviour
     {
         private Camera m_camera;
 

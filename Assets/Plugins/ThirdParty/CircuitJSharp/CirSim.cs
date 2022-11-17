@@ -131,6 +131,12 @@ namespace CircuitJSharp
             needAnalyze();
         }
 
+        public void RemoveElement(CircuitElm elm)
+        {
+            elmList.Remove(elm);
+            needAnalyze();
+        }
+
         private long lastTime = 0, lastFrameTime, lastIterTime;
         public long secTime = 0;
         int frames = 0;

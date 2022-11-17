@@ -5,6 +5,7 @@ using PID_Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityTools;
+using Zenject;
 
 namespace Game
 {
@@ -16,6 +17,8 @@ namespace Game
     {
         private InteractionObject m_interactionObject;
         private Rigidbody m_rigidbody;
+
+        [Inject] private CameraRaycaster m_cameraRaycaster;
 
         // Object positioning
         [SerializeField] private bool m_ResetPids = false;
@@ -44,7 +47,7 @@ namespace Game
         private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
         {
             m_rigidbody.isKinematic = false;
-            CameraRaycaster.Instance.RaycastScreenToPhysics(args.PointerPrevPosition, out var worldTouchPoint);
+            m_cameraRaycaster.RaycastScreenToPhysics(args.PointerPrevPosition, out var worldTouchPoint);
             m_CurrentWorldTouchPoint = worldTouchPoint;
             m_LocalInitialTouchPoint = m_rigidbody.transform.InverseTransformPoint(worldTouchPoint);
             m_InteractionPlane = new Plane(Vector3.up, worldTouchPoint);
@@ -55,7 +58,7 @@ namespace Game
 
         private void OnDrag(object sender, PointerDragInteractionEventArgs args)
         {
-            CameraRaycaster.Instance.RaycastPointOnPlane(args.PointerPosition, m_InteractionPlane, out var targetTouchPoint);
+            m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_InteractionPlane, out var targetTouchPoint);
             m_CurrentWorldTouchPoint = targetTouchPoint;
         }
 
