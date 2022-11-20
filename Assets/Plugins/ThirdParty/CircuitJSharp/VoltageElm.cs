@@ -53,7 +53,7 @@ namespace CircuitJSharp
         {
             waveform = wf;
             maxVoltage = 5;
-            frequency = 5;
+            frequency = 40;
             dutyCycle = .5;
             reset();
         }
@@ -63,17 +63,21 @@ namespace CircuitJSharp
             get => frequency;
             set => frequency = value;
         }
-        
+
         public WaveForm Waveform
         {
             get => waveform;
             set => waveform = value;
         }
-        
+
         public double MaxVoltage
         {
             get => maxVoltage;
-            set => maxVoltage = value;
+            set
+            {
+                maxVoltage = value;
+                sim.needsStamp = true;
+            }
         }
 
         public override void reset()
@@ -97,8 +101,7 @@ namespace CircuitJSharp
         public override void stamp()
         {
             if (waveform == WaveForm.WF_DC)
-                sim.stampVoltageSource(nodes[0], nodes[1], voltSource,
-                    getVoltage());
+                sim.stampVoltageSource(nodes[0], nodes[1], voltSource, getVoltage());
             else
                 sim.stampVoltageSource(nodes[0], nodes[1], voltSource);
         }
@@ -106,8 +109,7 @@ namespace CircuitJSharp
         public override void doStep()
         {
             if (waveform != WaveForm.WF_DC)
-                sim.updateVoltageSource(nodes[0], nodes[1], voltSource,
-                    getVoltage());
+                sim.updateVoltageSource(nodes[0], nodes[1], voltSource, getVoltage());
         }
 
         public override void stepFinished()

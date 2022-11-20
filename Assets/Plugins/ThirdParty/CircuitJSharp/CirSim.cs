@@ -121,8 +121,10 @@ namespace CircuitJSharp
             // setSimRunning(running);
             setSimRunning(true);
 
-            maxTimeStep = 5e-5;
-            minTimeStep = 50e-12;
+            // maxTimeStep = 5e-5;
+            // minTimeStep = 50e-12;
+            maxTimeStep = 5e-4;
+            minTimeStep = 50e-6;
         }
 
         public void AddElement(CircuitElm elm)
@@ -1376,7 +1378,10 @@ namespace CircuitJSharp
                 }
 
                 if (subiter > 5 || timeStep < maxTimeStep)
-                    console("converged after " + subiter + " iterations, timeStep = " + timeStep);
+                {
+                    //console("converged after " + subiter + " iterations, timeStep = " + timeStep);
+                }
+                
                 if (subiter < 3 && goodIteration)
                     goodIterations++;
                 else
