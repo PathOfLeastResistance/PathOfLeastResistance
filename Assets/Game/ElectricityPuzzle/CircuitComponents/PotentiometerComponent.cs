@@ -12,7 +12,7 @@ public class PotentiometerComponent : CircuitComponent
     [SerializeField] private float m_resistance;
     [Range(0f,1f)] [SerializeField] private float m_position;
     
-    private PotElm m_potentiometer;
+    private PotElm m_potentiometer; 
 
     protected override void InitComponent()
     {

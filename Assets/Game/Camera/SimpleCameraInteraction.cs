@@ -80,7 +80,7 @@ namespace Game
 
         private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
         {
-            if (m_cameraRaycaster.ProjectDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
+            if (m_cameraRaycaster.RaycastDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
             {
                 m_TotalDelta += detla;
                 TargetPosition = m_TargetDragStartPoint - m_TotalDelta;

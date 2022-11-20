@@ -73,7 +73,7 @@ namespace Game
         /// <param name="plane"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public bool ProjectDeltaOnPlane(Vector3 prevPosition2d, Vector3 newPosition2d, Plane plane, out Vector3 result)
+        public bool RaycastDeltaOnPlane(Vector3 prevPosition2d, Vector3 newPosition2d, Plane plane, out Vector3 result)
         {
             var prevRay = m_camera.ScreenPointToRay(prevPosition2d);
             var newRay = m_camera.ScreenPointToRay(newPosition2d);
