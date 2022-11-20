@@ -49,7 +49,7 @@ namespace CircuitJSharp
 
         protected static double defaultPulseDuty = 1 / (2 * Math.PI);
 
-        public VoltageElm(int xx, int yy, WaveForm wf) : base(xx, yy)
+        public VoltageElm(int xx, int yy, WaveForm wf = WaveForm.WF_DC) : base(xx, yy)
         {
             waveform = wf;
             maxVoltage = 5;
@@ -58,13 +58,31 @@ namespace CircuitJSharp
             reset();
         }
 
+        public double Frequency
+        {
+            get => frequency;
+            set => frequency = value;
+        }
+        
+        public WaveForm Waveform
+        {
+            get => waveform;
+            set => waveform = value;
+        }
+        
+        public double MaxVoltage
+        {
+            get => maxVoltage;
+            set => maxVoltage = value;
+        }
+
         public override void reset()
         {
             freqTimeZero = 0;
             curcount = 0;
         }
 
-        double triangleFunc(double x)
+        private double triangleFunc(double x)
         {
             if (x < pi)
                 return x * (2 / pi) - 1;
