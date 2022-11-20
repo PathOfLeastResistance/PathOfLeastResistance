@@ -54,7 +54,7 @@ namespace Game
         private void OnObjectGrabStart(object sender, PointerInteractionEventArgs args)
         {
             m_rigidbody.isKinematic = false;
-            
+
             // Save rotation data
             GameExtraInput.Instance.OnWheelEvent += OnWheel;
             m_lastRotation = m_CurrentRotation = m_TargetRotation = m_rigidbody.rotation.eulerAngles.y;
@@ -116,7 +116,7 @@ namespace Game
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying)
+            if (!Application.isPlaying || m_rigidbody == null)
                 return;
 
             var from = m_rigidbody.transform.TransformPoint(m_LocalInitialTouchPoint);

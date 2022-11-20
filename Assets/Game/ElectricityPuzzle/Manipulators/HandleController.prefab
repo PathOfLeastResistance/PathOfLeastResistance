@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363218235528967047}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FromController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 363218235838332761}
   - component: {fileID: 3762831816958187372}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363218235920900510}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ToController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 363218236333690330}
   - component: {fileID: 363218236333690331}
   - component: {fileID: 363218236333690308}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 363218236420913378}
   - component: {fileID: 363218236420913379}
   - component: {fileID: 363218236420913388}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 363218236601051995}
   - component: {fileID: 363218236601051972}
   - component: {fileID: 363218236601051973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 363218236978451916}
   - component: {fileID: 363218236978451917}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HandleController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ Transform:
   - {fileID: 363218235920900510}
   - {fileID: 363218235838332761}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &363218236978451917
 MonoBehaviour:

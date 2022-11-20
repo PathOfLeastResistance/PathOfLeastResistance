@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityTools;
 using Zenject;
 
-public class HandleController : MonoBehaviour
+public class LinearSliderController : MonoBehaviour
 {
     [Inject] private CameraRaycaster m_cameraRaycaster;
 
