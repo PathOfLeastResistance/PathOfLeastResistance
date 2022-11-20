@@ -9,7 +9,8 @@ using Zenject;
 /// </summary>
 public class ConnectorPinBehaviour : MonoBehaviour
 {
-    [Inject] private UniqueIdProvider mIdProvider;
+    [Inject] private UniqueIdProvider m_idProvider;
+    [Inject] private ConnectionManager m_connectionManager;
     [SerializeField] private Transform m_pinConnectionTransform;
     
     private uint m_id;
@@ -58,11 +59,13 @@ public class ConnectorPinBehaviour : MonoBehaviour
             return;
 
         if (id == 0)
-            m_id = mIdProvider.GetId();
+            m_id = m_idProvider.GetId();
 
         mPostGetter = postGetter ?? throw new ArgumentNullException();
         m_interactionObject = GetComponent<InteractionObject>();
-        m_interactionObject.SubscribePointerDragEvent(OnDragStart, OnDrag, OnDragEnd);
+        m_interactionObject.SubscribePointerDragEvent(OnDragStart, OnDrag, OnDragEnd);  
+        m_connectionManager.RegisterPin(this);
+        m_isInited = true;
     }
 
     private void OnDragStart(object sender, PointerDragInteractionEventArgs args) => PinDragStartEvent?.Invoke(this, args.PointerPrevPosition);

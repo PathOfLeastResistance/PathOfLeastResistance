@@ -343,6 +343,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestResistor
       objectReference: {fileID: 0}
+    - target: {fileID: 9206206789157372283, guid: 58c50b215084444bfa2e1c5385501f8b,
+        type: 3}
+      propertyPath: m_positionPidSettings.m_kp
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
