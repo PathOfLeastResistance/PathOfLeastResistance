@@ -22,13 +22,9 @@ namespace Game
 
         // Object positioning
         [SerializeField] private bool m_ResetPids = false;
-        [SerializeField] private double Kp;
-        [SerializeField] private double Ki;
-        [SerializeField] private double Kd;
-        [SerializeField] private double N;
+        [SerializeField] private PidSettings m_positionPidSettings = PidSettings.Default;
+        private Vector3PidController m_positionPidController;
 
-        private PID mPidX;
-        private PID mPidZ;
         private Vector3 m_LocalInitialTouchPoint;
         private Vector3 m_CurrentWorldTouchPoint;
         private Plane m_InteractionPlane;
@@ -38,22 +34,35 @@ namespace Game
             m_rigidbody = GetComponent<Rigidbody>();
             m_interactionObject = GetComponent<InteractionObject>();
             m_interactionObject.SubscribePointerDragEvent(OnDragStart, OnDrag, OnDragEnd);
+            m_interactionObject.SubscribePointerGrabEvent(OnObjectGrabStart, OnObjectGrabEnd);
 
             m_rigidbody.isKinematic = true;
-            mPidX = new PID(Kp, Ki, Kd, N, double.PositiveInfinity, Double.NegativeInfinity);
-            mPidZ = new PID(Kp, Ki, Kd, N, double.PositiveInfinity, Double.NegativeInfinity);
+            m_positionPidController = new Vector3PidController(m_positionPidSettings);
         }
 
+        private void OnObjectGrabStart(object sender, PointerInteractionEventArgs args)
+        {
+            GameExtraInput.Instance.OnWheelEvent += OnWheel;
+        }
+
+        private void OnObjectGrabEnd(object sender, PointerInteractionEventArgs args)
+        {
+            GameExtraInput.Instance.OnWheelEvent -= OnWheel;
+        }
+
+        private void OnWheel(float delta)
+        {
+        }
+        
         private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
         {
+
             m_rigidbody.isKinematic = false;
             m_cameraRaycaster.RaycastScreenToPhysics(args.PointerPrevPosition, out var worldTouchPoint);
             m_CurrentWorldTouchPoint = worldTouchPoint;
             m_LocalInitialTouchPoint = m_rigidbody.transform.InverseTransformPoint(worldTouchPoint);
             m_InteractionPlane = new Plane(Vector3.up, worldTouchPoint);
-            
-            mPidX.ResetController();
-            mPidZ.ResetController();
+            m_positionPidController.ResetAllDimensions();
         }
 
         private void OnDrag(object sender, PointerDragInteractionEventArgs args)
@@ -73,10 +82,9 @@ namespace Game
                 return;
 
             var initialWorldTouchPoint = m_rigidbody.transform.TransformPoint(m_LocalInitialTouchPoint);
-            var xVelocity = mPidX.PID_iterate(m_CurrentWorldTouchPoint.x, initialWorldTouchPoint.x, Time.fixedDeltaTime);
-            var zVelocity = mPidZ.PID_iterate(m_CurrentWorldTouchPoint.z, initialWorldTouchPoint.z, Time.fixedDeltaTime);
+            var velocity = m_positionPidController.Iterate(m_CurrentWorldTouchPoint, initialWorldTouchPoint, Time.fixedDeltaTime);
 
-            m_rigidbody.velocity = new Vector3((float)xVelocity, 0, (float)zVelocity);
+            m_rigidbody.velocity = velocity;
         }
 
         private void OnDrawGizmos()
@@ -92,20 +100,11 @@ namespace Game
 
         private void Update()
         {
-            mPidX.Kd = Kd;
-            mPidX.Ki = Ki;
-            mPidX.Kp = Kp;
-            mPidX.N = N;
-            
-            mPidZ.Kd = Kd;
-            mPidZ.Ki = Ki;
-            mPidZ.Kp = Kp;
-            mPidZ.N = N;
+            m_positionPidController.SetSettings(m_positionPidSettings);
 
             if (m_ResetPids)
             {
-                mPidX.ResetController();
-                mPidZ.ResetController();
+                m_positionPidController.ResetAllDimensions();
                 m_ResetPids = false;
             }
         }
