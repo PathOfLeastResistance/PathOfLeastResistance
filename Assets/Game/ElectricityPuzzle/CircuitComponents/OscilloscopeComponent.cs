@@ -4,6 +4,7 @@ using UnityEngine;
 using CircuitJSharp;
 using Unity.Mathematics;
 using ViJApps.CanvasTexture;
+using System;
 
 public struct VoltageData
 {
@@ -73,9 +74,9 @@ public class OscilloscopeComponent : CircuitComponent
     [SerializeField] private RenderTexture m_renderTexture;
     [SerializeField] private Renderer m_screenRenderer;
 
-    private int m_pointsCountW = 256;
-    private int m_pointsCountH = 256;
-    private DisplayData[] m_displayData = new DisplayData[256];
+    private int m_pointsCountW = 128;
+    private int m_pointsCountH = 128;
+    private DisplayData[] m_displayData = new DisplayData[128];
 
     private bool m_isRecording = false;
     private float m_recordPeriod = 1f;
@@ -91,6 +92,10 @@ public class OscilloscopeComponent : CircuitComponent
 
     private float m_lastTick = float.NegativeInfinity;
     private float m_minStep = 1e-4f;
+    
+    public IReadOnlyList<VoltageData> Data => m_dataBuffer;
+
+    public event Action RecordFinishEvent ;
 
     private void OnTick()
     {
@@ -165,8 +170,12 @@ public class OscilloscopeComponent : CircuitComponent
     /// </summary>
     private void StopRecord()
     {
-        m_isRecording = false;
-        m_triggeredTime = float.NegativeInfinity;
+        if (m_isRecording)
+        {
+            m_isRecording = false;
+            m_triggeredTime = float.NegativeInfinity;
+            RecordFinishEvent?.Invoke();
+        }
     }
 
     /// <summary>

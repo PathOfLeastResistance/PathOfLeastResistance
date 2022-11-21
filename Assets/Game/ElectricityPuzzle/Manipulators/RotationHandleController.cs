@@ -48,6 +48,7 @@ public class RotationHandle : MonoBehaviour
     private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
     {
         m_dragStartValue = Value;
+        m_delta = 0;
     }
 
     private void OnDrag(object sender, PointerDragInteractionEventArgs args)
