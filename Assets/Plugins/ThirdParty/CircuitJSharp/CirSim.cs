@@ -210,9 +210,8 @@ namespace CircuitJSharp
                 catch (Exception e)
                 {
                     //LOGGER
-                    // debugger();
-                    Debug.LogError(e);
-                    // console("exception in runCircuit " + e);
+                    // debugger();; 
+                    console("exception in runCircuit " + e);
                 }
             }
 
@@ -1057,7 +1056,8 @@ namespace CircuitJSharp
             stopElm = ce;
             setSimRunning(false);
             analyzeFlag = false;
-        //	cv.repaint();
+            console(stopMessage);
+            //	cv.repaint();
         }
 
         // control voltage source vs with voltage from n1 to n2 (must
@@ -1381,7 +1381,7 @@ namespace CircuitJSharp
                 {
                     //console("converged after " + subiter + " iterations, timeStep = " + timeStep);
                 }
-                
+
                 if (subiter < 3 && goodIteration)
                     goodIterations++;
                 else
@@ -1618,7 +1618,7 @@ namespace CircuitJSharp
                 {
                     if (largestRow == -1)
                     {
-                        // console("largestRow == -1"); LOGGER
+                        console("largestRow == -1");
                         return false;
                     }
 

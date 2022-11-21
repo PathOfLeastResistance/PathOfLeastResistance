@@ -14,6 +14,7 @@ public class ConnectorPinBehaviour : MonoBehaviour
     [SerializeField] private Transform m_pinConnectionTransform;
     
     private uint m_id;
+    private Vector3 m_lastPos;
     private InteractionObject m_interactionObject;
     private Func<int> mPostGetter;
 
@@ -74,7 +75,6 @@ public class ConnectorPinBehaviour : MonoBehaviour
 
     private void OnDragEnd(object sender, PointerDragInteractionEventArgs args) => PinDragEndEvent?.Invoke(this, args.PointerPrevPosition);
 
-    private Vector3 m_lastPos;
     
     private void Update()
     {

@@ -37,6 +37,11 @@ public class ConnectionManager : MonoBehaviour
         m_sim.init();
     }
 
+    public bool HasWires(ConnectorPinBehaviour connectorPin)
+    {
+        return m_connections.Any(c=> c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id);
+    }
+    
     public void Connect(Connection connection)
     {
         if (!m_connections.ContainsKey(connection))

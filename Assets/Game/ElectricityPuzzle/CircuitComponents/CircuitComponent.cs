@@ -24,9 +24,19 @@ public abstract class CircuitComponent : MonoBehaviour
         }
     }
 
+    protected virtual void PreInit()
+    {
+        
+    }
+
     private void OnDestroy()
     {
         DeinitComponent();
+    }
+
+    private void Awake()
+    {
+        PreInit();
     }
 
     private void Start()
