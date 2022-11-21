@@ -35,7 +35,7 @@ public class SignalsValidatorComponent : MonoBehaviour
         if (m_RefDone && m_SigDone)
         {
             // get the maximum error between the two signals
-            var errors = m_oscilloscopeReference.Data.Zip(m_oscilloscopeSignal.Data, (refData, sigData) => math.abs(refData.Voltage - sigData.Voltage));
+            var errors = m_oscilloscopeReference.ActiveDataBuffer.Zip(m_oscilloscopeSignal.ActiveDataBuffer, (refData, sigData) => math.abs(refData.Voltage - sigData.Voltage));
             var maxError = errors.Max();
             if (maxError < m_voltageTolerance)
             {

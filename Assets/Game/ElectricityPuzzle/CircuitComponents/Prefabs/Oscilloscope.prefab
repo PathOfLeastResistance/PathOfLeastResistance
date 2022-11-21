@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 6475809969965231149}
   - component: {fileID: 6432493104891614128}
   - component: {fileID: 4995314589329892388}
+  - component: {fileID: 7665474636257773608}
   m_Layer: 7
   m_Name: Quad
   m_TagString: Untagged
@@ -274,6 +275,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7665474636257773608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708121730874653510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfdd799b05714db7be0f1a0ea0a5894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_renderTexture: {fileID: 0}
+  m_screenRenderer: {fileID: 6432493104891614128}
+  m_oscilloscope: {fileID: 4119079080284507168}
 --- !u!1 &7106634714765200548
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,9 +445,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_pin0: {fileID: 8653250616113295131}
   m_pin1: {fileID: 5279848028658512087}
-  m_testBtn: {fileID: 3214950291957126758}
-  m_renderTexture: {fileID: 0}
-  m_screenRenderer: {fileID: 6432493104891614128}
+  m_useTriggerLogic: 0
+  m_secondaryOscilloscopes: []
 --- !u!1001 &1040885282803093449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -616,18 +631,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ec8454b3ee6b4d1da4277d91f2907d4, type: 3}
---- !u!114 &3214950291957126758 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3713695194979388356, guid: 6ec8454b3ee6b4d1da4277d91f2907d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 2239553845601951138}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fcf8aa5ca0114815868516ce09da9a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3465591037068645846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3390153839665989748, guid: 6ec8454b3ee6b4d1da4277d91f2907d4,
