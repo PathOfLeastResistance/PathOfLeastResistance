@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public sealed class LoaderCurtain : MonoBehaviour
+public sealed class LoaderCurtain : MonoBehaviour, ILoaderCurtain
 {
     private bool m_IsHiding = false;
 
     [SerializeField] private float m_FadeTime = 0.5f;
     [SerializeField] private CanvasGroup m_CoverCanvas = default;
+    [SerializeField] private Text m_ProgressBar = default;
 
     private void Awake() =>
         DontDestroyOnLoad(this);
@@ -19,6 +21,10 @@ public sealed class LoaderCurtain : MonoBehaviour
 
     public void Hide() =>
         m_IsHiding = true;
+
+    //TODO Add a progress bar
+    public void SetProgress(float progress) =>
+        m_ProgressBar.text = $"{progress:0.0} %";
 
     private void Update()
     {

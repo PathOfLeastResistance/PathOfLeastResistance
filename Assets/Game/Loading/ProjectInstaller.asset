@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13c9851b55d0cf64fbd057f4e4b9020a, type: 3}
-  m_Name: AppLoadingInstaller
+  m_Name: ProjectInstaller
   m_EditorClassIdentifier: 
   m_LoaderCurtain: {fileID: 8713324141352661597, guid: 6f1665c11795dd644b63d6b520bccb2c,
+    type: 3}
+  m_AppRunner: {fileID: 6752063408416438757, guid: cc42b996c938f6a4b8298e323989ed61,
     type: 3}
