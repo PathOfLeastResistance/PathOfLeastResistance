@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// Installer for bootstrap scene
+/// Installer for bootstrap scene, will be destroyed
 /// </summary>
 public sealed class InitalSceneInstaller : ScriptableObjectExtendedInstaller
 {

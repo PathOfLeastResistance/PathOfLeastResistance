@@ -8,9 +8,4 @@ public sealed class AppRunner : MonoBehaviour
 
     private void Start() =>
         m_SceneLoader.Load(m_Settings.StartScene);
-
-    private void OnDestroy()
-    {
-        Debug.Log("OnDestroy");
-    }
 }

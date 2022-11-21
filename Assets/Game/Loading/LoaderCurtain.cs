@@ -9,9 +9,6 @@ public sealed class LoaderCurtain : MonoBehaviour, ILoaderCurtain
     [SerializeField] private CanvasGroup m_CoverCanvas = default;
     [SerializeField] private Text m_ProgressBar = default;
 
-    private void Awake() =>
-        DontDestroyOnLoad(this);
-
     public void Show()
     {
         m_CoverCanvas.alpha = 1f;
