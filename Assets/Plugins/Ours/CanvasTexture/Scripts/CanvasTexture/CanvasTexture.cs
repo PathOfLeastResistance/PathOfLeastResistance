@@ -36,6 +36,18 @@ namespace ViJApps.CanvasTexture
 
         public RenderTexture RenderTexture { get; private set; }
 
+        public void Init(RenderTextureDescriptor descriptor)
+        {
+            m_textureDescriptor = descriptor;
+            if (RenderTexture != null)
+                UnityEngine.Object.Destroy(RenderTexture);
+            RenderTexture = new RenderTexture(m_textureDescriptor);
+            m_textureCoordSystem = new LinearCoordSystem(new float2(m_textureDescriptor.width, m_textureDescriptor.height));
+            
+            ResetCmd();
+            ReleaseToPools();
+        }
+        
         /// <summary>
         /// Initialize CanvasTexture with given
         /// </summary>

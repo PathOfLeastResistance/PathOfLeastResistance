@@ -25,16 +25,30 @@ public class OscilloscopeScreen : MonoBehaviour
     private float m_renderPeriod = 0.5f;
 
     private int m_BuffersEdgePixel;
-
+    
+    public event Action<RenderTexture> OnRenderTextureChanged;
+    
+    public RenderTexture RenderTexture
+    {
+        get => m_renderTexture;
+        private set
+        {
+            m_renderTexture = value;
+            OnRenderTextureChanged?.Invoke(m_renderTexture);
+        }
+    }
+    
     private async void Awake()
     {
         await MaterialProvider.Initialization;
         m_canvasTexture = new CanvasTexture();
-        m_canvasTexture.Init(m_pointsCountW, m_pointsCountH);
-        m_renderTexture = m_canvasTexture.RenderTexture;
+        var desc = new RenderTextureDescriptor(m_pointsCountW, m_pointsCountH);
+        m_canvasTexture.Init(desc);
+        RenderTexture = m_canvasTexture.RenderTexture;
+        RenderTexture.filterMode = FilterMode.Point;
 
         if (m_screenRenderer != null)
-            m_screenRenderer.material.mainTexture = m_renderTexture;
+            m_screenRenderer.material.mainTexture = RenderTexture;
     }
 
     private async void Update()
