@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class SceneLoader
+public class SceneLoader : ISceneLoader
 {
     [Inject] private readonly ICoroutineRunner m_CoroutineRunner = default;
     [Inject] private readonly ILoaderCurtain m_LoaderCurtain = default;
@@ -36,7 +36,7 @@ public class SceneLoader
 
         if (useCurtain)
             m_LoaderCurtain.Hide();
-        
+
         onLoaded?.Invoke();
     }
 }

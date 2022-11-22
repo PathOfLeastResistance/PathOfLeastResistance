@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a503345a93da149b78a4e843721680, type: 3}
+  m_Name: DialogueTree
+  m_EditorClassIdentifier: 
+  m_Reply: I need to decide where to go next
+  m_Answers:
+  - Text: I don't remember what I put in the bag. Need to check. I will need a lot
+      of tools today.
+    End: {fileID: 102900000, guid: d968ebcd46e58524eacb9f29c01b5a54, type: 3}
+  - Text: It is necessary to go to class. Today they are talking about the most difficult
+      topic. I will surely learn something new about myself.
+    End: {fileID: 102900000, guid: 145e0712ab3b0c744b614b1770e61b9e, type: 3}
+  - Text: Let's go and ask a friend for help. He was always good at physics.
+    End: {fileID: 102900000, guid: c67713909b9742d4e808b4882215bbab, type: 3}
