@@ -20,9 +20,9 @@ public class OscilloscopeScreen : MonoBehaviour
     private DisplayData[] m_displayData = new DisplayData[ScreenResolution];
 
     // TODO: make it visual settings
-    private float m_voltageHeight = 25f;
+    private float m_voltageHeight = 10f;
     private float m_voltageCenter = 0.5f;
-    private float m_renderPeriod = 0.5f;
+    private float m_renderPeriod = 1f;
 
     private int m_BuffersEdgePixel;
     

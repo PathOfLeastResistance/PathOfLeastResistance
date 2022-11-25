@@ -110,6 +110,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _Count: 6.76
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -138,12 +139,19 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Bg: {r: 0.27358484, g: 0.27358484, b: 0.27358484, a: 1}
+    - _Bg: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 1}
+    - _BgColor: {r: 1, g: 0, b: 0, a: 0}
+    - _CellCount: {r: 12, g: 6, b: 0, a: 0}
+    - _CenterOffset: {r: -0.5, g: -0.5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 0, b: 0, a: 0}
-    - _Color2: {r: 0, g: 0.19215679, b: 1, a: 0}
+    - _Color1: {r: 1, g: 0.73324853, b: 0, a: 0}
+    - _Color2: {r: 0.0047169924, g: 0.8772054, b: 1, a: 0}
     - _ColorRef: {r: 0, g: 0.49383706, b: 1, a: 1}
     - _ColorSig: {r: 0.17054713, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LineWidth: {r: 0.00125, g: 0.0025, b: 0, a: 0}
+    - _LinesColor: {r: 0.18356179, g: 0.22327422, b: 0.23584908, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector2: {r: 0.01, g: 0.02, b: 0, a: 0}
+    - _linewidth: {r: 0.1, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []

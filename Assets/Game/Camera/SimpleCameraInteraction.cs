@@ -67,17 +67,6 @@ namespace Game
             }
         }
 
-        private void OnWheel(float delta)
-        {
-            //We can scroll if no object is under interaction. not a good way to do like this :(
-            var inputManager = InputManager.Instance;
-            var canScroll = inputManager.ActiveGesturesCount == 1 && inputManager.ActiveGestures.All(c => c.InteractionObject == m_InteractionObject);
-            if (canScroll)
-            {
-                Distance += delta * m_WheelSensitive;
-            }
-        }
-
         private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
         {
             if (m_cameraRaycaster.RaycastDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
@@ -89,6 +78,15 @@ namespace Game
 
         private void OnPointerDragEnd(object sencer, PointerDragInteractionEventArgs args)
         {
+        }
+        
+        private void OnWheel(float delta)
+        {
+            //We can scroll if no object is under interaction. not a good way to do like this :(
+            var inputManager = InputManager.Instance;
+            var canScroll = inputManager.ActiveGestures.All(c => c.InteractionObject == m_InteractionObject);
+            if (canScroll)
+                Distance += delta * m_WheelSensitive;
         }
     }
 }

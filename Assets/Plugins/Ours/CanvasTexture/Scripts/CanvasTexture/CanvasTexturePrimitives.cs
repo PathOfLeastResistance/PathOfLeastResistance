@@ -61,6 +61,33 @@ namespace ViJApps.CanvasTexture
             DrawEllipsePercent(center, ab, 0f, color, color);
         }
 
+        public void DrawPixels(int2[] pixels, Color color)
+        {
+            var (mesh, propertyBlock) = AllocateMeshAndPropertyBlock();
+            Matrix4x4[] pixelsMatrices = new Matrix4x4[pixels.Length];
+            var width = m_textureDescriptor.width;
+            var height = m_textureDescriptor.height;
+
+            var pixelSizeX = 1f / width;
+            var pixelSizeY = 1f / height;
+            var halfPixelSizeX = pixelSizeX / 2f;
+            var halfPixelSizeY = pixelSizeY / 2f;
+
+            MeshTools.CreateRect(float2.zero, new float2(pixelSizeX, pixelSizeY), float3x3.identity, mesh);
+            // var pixelScale = MathUtils.CreateMatrix3d_S(new float3(pixelSizeX, pixelSizeY, 1));
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                var position = new float3((float)pixels[i].x / width + halfPixelSizeX, (float)pixels[i].y / height + halfPixelSizeY, 0);
+                pixelsMatrices[i] = MathUtils.CreateMatrix3d_T(position);
+            }
+
+            var mat = MaterialProvider.GetMaterial(MaterialProvider.SimpleUnlitShaderId);
+            mat.enableInstancing = true;
+            mat.SetColor(MaterialProvider.ColorPropertyId, color);
+            // m_cmd.DrawMesh(mesh, pixelsMatrices[0], mat, 0, -1);
+            m_cmd.DrawMeshInstanced(mesh, 0, mat, 0, pixelsMatrices);
+        }
+
         /// <summary>
         /// Draw ellipse in percent coordinates
         /// </summary>
