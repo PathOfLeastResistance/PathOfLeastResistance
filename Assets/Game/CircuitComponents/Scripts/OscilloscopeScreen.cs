@@ -7,27 +7,30 @@ using ViJApps.CanvasTexture;
 
 public class OscilloscopeScreen : MonoBehaviour
 {
-    private const int ScreenResolution = 128;
+    private const int ScreenResolutionX = 320;
+    private const int ScreenResolutionY = 240;
 
     [SerializeField] private RenderTexture m_renderTexture;
     [SerializeField] private Renderer m_screenRenderer;
     [SerializeField] private OscilloscopeComponent m_oscilloscope;
+    [SerializeField] private bool m_DrawScanner = false;
 
     private CanvasTexture m_canvasTexture;
-    private int m_pointsCountW = ScreenResolution;
-    private int m_pointsCountH = ScreenResolution;
+    private int m_pointsCountW = ScreenResolutionX;
+    private int m_pointsCountH = ScreenResolutionY;
+    private int m_BuffersEdgePixel;
 
-    private DisplayData[] m_displayData = new DisplayData[ScreenResolution];
+    private DisplayData[] m_displayData = new DisplayData[ScreenResolutionX];
+    
+    private List<(int, int2)> m_pixelsToDraw = new List<(int, int2)>(ScreenResolutionX);
+    private List<(int, int2)> m_scanner = new List<(int, int2)>(1);
 
     // TODO: make it visual settings
-    private float m_voltageHeight = 10f;
-    private float m_voltageCenter = 0.5f;
-    private float m_renderPeriod = 1f;
-
-    private int m_BuffersEdgePixel;
-    
+    private float m_minValue = -5f;
+    private float m_maxValue = 5f;
+    private float m_renderPeriod = 0.5f;
     public event Action<RenderTexture> OnRenderTextureChanged;
-    
+
     public RenderTexture RenderTexture
     {
         get => m_renderTexture;
@@ -37,7 +40,7 @@ public class OscilloscopeScreen : MonoBehaviour
             OnRenderTextureChanged?.Invoke(m_renderTexture);
         }
     }
-    
+
     private async void Awake()
     {
         await MaterialProvider.Initialization;
@@ -106,6 +109,16 @@ public class OscilloscopeScreen : MonoBehaviour
             }
         }
 
+        //Encapsulate previous data to remove gaps between current pixel and previous pixel
+        for (int i = 1; i < maxPixel; i++)
+        {
+            //check if two ranges are not intersected and make them intersect 
+            if (m_displayData[i].MaxVoltage < m_displayData[i - 1].MinVoltage)
+                m_displayData[i].EncapsulateVoltage(m_displayData[i - 1].MinVoltage);
+            else if (m_displayData[i].MinVoltage > m_displayData[i - 1].MaxVoltage)
+                m_displayData[i].EncapsulateVoltage(m_displayData[i - 1].MaxVoltage);
+        }
+
         var lastPixel = maxPixel;
         m_BuffersEdgePixel = lastPixel;
 
@@ -140,27 +153,50 @@ public class OscilloscopeScreen : MonoBehaviour
             }
         }
 
-        //NoData
+        //Encapsulate previous data to remove gaps between current pixel and previous pixel
+        if (lastPixel == 0)
+            lastPixel++;
+        for (int i = lastPixel + 1; i < maxPixel; i++)
+        {
+            //check if two ranges are not intersected and make them intersect 
+            if (m_displayData[i].MaxVoltage < m_displayData[i - 1].MinVoltage)
+                m_displayData[i].EncapsulateVoltage(m_displayData[i - 1].MinVoltage);
+            else if (m_displayData[i].MinVoltage > m_displayData[i - 1].MaxVoltage)
+                m_displayData[i].EncapsulateVoltage(m_displayData[i - 1].MaxVoltage);
+        }
+
+        //NoData. Fill with zero voltage
         var startFrom = math.max(0, maxPixel);
         for (int i = startFrom; i < m_pointsCountW; i++)
             m_displayData[i] = new DisplayData(0);
     }
 
+    /// <summary>
+    /// We use red channel to encode voltage
+    /// We use green channel to encode scanner position
+    /// </summary>
     private void DrawData()
     {
         m_canvasTexture.ClearWithColor(Color.black);
+        
+        //Prepare pixels of signal
+        m_pixelsToDraw.Clear();
         for (int i = 0; i < m_pointsCountW; i++)
         {
             var data = m_displayData[i];
-            //the position is half pixel cause of current paint algorithm;
-            var xPosition = new float2(i + 0.5f, data.Center / m_voltageHeight * m_pointsCountH + m_voltageCenter * m_pointsCountH);
+            var minPixel = (int)math.floor(math.remap(m_minValue, m_maxValue, 0, m_pointsCountH - 1, data.MinVoltage));
+            var maxPixel = (int)math.floor(math.remap(m_minValue, m_maxValue, 0, m_pointsCountH - 1, data.MaxVoltage));
 
-            //the min size is clamped to 1 pixel of the oscilloscope
-            var size = new float2(1, math.max(data.Height / m_voltageHeight * m_pointsCountH, 1));
-            m_canvasTexture.DrawRectPixels(xPosition, size, Color.white);
+            m_pixelsToDraw.Add(new(i, new int2(minPixel, maxPixel)));
         }
+        m_canvasTexture.DrawColumns(m_pixelsToDraw, Color.red);
 
-        m_canvasTexture.DrawRectPixels(new float2(m_BuffersEdgePixel + 0.5f, m_pointsCountH / 2f), new float2(1, m_pointsCountH * 2), Color.red);
+        //Prepare pixels of scanner
+        m_scanner.Clear();
+        m_scanner.Add((m_BuffersEdgePixel, new int2(0, m_pointsCountH)));
+        m_canvasTexture.DrawColumns(m_scanner, Color.green);
+
+        //Apply
         m_canvasTexture.Flush();
     }
 }
