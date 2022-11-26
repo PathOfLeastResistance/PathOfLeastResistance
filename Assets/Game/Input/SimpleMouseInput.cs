@@ -7,8 +7,8 @@ using UnityTools;
 
 public class MouseDragEventArgs : EventArgs
 {
-    public Vector2 MousePosition { get; private set; }
-    public Vector2 MouseDelta { get; private set; }
+    public Vector2 MousePosition { get; }
+    public Vector2 MouseDelta { get; }
 
     public MouseDragEventArgs(Vector2 mousePosition, Vector2 mouseDelta)
     {
@@ -20,10 +20,23 @@ public class MouseDragEventArgs : EventArgs
 public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
 {
     private GameInputActions m_Actions;
-    private bool m_IsDown = false;
+    private int m_ActiveButton = -1;
+    private bool m_DragStarted = false;
+    private Vector2 m_mousePos = Vector2.zero;
+    private Vector2 m_prevMousePos = Vector2.zero;
     public event Action<float> OnWheelEvent;
 
-    void OnEnable()
+    //Left button drags
+    private event Action<MouseDragEventArgs> OnLeftDragStartEvent;
+    private event Action<MouseDragEventArgs> OnLeftDragEvent;
+    private event Action<MouseDragEventArgs> OnLeftDragEndEvent;
+
+    //Right button drags
+    private event Action<MouseDragEventArgs> OnRightDragStartEvent;
+    private event Action<MouseDragEventArgs> OnRightDragEvent;
+    private event Action<MouseDragEventArgs> OnRightDragEndEvent;
+    
+    private void OnEnable()
     {
         m_Actions = new GameInputActions();
         m_Actions.GameActions.Enable();
@@ -38,21 +51,6 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
 
         m_Actions.GameActions.MouseMove.performed += OnMouseMove;
     }
-
-    private int m_ActiveButton = -1;
-    private bool m_DragStarted = false;
-    private Vector2 m_mousePos = Vector2.zero;
-    private Vector2 m_prevMousePos = Vector2.zero;
-
-    //Left button drags
-    private event Action<MouseDragEventArgs> OnLeftDragStartEvent;
-    private event Action<MouseDragEventArgs> OnLeftDragEvent;
-    private event Action<MouseDragEventArgs> OnLeftDragEndEvent;
-
-    //Right button drags
-    private event Action<MouseDragEventArgs> OnRightDragStartEvent;
-    private event Action<MouseDragEventArgs> OnRightDragEvent;
-    private event Action<MouseDragEventArgs> OnRightDragEndEvent;
 
     public IDisposable SubscribeLeftButtonDrag(Action<MouseDragEventArgs> dragStart, Action<MouseDragEventArgs> dragPerformed, Action<MouseDragEventArgs> dragEnd)
     {
@@ -99,7 +97,6 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
         {
             if (m_DragStarted)
             {
-                Debug.Log($"Drag {m_ActiveButton}");
                 switch (m_ActiveButton)
                 {
                     case 0:
@@ -113,7 +110,6 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
             else
             {
                 m_DragStarted = true;
-                Debug.Log($"Drag started {m_ActiveButton}");
                 switch (m_ActiveButton)
                 {
                     case 0:
@@ -130,9 +126,7 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
     private void OnDown(int mouseButton)
     {
         if (m_ActiveButton == -1)
-        {
             m_ActiveButton = mouseButton;
-        }
     }
 
     private void OnUp(int mouseButton)
@@ -142,7 +136,6 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
             if (m_DragStarted)
             {
                 m_DragStarted = false;
-                Debug.Log($"Drag ended {m_ActiveButton}");
                 switch (m_ActiveButton)
                 {
                     case 0:
