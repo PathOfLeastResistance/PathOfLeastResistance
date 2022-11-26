@@ -24,6 +24,11 @@ public class ConnectionManager : MonoBehaviour
 
     public CirSim Sim => m_sim;
 
+    private void Awake()
+    {
+        Reinit();
+    }
+    
     private void Update()
     {
         m_sim.timeDelta = Time.deltaTime;
