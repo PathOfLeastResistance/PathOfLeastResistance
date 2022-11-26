@@ -39,9 +39,9 @@ public class ConnectionManager : MonoBehaviour
 
     public bool HasWires(ConnectorPinBehaviour connectorPin)
     {
-        return m_connections.Any(c=> c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id);
+        return m_connections.Any(c => c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id);
     }
-    
+
     public void Connect(Connection connection)
     {
         if (!m_connections.ContainsKey(connection))
@@ -67,14 +67,14 @@ public class ConnectionManager : MonoBehaviour
             m_connections.Remove(connection);
         }
     }
-    
+
     public void RegisterPin(ConnectorPinBehaviour connectorPin)
     {
         m_connectors.Add(connectorPin.Id, connectorPin);
         connectorPin.SubscribePinDrag(OnPinDragStart, OnPinDrag, OnPinDragEnd);
         connectorPin.DisposeEvent += () => RemoveAllConnectionsAssociatedWithPin(connectorPin);
     }
-    
+
     private void RemoveAllConnectionsAssociatedWithPin(ConnectorPinBehaviour connectorPin)
     {
         var connectionsToRemove = m_connections.Where(c => c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id).ToList();
@@ -87,8 +87,13 @@ public class ConnectionManager : MonoBehaviour
 
     #region Pins interaction
 
+    //TODO: Think how to unify with CableEnding. The difference that we have no connection initially
+    
+    private ConnectorPinBehaviour m_connectionCandidate;
+
     private void OnPinDragStart(ConnectorPinBehaviour pin, Vector3 position)
     {
+        m_connectionCandidate = null;
         m_cameraRaycaster.RaycastPointOnPlane(position, PinInteractionPlane, out var result);
 
         m_createdCable = cablesFactory.Create();
@@ -100,21 +105,40 @@ public class ConnectionManager : MonoBehaviour
     {
         PinInteractionPlane = new Plane(Vector3.up, pin.ConnectionPoint);
         m_cameraRaycaster.RaycastPointOnPlane(position, PinInteractionPlane, out var result);
+
+        var connectorFound = m_cameraRaycaster.TryGetComponentUnderPosition(position, out ConnectorPinBehaviour otherPin);
+        if (connectorFound && IsConnectionAvailable(pin, otherPin))
+        {
+            m_connectionCandidate = otherPin;
+            result = otherPin.ConnectionPoint;
+        }
+
         m_createdCable.CableEnding2.Position = result;
     }
 
     private void OnPinDragEnd(ConnectorPinBehaviour pin, Vector3 position)
     {
-        if (m_cameraRaycaster.TryGetComponentUnderPosition(position, out ConnectorPinBehaviour otherPin))
-        {
-            m_createdCable.CableEnding2.Pin = otherPin;
-        }
+        if (m_connectionCandidate != null)
+            m_createdCable.CableEnding2.Pin = m_connectionCandidate;
         else
-        {
             m_createdCable.Dispose();
-        }
+        m_connectionCandidate = null;
     }
-    
+
+    public List<ConnectorPinBehaviour> GetAvailablePins(ConnectorPinBehaviour pin)
+    {
+        return m_connectors.Where(c => IsConnectionAvailable(c.Value, pin)).Select(c => c.Value).ToList();
+    }
+
+    public bool IsConnectionAvailable(ConnectorPinBehaviour pin1, ConnectorPinBehaviour pin2)
+    {
+        var potentialConnection = new Connection(pin1.Id, pin2.Id);
+        var connectionExists = m_connections.ContainsKey(potentialConnection);
+        var connectionIsNotSelf = pin1 != pin2;
+        // Debug.Log($"{nameof(connectionExists)}: {connectionExists} {nameof(connectionIsNotSelf)}: {connectionIsNotSelf}");
+        return !connectionExists && connectionIsNotSelf;
+    }
+
     #endregion
 
     /// <summary>

@@ -18,6 +18,8 @@ public class CableEnding : MonoBehaviour
 
     private event Action<ConnectorPinBehaviour> m_pinChangeEvent;
     private event Action<Vector3> m_positionChangeEvent;
+    
+    private CableEnding m_otherCableEnding;
 
     public ConnectorPinBehaviour Pin
     {
@@ -55,6 +57,8 @@ public class CableEnding : MonoBehaviour
     {
         m_interactionObject.SubscribePointerDragEvent(OnDragStart, OnDrag, OnDragEnd);
         m_owner = GetComponentInParent<CableBehaviour>();
+        
+        m_otherCableEnding = m_owner.CableEnding1 == this ? m_owner.CableEnding2 : m_owner.CableEnding1;
     }
 
     public IDisposable SubscribePin(Action<ConnectorPinBehaviour> pinChangeHandle)
@@ -71,29 +75,41 @@ public class CableEnding : MonoBehaviour
         return new DisposableAction(() => m_positionChangeEvent -= positionChangeHandle);
     }
 
+    //TODO: Think how to unify with ConnectionManager. The difference that we do not create new cable here
+
+    private ConnectorPinBehaviour m_connectionCandidate;
+
     private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
     {
         Pin = null; //Disconnect element on drag start
+
+        m_connectionCandidate = null;
         if (m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_connectionManager.PinInteractionPlane, out var position))
             Position = position;
-
-        //TODO: Notify that connection is dragged
     }
 
     private void OnDrag(object sender, PointerDragInteractionEventArgs args)
     {
-        if (m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_connectionManager.PinInteractionPlane, out var position))
-            Position = position;
+        var connectionPosition = Position;
+        if (m_cameraRaycaster.RaycastPointOnPlane(args.PointerPosition, m_connectionManager.PinInteractionPlane, out var worldPosition))
+            connectionPosition = worldPosition;
 
-        //TODO: Search for pin to snap
+        var connectorFound = m_cameraRaycaster.TryGetComponentUnderPosition(args.PointerPosition, out ConnectorPinBehaviour otherPin);
+        if (connectorFound && m_connectionManager.IsConnectionAvailable(m_otherCableEnding.Pin, otherPin))
+        {
+            m_connectionCandidate = otherPin;
+            connectionPosition = otherPin.ConnectionPoint;
+        }
+
+        Position = connectionPosition;
     }
 
     private void OnDragEnd(object sender, PointerDragInteractionEventArgs args)
     {
-        //TODO: Notify that connection is dropped, create new connection
-        if (m_cameraRaycaster.TryGetComponentUnderPosition(args.PointerPosition, out ConnectorPinBehaviour pin))
-            Pin = pin;
-        
+        if (m_connectionCandidate != null)
+            Pin = m_connectionCandidate;
+
+        m_connectionCandidate = null;
         if (Pin == null)
             m_owner.Dispose();
     }
