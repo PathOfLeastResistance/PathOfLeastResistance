@@ -31,17 +31,20 @@ public class ConnectionManager : MonoBehaviour
         PinInteractionPlane = new Plane(Vector3.up, m_CablesPlaneTransform.position);
     }
 
-    private void Awake()
+    public void Reinit()
     {
         m_sim = new CirSim();
         m_sim.init();
+        
+        m_connections.Clear();
+        m_connectors.Clear();
     }
 
     public bool HasWires(ConnectorPinBehaviour connectorPin)
     {
         return m_connections.Any(c => c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id);
     }
-
+    
     public void Connect(Connection connection)
     {
         if (!m_connections.ContainsKey(connection))

@@ -1,21 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
+
+public interface ILevelsProvider
+{
+    Level GetLevelPrefab(int levelNumber);
+    int LevelsCount { get; }
+}
+
+public class LevelFactory : IFactory<int, Level>
+{
+    [Inject] ILevelsProvider m_levelsProvider;
+    [Inject] DiContainer m_container;
+
+    public Level Create(int param)
+    {
+        return m_container.InstantiatePrefabForComponent<Level>(m_levelsProvider.GetLevelPrefab(param));
+    }
+}
 
 public class Level : MonoBehaviour
 {
+    public class Factory : PlaceholderFactory<int, Level>
+    {
+    }
+
+    [Inject] private ConnectionManager m_connectionsManager;
+    
     private CircuitComponent[] m_circuitComponents;
     private TestSchemeBuilder m_SchemeBuilder;
     private ElementsHider m_ElementsHider;
     private LevelCompletedValidator m_LevelCompletedValidator;
 
     private bool m_wasInited = false;
-    
+
     public void Init()
     {
         if (m_wasInited)
             return;
         
+        m_connectionsManager.Reinit();
+
         //The components should be initialized first
         m_circuitComponents = GetComponentsInChildren<CircuitComponent>();
         foreach (var circuitComponent in m_circuitComponents)
@@ -24,7 +51,7 @@ public class Level : MonoBehaviour
         //And then we connect them
         m_SchemeBuilder = GetComponent<TestSchemeBuilder>();
         m_SchemeBuilder.CreateConnections();
-        
+
         //Now hide things we don't need to see
         m_ElementsHider = GetComponent<ElementsHider>();
         m_ElementsHider.Hide();
@@ -35,9 +62,16 @@ public class Level : MonoBehaviour
 
         m_wasInited = true;
     }
-    
-    private void Start()
+
+    public void Deinit()
     {
-        Init();
+        if (!m_wasInited)
+            return;
+
+        foreach (var component in m_circuitComponents)
+            component.Dispose();
+        m_circuitComponents = Array.Empty<CircuitComponent>(); 
+        m_connectionsManager.Reinit();
+        Destroy(gameObject);
     }
 }

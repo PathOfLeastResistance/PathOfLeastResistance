@@ -139,6 +139,8 @@ namespace CircuitJSharp
             needAnalyze();
         }
 
+        public int ElementsCount => elmList.Count;
+
         private long lastTime = 0, lastFrameTime, lastIterTime;
         public long secTime = 0;
         int frames = 0;

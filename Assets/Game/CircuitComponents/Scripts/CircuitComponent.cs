@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityTools;
 using Zenject;
 
-public abstract class CircuitComponent : MonoBehaviour
+public abstract class CircuitComponent : DisposableMonobehaviour
 {
     [Inject] protected ConnectionManager m_connectionsManager;
     [Inject] protected UniquePostProvider m_uniquePostProvider;
@@ -24,8 +25,9 @@ public abstract class CircuitComponent : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected override void OnDispose()
     {
+        base.OnDispose();
         DeinitComponent();
     }
 }
