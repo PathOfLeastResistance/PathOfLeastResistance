@@ -2,14 +2,14 @@
 
 public class DialogueSystemInstaller : MonoExtendedInstaller
 {
-    [SerializeField] private ExecutableScriptableObject m_ExecutableScriptableObject = default;
+    [SerializeField] private DialogueContainer m_InitialDialogue = default;
 
     public override void InstallBindings()
     {
         BindSingle<TransitorToNextScene>();
         BindSingle<DialogueManager>();
 
-        BindScriptableObject(m_ExecutableScriptableObject);
+        BindScriptableObject(m_InitialDialogue);
 
         BindFromHierarchy<DialoguePanel>();
 
