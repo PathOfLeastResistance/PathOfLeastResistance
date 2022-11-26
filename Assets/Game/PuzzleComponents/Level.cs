@@ -7,9 +7,15 @@ public class Level : MonoBehaviour
     private CircuitComponent[] m_circuitComponents;
     private TestSchemeBuilder m_SchemeBuilder;
     private ElementsHider m_ElementsHider;
+    private LevelCompletedValidator m_LevelCompletedValidator;
+
+    private bool m_wasInited = false;
     
-    private void Init()
+    public void Init()
     {
+        if (m_wasInited)
+            return;
+        
         //The components should be initialized first
         m_circuitComponents = GetComponentsInChildren<CircuitComponent>();
         foreach (var circuitComponent in m_circuitComponents)
@@ -22,6 +28,12 @@ public class Level : MonoBehaviour
         //Now hide things we don't need to see
         m_ElementsHider = GetComponent<ElementsHider>();
         m_ElementsHider.Hide();
+
+        //Reset level validator
+        m_LevelCompletedValidator = GetComponent<LevelCompletedValidator>();
+        m_LevelCompletedValidator.Reset();
+
+        m_wasInited = true;
     }
     
     private void Start()

@@ -17,6 +17,14 @@ public class LevelCompletedValidator : MonoBehaviour
         m_levelValidators = GetComponentsInChildren<SignalsValidatorComponent>();
         foreach (var validator in m_levelValidators)
             validator.OnSignalValidated += (c) => OnSignalReceived();
+
+        Reset();
+    }
+
+    public void Reset()
+    {
+        m_checkSignals = true;
+        m_allSignalsGood = false;
     }
 
     private void OnSignalReceived()
@@ -32,7 +40,7 @@ public class LevelCompletedValidator : MonoBehaviour
             {
                 m_checkSignals = false;
                 OnLevelCompleted?.Invoke();
-                Debug.LogWarning("Completed");
+                Debug.LogWarning("Level Completed");
             }
         }
     }
