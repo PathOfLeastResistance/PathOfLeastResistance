@@ -87,11 +87,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 568973802619105076}
-  - component: {fileID: 6531238858434603368}
+  - component: {fileID: 7693479006478082806}
   - component: {fileID: 5095056396746257658}
+  - component: {fileID: 6531238858434603368}
+  - component: {fileID: 5394363679239180517}
   m_Layer: 0
   m_Name: Level_2
-  m_TagString: Untagged
+  m_TagString: Hidden
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,6 +115,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7693479006478082806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602963215855895507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70da3842d6a774b499b504ca79b944d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5095056396746257658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602963215855895507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbaeca1827072483197f9c2ed3d55fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6531238858434603368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c408e1895ca5447f9d97b5b7d0df2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_connectorsRoot: {fileID: 4306869021735515259}
   m_pinPairs:
   - Pin1: {fileID: 8290998554425093742}
     Pin2: {fileID: 6731725523520127629}
@@ -148,7 +175,7 @@ MonoBehaviour:
     Pin2: {fileID: 4243635566197437383}
   - Pin1: {fileID: 7306787328863899926}
     Pin2: {fileID: 8065655573660032336}
---- !u!114 &5095056396746257658
+--- !u!114 &5394363679239180517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4602963215855895507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbaeca1827072483197f9c2ed3d55fff, type: 3}
+  m_Script: {fileID: 11500000, guid: 42019ea3b9d694749b20c093984cd716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &229598750044821206
