@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public class CableBehaviour : DisposableMonobehaviour
 
     private ConnectorPinBehaviour m_pin1;
     private ConnectorPinBehaviour m_pin2;
+    
+    private IDisposable m_pin1Subscription;
+    private IDisposable m_pin2Subscription;
 
     public CableEnding CableEnding1 => m_cableEnding1;
 
@@ -33,7 +37,7 @@ public class CableBehaviour : DisposableMonobehaviour
         m_cableEnding1.SubscribePin(OnPin1Changed);
         m_cableEnding2.SubscribePin(OnPin2Changed);
     }
-    
+
     private void OnPin1Changed(ConnectorPinBehaviour pin)
     {
         SetPins(pin, m_pin2);
@@ -71,11 +75,38 @@ public class CableBehaviour : DisposableMonobehaviour
 
         m_pin1 = pin1;
         m_pin2 = pin2;
+
+        //Subscribe to pin disposed and remove cable in this case
+        m_pin1Subscription?.Dispose();
+        m_pin2Subscription?.Dispose();
+
+        void DisposeAction() => Destroy(gameObject);
+
+        if (m_pin1 != null)
+        {
+            m_pin1.DisposeEvent += DisposeAction;
+            m_pin1Subscription = new DisposableAction(() => m_pin1.DisposeEvent -= DisposeAction);
+        }
+
+        if (m_pin2 != null)
+        {
+            m_pin2.DisposeEvent += DisposeAction;
+            m_pin2Subscription = new DisposableAction(() => m_pin2.DisposeEvent -= DisposeAction);
+        }
     }
 
     private void OnPositionsChanged()
     {
         m_cableView.From = m_cableEnding1.Position;
         m_cableView.To = m_cableEnding2.Position;
+    }
+
+    protected override void OnDispose()
+    {
+        base.OnDispose();
+        if (m_pin1 != null && m_pin2 != null)
+        {
+            m_connectionsManager.Disconnect(new Connection(m_pin1.Id, m_pin2.Id));
+        }
     }
 }

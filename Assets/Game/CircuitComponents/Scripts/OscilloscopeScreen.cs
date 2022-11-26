@@ -21,7 +21,7 @@ public class OscilloscopeScreen : MonoBehaviour
     private int m_BuffersEdgePixel;
 
     private DisplayData[] m_displayData = new DisplayData[ScreenResolutionX];
-    
+
     private List<(int, int2)> m_pixelsToDraw = new List<(int, int2)>(ScreenResolutionX);
     private List<(int, int2)> m_scanner = new List<(int, int2)>(1);
 
@@ -154,8 +154,8 @@ public class OscilloscopeScreen : MonoBehaviour
         }
 
         //Encapsulate previous data to remove gaps between current pixel and previous pixel
-        if (lastPixel == 0)
-            lastPixel++;
+        if (lastPixel < 1)
+            lastPixel = 1;
         for (int i = lastPixel + 1; i < maxPixel; i++)
         {
             //check if two ranges are not intersected and make them intersect 
@@ -178,7 +178,7 @@ public class OscilloscopeScreen : MonoBehaviour
     private void DrawData()
     {
         m_canvasTexture.ClearWithColor(Color.black);
-        
+
         //Prepare pixels of signal
         m_pixelsToDraw.Clear();
         for (int i = 0; i < m_pointsCountW; i++)
@@ -189,6 +189,7 @@ public class OscilloscopeScreen : MonoBehaviour
 
             m_pixelsToDraw.Add(new(i, new int2(minPixel, maxPixel)));
         }
+
         m_canvasTexture.DrawColumns(m_pixelsToDraw, Color.red);
 
         //Prepare pixels of scanner

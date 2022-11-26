@@ -49,17 +49,11 @@ public class OscilloscopeComponent : CircuitComponent
 
     public event Action RecordFinishEvent;
 
-    /// <summary>
-    /// A bit hacky thing, checks children and makes them secondary.
-    /// </summary>
-    protected override void PreInit()
+    protected override void InitComponent()
     {
         foreach (var oscilloscope in m_secondaryOscilloscopes)
             oscilloscope.m_isSecondary = true;
-    }
-
-    protected override void InitComponent()
-    {
+        
         var post0 = m_uniquePostProvider.GetId();
         var post1 = m_uniquePostProvider.GetId();
 

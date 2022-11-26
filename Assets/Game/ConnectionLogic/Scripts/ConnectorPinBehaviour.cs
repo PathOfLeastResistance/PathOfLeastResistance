@@ -7,7 +7,7 @@ using Zenject;
 /// <summary>
 /// The pin behaviour, user can drag and drop this pin to connect to other pins
 /// </summary>
-public class ConnectorPinBehaviour : MonoBehaviour
+public class ConnectorPinBehaviour : DisposableMonobehaviour
 {
     [Inject] private UniqueIdProvider m_idProvider;
     [Inject] private ConnectionManager m_connectionManager;

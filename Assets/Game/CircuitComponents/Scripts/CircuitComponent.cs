@@ -15,7 +15,7 @@ public abstract class CircuitComponent : MonoBehaviour
 
     protected abstract void DeinitComponent();
 
-    private void Init()
+    public void Init()
     {
         if (!m_isInited)
         {
@@ -24,22 +24,8 @@ public abstract class CircuitComponent : MonoBehaviour
         }
     }
 
-    protected virtual void PreInit()
-    {
-    }
-
     private void OnDestroy()
     {
         DeinitComponent();
-    }
-
-    private void Awake()
-    {
-        PreInit();
-    }
-
-    private void Start()
-    {
-        Init();
     }
 }

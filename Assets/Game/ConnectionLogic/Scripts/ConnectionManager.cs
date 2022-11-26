@@ -63,11 +63,22 @@ public class ConnectionManager : MonoBehaviour
             m_connections.Remove(connection);
         }
     }
-
+    
     public void RegisterPin(ConnectorPinBehaviour connectorPin)
     {
         m_connectors.Add(connectorPin.Id, connectorPin);
         connectorPin.SubscribePinDrag(OnPinDragStart, OnPinDrag, OnPinDragEnd);
+        connectorPin.DisposeEvent += () => RemoveAllConnectionsAssociatedWithPin(connectorPin);
+    }
+    
+    private void RemoveAllConnectionsAssociatedWithPin(ConnectorPinBehaviour connectorPin)
+    {
+        var connectionsToRemove = m_connections.Where(c => c.Key.Connector1Id == connectorPin.Id || c.Key.Connector2Id == connectorPin.Id).ToList();
+        foreach (var connection in connectionsToRemove)
+        {
+            m_sim.RemoveElement(connection.Value);
+            m_connections.Remove(connection.Key);
+        }
     }
 
     #region Pins interaction

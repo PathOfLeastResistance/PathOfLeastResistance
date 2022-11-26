@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CircuitJSharp;
 using UnityEngine;
+using UnityTools;
 using Zenject;
 
 [Serializable]
@@ -12,12 +13,12 @@ public struct PinPair
     public ConnectorPinBehaviour Pin2;
 }
 
-public class TestSchemeBuilder : CircuitComponent
+public class TestSchemeBuilder : DisposableMonobehaviour
 {
     [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
     [Inject] private CableBehaviour.Factory m_cablesFactory;
 
-    protected override void InitComponent()
+    public void InitComponent()
     {
         foreach (var pair in m_pinPairs)
         {
@@ -27,7 +28,7 @@ public class TestSchemeBuilder : CircuitComponent
         }
     }
 
-    protected override void DeinitComponent()
+    public void DeinitComponent()
     {
     }
 
