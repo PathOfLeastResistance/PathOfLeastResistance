@@ -52,6 +52,10 @@ public class ConnectionManager : MonoBehaviour
             Sim.AddElement(elm);
             m_connections.Add(connection, elm);
         }
+        else
+        {
+            Debug.LogWarning($"Connection {connection} already exists");
+        }
     }
 
     public void Disconnect(Connection connection)
@@ -110,7 +114,7 @@ public class ConnectionManager : MonoBehaviour
             m_createdCable.Dispose();
         }
     }
-
+    
     #endregion
 
     /// <summary>

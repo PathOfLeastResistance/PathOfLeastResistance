@@ -23,6 +23,7 @@ public class OscilloscopeComponent : CircuitComponent
     private ProbeElm m_probeElm;
     private bool m_isSecondary;
 
+    //Trigger and data collection
     private List<VoltageData> m_activeDataBuffer = new(5000);
     private List<VoltageData> m_backDataBuffer = new(5000);
     private bool m_isRecording = false;

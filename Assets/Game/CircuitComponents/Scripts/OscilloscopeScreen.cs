@@ -193,9 +193,12 @@ public class OscilloscopeScreen : MonoBehaviour
         m_canvasTexture.DrawColumns(m_pixelsToDraw, Color.red);
 
         //Prepare pixels of scanner
-        m_scanner.Clear();
-        m_scanner.Add((m_BuffersEdgePixel, new int2(0, m_pointsCountH)));
-        m_canvasTexture.DrawColumns(m_scanner, Color.green);
+        if (m_DrawScanner)
+        {
+            m_scanner.Clear();
+            m_scanner.Add((m_BuffersEdgePixel, new int2(0, m_pointsCountH)));
+            m_canvasTexture.DrawColumns(m_scanner, Color.green);
+        }
 
         //Apply
         m_canvasTexture.Flush();

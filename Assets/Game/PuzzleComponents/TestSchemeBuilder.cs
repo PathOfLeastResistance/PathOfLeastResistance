@@ -14,22 +14,21 @@ public struct PinPair
 }
 
 public class TestSchemeBuilder : DisposableMonobehaviour
-{
-    [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
+{ 
     [Inject] private CableBehaviour.Factory m_cablesFactory;
+    
+    [SerializeField] private Transform m_connectorsRoot;
+    [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
 
-    public void InitComponent()
+    public void CreateConnections()
     {
         foreach (var pair in m_pinPairs)
         {
             var cable = m_cablesFactory.Create();
             cable.CableEnding1.Pin = pair.Pin1;
             cable.CableEnding2.Pin = pair.Pin2;
+            cable.transform.SetParent(m_connectorsRoot);
         }
-    }
-
-    public void DeinitComponent()
-    {
     }
 
     private void OnDrawGizmos()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4306869021735515259}
   m_Layer: 0
   m_Name: SecretPart
-  m_TagString: Untagged
+  m_TagString: Hidden
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 9053039844072787792}
   - component: {fileID: 5095056396746257658}
   - component: {fileID: 6531238858434603368}
+  - component: {fileID: 7938692945802044613}
   m_Layer: 0
   m_Name: Level_3
   m_TagString: Untagged
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c408e1895ca5447f9d97b5b7d0df2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_connectorsRoot: {fileID: 4306869021735515259}
   m_pinPairs:
   - Pin1: {fileID: 7798168481110252865}
     Pin2: {fileID: 2426983500852536395}
@@ -170,6 +172,18 @@ MonoBehaviour:
     Pin2: {fileID: 7609434358757140119}
   - Pin1: {fileID: 2778062624308232278}
     Pin2: {fileID: 6397759523737532763}
+--- !u!114 &7938692945802044613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602963215855895507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42019ea3b9d694749b20c093984cd716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1211103278792953004
 PrefabInstance:
   m_ObjectHideFlags: 0

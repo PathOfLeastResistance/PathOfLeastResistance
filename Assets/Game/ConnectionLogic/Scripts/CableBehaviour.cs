@@ -56,21 +56,21 @@ public class CableBehaviour : DisposableMonobehaviour
             if (m_pin1 != null && m_pin2 != null)
             {
                 m_connectionsManager.Disconnect(new Connection(m_pin1.Id, m_pin2.Id));
-                Debug.Log("Disconnected");
+                // Debug.Log("Disconnected");
             }
 
             // the connection is not the same as before. add it
             if (m_pin1 != pin1 || m_pin2 != pin2)
             {
                 m_connectionsManager.Connect(new Connection(pin1.Id, pin2.Id));
-                Debug.Log("Connected");
+                // Debug.Log("Connected");
             }
         }
         //We lost the connection. remove it
         else if (m_pin1 != null && m_pin2 != null)
         {
             m_connectionsManager.Disconnect(new Connection(m_pin1.Id, m_pin2.Id));
-            Debug.Log("Disconnected");
+            // Debug.Log("Disconnected");
         }
 
         m_pin1 = pin1;
@@ -80,18 +80,20 @@ public class CableBehaviour : DisposableMonobehaviour
         m_pin1Subscription?.Dispose();
         m_pin2Subscription?.Dispose();
 
-        void DisposeAction() => Destroy(gameObject);
+        void DisposeAction() => Dispose();
 
         if (m_pin1 != null)
         {
+            var firstPin = m_pin1;
             m_pin1.DisposeEvent += DisposeAction;
-            m_pin1Subscription = new DisposableAction(() => m_pin1.DisposeEvent -= DisposeAction);
+            m_pin1Subscription = new DisposableAction(() => firstPin.DisposeEvent -= DisposeAction);
         }
 
         if (m_pin2 != null)
         {
+            var secondPin = m_pin2;
             m_pin2.DisposeEvent += DisposeAction;
-            m_pin2Subscription = new DisposableAction(() => m_pin2.DisposeEvent -= DisposeAction);
+            m_pin2Subscription = new DisposableAction(() => secondPin.DisposeEvent -= DisposeAction);
         }
     }
 

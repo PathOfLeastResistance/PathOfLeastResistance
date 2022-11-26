@@ -6,17 +6,22 @@ public class Level : MonoBehaviour
 {
     private CircuitComponent[] m_circuitComponents;
     private TestSchemeBuilder m_SchemeBuilder;
+    private ElementsHider m_ElementsHider;
     
     private void Init()
     {
         //The components should be initialized first
         m_circuitComponents = GetComponentsInChildren<CircuitComponent>();
-        m_SchemeBuilder = GetComponent<TestSchemeBuilder>();
         foreach (var circuitComponent in m_circuitComponents)
             circuitComponent.Init();
 
         //And then we connect them
-        m_SchemeBuilder.InitComponent();
+        m_SchemeBuilder = GetComponent<TestSchemeBuilder>();
+        m_SchemeBuilder.CreateConnections();
+        
+        //Now hide things we don't need to see
+        m_ElementsHider = GetComponent<ElementsHider>();
+        m_ElementsHider.Hide();
     }
     
     private void Start()
