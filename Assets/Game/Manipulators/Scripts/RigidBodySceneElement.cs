@@ -56,7 +56,7 @@ namespace Game
             m_rigidbody.isKinematic = false;
 
             // Save rotation data
-            GameExtraInput.Instance.OnWheelEvent += OnWheel;
+            SimpleMouseInput.Instance.OnWheelEvent += OnWheel;
             m_lastRotation = m_CurrentRotation = m_TargetRotation = m_rigidbody.rotation.eulerAngles.y;
             m_rotationPidController.ResetAllDimensions();
 
@@ -70,7 +70,7 @@ namespace Game
 
         private void OnObjectGrabEnd(object sender, PointerInteractionEventArgs args)
         {
-            GameExtraInput.Instance.OnWheelEvent -= OnWheel;
+            SimpleMouseInput.Instance.OnWheelEvent -= OnWheel;
             m_rigidbody.isKinematic = true;
         }
 
