@@ -121,8 +121,10 @@ namespace CircuitJSharp
             // setSimRunning(running);
             setSimRunning(true);
 
-            maxTimeStep = 5e-5;
-            minTimeStep = 50e-12;
+            // maxTimeStep = 5e-5;
+            // minTimeStep = 50e-12;
+            maxTimeStep = 5e-4;
+            minTimeStep = 50e-6;
         }
 
         public void AddElement(CircuitElm elm)
@@ -130,6 +132,14 @@ namespace CircuitJSharp
             elmList.Add(elm);
             needAnalyze();
         }
+
+        public void RemoveElement(CircuitElm elm)
+        {
+            elmList.Remove(elm);
+            needAnalyze();
+        }
+
+        public int ElementsCount => elmList.Count;
 
         private long lastTime = 0, lastFrameTime, lastIterTime;
         public long secTime = 0;
@@ -202,9 +212,8 @@ namespace CircuitJSharp
                 catch (Exception e)
                 {
                     //LOGGER
-                    // debugger();
-                    Debug.LogError(e);
-                    // console("exception in runCircuit " + e);
+                    // debugger();; 
+                    console("exception in runCircuit " + e);
                 }
             }
 
@@ -1049,7 +1058,8 @@ namespace CircuitJSharp
             stopElm = ce;
             setSimRunning(false);
             analyzeFlag = false;
-        //	cv.repaint();
+            console(stopMessage);
+            //	cv.repaint();
         }
 
         // control voltage source vs with voltage from n1 to n2 (must
@@ -1370,7 +1380,10 @@ namespace CircuitJSharp
                 }
 
                 if (subiter > 5 || timeStep < maxTimeStep)
-                    console("converged after " + subiter + " iterations, timeStep = " + timeStep);
+                {
+                    //console("converged after " + subiter + " iterations, timeStep = " + timeStep);
+                }
+
                 if (subiter < 3 && goodIteration)
                     goodIterations++;
                 else
@@ -1607,7 +1620,7 @@ namespace CircuitJSharp
                 {
                     if (largestRow == -1)
                     {
-                        // console("largestRow == -1"); LOGGER
+                        console("largestRow == -1");
                         return false;
                     }
 

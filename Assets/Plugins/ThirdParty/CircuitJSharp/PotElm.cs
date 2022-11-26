@@ -57,7 +57,11 @@ namespace CircuitJSharp
         public double sliderPos
         {
             get => position;
-            set => position = Math.Clamp(value, 1e-3, 1 - 1e-3); //Do not allow zero resistance
+            set
+            {
+                sim.needsStamp = true;
+                position = Math.Clamp(value, 1e-3, 1 - 1e-3); //Do not allow zero resistance
+            }
         }
 
         public override int getPostCount() => 3;

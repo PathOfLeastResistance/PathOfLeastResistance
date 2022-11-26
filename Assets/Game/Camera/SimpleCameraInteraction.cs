@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityTools;
+using Zenject;
 
 namespace Game
 {
     public class SimpleCameraInteraction : MonoBehaviour
     {
+        [Inject] private CameraRaycaster m_cameraRaycaster;
+        
         [SerializeField] private Camera m_camera;
         [SerializeField] private float m_distance = 1f;
         [SerializeField] private float2 m_MinMaxDistance = new float2(1f, 10f);
@@ -19,13 +23,13 @@ namespace Game
         [SerializeField] private Transform m_TargetTransform;
 
         [SerializeField] private InteractionObject m_InteractionObject;
-        
+
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private CinemachineTransposer m_Transposer;
         private Vector3 m_TargetDragStartPoint;
         private Vector3 m_TotalDelta;
         private float m_WheelSensitive = 0.01f;
-        
+
         public float Distance
         {
             get => m_distance;
@@ -52,7 +56,7 @@ namespace Game
             TargetPosition = Vector3.zero;
             Distance = 1;
         }
-        
+
         private void OnPointerDragStart(object sender, PointerDragInteractionEventArgs args)
         {
             var ray = m_camera.ScreenPointToRay(args.PointerPosition);
@@ -63,32 +67,26 @@ namespace Game
             }
         }
 
-        private void OnWheel(float delta)
-        {
-            Distance += delta * m_WheelSensitive;
-        }
-        
         private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
         {
-            m_TotalDelta += ProjectDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition);
-            TargetPosition = m_TargetDragStartPoint - m_TotalDelta;
+            if (m_cameraRaycaster.RaycastDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition, m_InteractionPlane, out var detla))
+            {
+                m_TotalDelta += detla;
+                TargetPosition = m_TargetDragStartPoint - m_TotalDelta;
+            }
         }
 
         private void OnPointerDragEnd(object sencer, PointerDragInteractionEventArgs args)
         {
         }
         
-        private Vector3 ProjectDeltaOnPlane(Vector3 prevPosition2d, Vector3 newPosition2d)
+        private void OnWheel(float delta)
         {
-            var prevRay = m_camera.ScreenPointToRay(prevPosition2d);
-            var newRay = m_camera.ScreenPointToRay(newPosition2d);
-            if (m_InteractionPlane.Raycast(prevRay, out var prevEnter) && m_InteractionPlane.Raycast(newRay, out var newEnter))
-            {
-                var prevPoint = prevRay.GetPoint(prevEnter);
-                var newPoint = newRay.GetPoint(newEnter);
-                return newPoint - prevPoint;
-            }
-            return Vector3.zero;
+            //We can scroll if no object is under interaction. not a good way to do like this :(
+            var inputManager = InputManager.Instance;
+            var canScroll = inputManager.ActiveGestures.All(c => c.InteractionObject == m_InteractionObject);
+            if (canScroll)
+                Distance += delta * m_WheelSensitive;
         }
     }
 }

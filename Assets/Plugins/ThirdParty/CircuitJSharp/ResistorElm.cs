@@ -23,7 +23,7 @@ namespace CircuitJSharp
     {
         double resistance;
 
-        public ResistorElm(int x0, int x1, float res = 1000f) : base(x0, x1)
+        public ResistorElm(int x0, int x1, double res = 1000) : base(x0, x1)
         {
             resistance = res;
         }

@@ -38,13 +38,14 @@ namespace CircuitJSharp
         {
             if (pointConnections.Length != getPostCount())
                 throw new Exception("Incorrect node count");
-            for(int i =0; i< pointConnections.Length; i++)
+            points = new Point[getPostCount()];
+            for (int i = 0; i < pointConnections.Length; i++)
             {
                 points[i] = new Point(pointConnections[i]);
             }
         }
 
-        public override abstract int getPostCount();
+        public abstract override int getPostCount();
     }
 
 // circuit element class

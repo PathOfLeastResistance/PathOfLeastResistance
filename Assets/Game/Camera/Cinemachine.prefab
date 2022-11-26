@@ -59,7 +59,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291665337848220113}
-  m_LocalRotation: {x: 0.70710677, y: -2.7848041e-14, z: -2.7848055e-14, w: 0.7071069}
+  m_LocalRotation: {x: 0.70710677, y: 2.7849764e-14, z: 2.7849776e-14, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 10.000001, z: -0.0000011920929}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -329,7 +329,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6518457341467328110}
-  m_LocalRotation: {x: -0, y: -1.2766479e-17, z: 1.6940657e-21, w: 1}
+  m_LocalRotation: {x: -0, y: 2.5173817e-18, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7160665, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -388,6 +388,7 @@ GameObject:
   - component: {fileID: 1284549174}
   - component: {fileID: 3256187189923702730}
   - component: {fileID: 231181292}
+  - component: {fileID: 5328717625304169806}
   m_Layer: 0
   m_Name: Cinemachine
   m_TagString: Untagged
@@ -460,6 +461,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17bed46015582442aa9d5aec0f9f45f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5328717625304169806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419595411922237881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2690bcbcb5e04aac975511b341489b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7833046374434951178
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,8 +501,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7833046374434951178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10.445, y: 1, z: 9.5438}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1098610721593793766}

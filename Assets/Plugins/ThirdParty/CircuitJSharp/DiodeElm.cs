@@ -31,7 +31,7 @@ namespace CircuitJSharp
         private Diode diode;
         private string modelName;
         private DiodeModel model;
-        private static string lastModelName = "spice-default";
+        private static string lastModelName = "default";
         private bool hasResistance;
         private int diodeEndNode;
         private Point[] cathode;
