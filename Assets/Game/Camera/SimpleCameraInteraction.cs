@@ -1,38 +1,60 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityTools;
+using Zenject;
 
 namespace Game
 {
+    [Serializable]
+    public struct CameraSettings
+    {
+        public AnimationCurve m_heightCurve;
+        public AnimationCurve m_targetForwardOffsetCurve;
+        public AnimationCurve m_cameraForwardOffsetCurve;
+        public AnimationCurve m_cameraUpOffsetCurve;
+    }
+
     public class SimpleCameraInteraction : MonoBehaviour
     {
+        [Inject] private CameraRaycaster m_cameraRaycaster;
+
         [SerializeField] private Camera m_camera;
-        [SerializeField] private float m_distance = 1f;
-        [SerializeField] private float2 m_MinMaxDistance = new float2(1f, 10f);
+        [SerializeField] private float m_zoom = 1f;
         [SerializeField] private PlanarColliderPositionClamper m_Clamper;
 
         [SerializeField] private CinemachineVirtualCamera m_virtualCamera;
         [SerializeField] private Transform m_TargetTransform;
 
         [SerializeField] private InteractionObject m_InteractionObject;
-        
+        [SerializeField] private CameraSettings m_cameraSettings;
+        [SerializeField] private float m_RotationSensetivity = 1f;
+        [SerializeField] private float m_WheelSensitive = 0.001f;
+
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private CinemachineTransposer m_Transposer;
+        private CinemachineComposer m_Composer;
         private Vector3 m_TargetDragStartPoint;
         private Vector3 m_TotalDelta;
-        private float m_WheelSensitive = 0.01f;
-        
-        public float Distance
+
+        public float Zoom
         {
-            get => m_distance;
+            get => m_zoom;
             set
             {
-                m_distance = math.clamp(value, m_MinMaxDistance.x, m_MinMaxDistance.y);
-                m_Transposer.m_FollowOffset = new Vector3(0, 0, m_distance);
+                m_zoom = math.clamp(value, 0, 1);
+
+                var heightOffset = m_cameraSettings.m_heightCurve.Evaluate(m_zoom);
+                var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_zoom);
+                var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_zoom);
+                var cameraUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_zoom);
+
+                m_Transposer.m_FollowOffset = new Vector3(0, heightOffset, cameraForwardOffset);
+                m_Composer.m_TrackedObjectOffset = new Vector3(0, cameraUpOffset, targetForwardOffset);
             }
         }
 
@@ -45,17 +67,20 @@ namespace Game
         private void Awake()
         {
             InputManager.Instance.RegisterCamera(m_camera);
-            GameExtraInput.Instance.OnWheelEvent += OnWheel;
+            SimpleMouseInput.Instance.OnWheelEvent += OnWheel;
+            SimpleMouseInput.Instance.SubscribeLeftButtonDrag(OnLeftDragStart, OnLeftDragPerformed, OnLeftDragEnd);
+            SimpleMouseInput.Instance.SubscribeRightButtonDrag(OnRightDragStart, OnRightDragPerformed, OnRightDragEnd);
+
             m_Transposer = m_virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            m_InteractionObject.SubscribePointerDragEvent(OnPointerDragStart, OnPointerDrag, OnPointerDragEnd);
+            m_Composer = m_virtualCamera.GetCinemachineComponent<CinemachineComposer>();
 
             TargetPosition = Vector3.zero;
-            Distance = 1;
+            Zoom = 1;
         }
-        
-        private void OnPointerDragStart(object sender, PointerDragInteractionEventArgs args)
+
+        private void OnLeftDragStart(MouseDragEventArgs args)
         {
-            var ray = m_camera.ScreenPointToRay(args.PointerPosition);
+            var ray = m_camera.ScreenPointToRay(args.MousePosition);
             if (m_InteractionPlane.Raycast(ray, out var enter))
             {
                 m_TargetDragStartPoint = TargetPosition;
@@ -63,32 +88,45 @@ namespace Game
             }
         }
 
-        private void OnWheel(float delta)
+        private void OnLeftDragPerformed(MouseDragEventArgs args)
         {
-            Distance += delta * m_WheelSensitive;
-        }
-        
-        private void OnPointerDrag(object sender, PointerDragInteractionEventArgs args)
-        {
-            m_TotalDelta += ProjectDeltaOnPlane(args.PointerPrevPosition, args.PointerPosition);
-            TargetPosition = m_TargetDragStartPoint - m_TotalDelta;
+            if (!CheckInputInterruption())
+            {
+                if (m_cameraRaycaster.RaycastDeltaOnPlane(args.MousePosition - args.MouseDelta, args.MousePosition, m_InteractionPlane, out var delta))
+                {
+                    m_TotalDelta += delta;
+                    TargetPosition = m_TargetDragStartPoint - m_TotalDelta;
+                }
+            }
         }
 
-        private void OnPointerDragEnd(object sencer, PointerDragInteractionEventArgs args)
+        private void OnLeftDragEnd(MouseDragEventArgs args)
         {
         }
-        
-        private Vector3 ProjectDeltaOnPlane(Vector3 prevPosition2d, Vector3 newPosition2d)
+
+        private void OnRightDragStart(MouseDragEventArgs args)
         {
-            var prevRay = m_camera.ScreenPointToRay(prevPosition2d);
-            var newRay = m_camera.ScreenPointToRay(newPosition2d);
-            if (m_InteractionPlane.Raycast(prevRay, out var prevEnter) && m_InteractionPlane.Raycast(newRay, out var newEnter))
-            {
-                var prevPoint = prevRay.GetPoint(prevEnter);
-                var newPoint = newRay.GetPoint(newEnter);
-                return newPoint - prevPoint;
-            }
-            return Vector3.zero;
+        }
+
+        private void OnRightDragPerformed(MouseDragEventArgs args)
+        {
+            if (!CheckInputInterruption())
+                m_TargetTransform.rotation *= Quaternion.AngleAxis(-args.MouseDelta.x * m_RotationSensetivity, Vector3.up);
+        }
+
+        private void OnRightDragEnd(MouseDragEventArgs args)
+        {
+        }
+
+        private void OnWheel(float delta)
+        {
+            if (!CheckInputInterruption())
+                Zoom += delta * m_WheelSensitive;
+        }
+
+        private bool CheckInputInterruption()
+        {
+            return InputManager.Instance.ActiveGestures.Any(c => c.InteractionObject != m_InteractionObject);
         }
     }
 }
