@@ -16,6 +16,7 @@ namespace Game
         public AnimationCurve m_heightCurve;
         public AnimationCurve m_targetForwardOffsetCurve;
         public AnimationCurve m_cameraForwardOffsetCurve;
+        public AnimationCurve m_cameraUpOffsetCurve;
     }
 
     public class SimpleCameraInteraction : MonoBehaviour
@@ -46,11 +47,14 @@ namespace Game
             set
             {
                 m_zoom = math.clamp(value, 0, 1);
+                
                 var heightOffset = m_cameraSettings.m_heightCurve.Evaluate(m_zoom);
                 var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_zoom);
                 var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_zoom);
+                var cameraUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_zoom);
+                
                 m_Transposer.m_FollowOffset = new Vector3(0, heightOffset, cameraForwardOffset);
-                m_Composer.m_TrackedObjectOffset = new Vector3(0, 0, targetForwardOffset);
+                m_Composer.m_TrackedObjectOffset = new Vector3(0, cameraUpOffset, targetForwardOffset);
             }
         }
 
