@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: InitalSceneInstaller
   m_EditorClassIdentifier: 
   m_BootsTrapSettings:
-    m_StartScene: {fileID: 0}
+    m_StartScene: {fileID: 102900000, guid: cc3b64fd72175dd4eaa23a5668dddd99, type: 3}
