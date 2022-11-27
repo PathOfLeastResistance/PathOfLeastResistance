@@ -24,7 +24,6 @@ namespace Game
         [Inject] private CameraRaycaster m_cameraRaycaster;
 
         [SerializeField] private Camera m_camera;
-        [SerializeField] private float m_zoom = 1f;
         [SerializeField] private PlanarColliderPositionClamper m_Clamper;
 
         [SerializeField] private CinemachineVirtualCamera m_virtualCamera;
@@ -34,6 +33,7 @@ namespace Game
         [SerializeField] private CameraSettings m_cameraSettings;
         [SerializeField] private float m_RotationSensetivity = 1f;
         [SerializeField] private float m_WheelSensitive = 0.001f;
+        [SerializeField] private float m_movementDuration = 10;
 
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private CinemachineTransposer m_Transposer;
@@ -41,27 +41,30 @@ namespace Game
         private Vector3 m_TargetDragStartPoint;
         private Vector3 m_TotalDelta;
 
-        public float Zoom
+        private Vector3 m_currentPosition;
+        private Quaternion m_currentRotation;
+        private float m_currentZoom;
+
+        private Vector3 m_targetPosition;
+        private Quaternion m_targetRotation;
+        private float m_targetZoom = 1f;
+
+        public float TargetZoom
         {
-            get => m_zoom;
-            set
-            {
-                m_zoom = math.clamp(value, 0, 1);
-
-                var heightOffset = m_cameraSettings.m_heightCurve.Evaluate(m_zoom);
-                var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_zoom);
-                var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_zoom);
-                var cameraUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_zoom);
-
-                m_Transposer.m_FollowOffset = new Vector3(0, heightOffset, cameraForwardOffset);
-                m_Composer.m_TrackedObjectOffset = new Vector3(0, cameraUpOffset, targetForwardOffset);
-            }
+            get => m_targetZoom;
+            set => m_targetZoom = math.clamp(value, 0, 1);
         }
 
         public Vector3 TargetPosition
         {
-            get => m_TargetTransform.position;
-            set => m_TargetTransform.position = m_Clamper.ClampPosition(value);
+            get => m_targetPosition;
+            set => m_targetPosition = m_Clamper.ClampPosition(value);
+        }
+
+        public Quaternion TargetRotation
+        {
+            get => m_targetRotation;
+            set => m_targetRotation = value;
         }
 
         private void Awake()
@@ -74,9 +77,19 @@ namespace Game
             m_Transposer = m_virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
             m_Composer = m_virtualCamera.GetCinemachineComponent<CinemachineComposer>();
 
-            TargetPosition = Vector3.zero;
-            Zoom = 1;
+            ResetCameraPos();
         }
+
+        public void ResetCameraPos()
+        {
+            m_currentPosition = TargetPosition = Vector3.zero;
+            m_currentRotation = TargetRotation = Quaternion.identity;
+            m_currentZoom = TargetZoom = 1f;
+
+            UpdateCameraPosition();
+        }
+
+        #region Input handling
 
         private void OnLeftDragStart(MouseDragEventArgs args)
         {
@@ -111,7 +124,7 @@ namespace Game
         private void OnRightDragPerformed(MouseDragEventArgs args)
         {
             if (!CheckInputInterruption())
-                m_TargetTransform.rotation *= Quaternion.AngleAxis(-args.MouseDelta.x * m_RotationSensetivity, Vector3.up);
+                TargetRotation *= Quaternion.AngleAxis(-args.MouseDelta.x * m_RotationSensetivity, Vector3.up);
         }
 
         private void OnRightDragEnd(MouseDragEventArgs args)
@@ -121,12 +134,40 @@ namespace Game
         private void OnWheel(float delta)
         {
             if (!CheckInputInterruption())
-                Zoom += delta * m_WheelSensitive;
+                TargetZoom += delta * m_WheelSensitive;
         }
 
         private bool CheckInputInterruption()
         {
             return InputManager.Instance.ActiveGestures.Any(c => c.InteractionObject != m_InteractionObject);
+        }
+
+        #endregion
+
+        private void Update()
+        {
+            var t = Time.deltaTime / m_movementDuration;
+            m_currentPosition = math.lerp(m_currentPosition, m_targetPosition, t);
+            m_currentRotation = Quaternion.Lerp(m_currentRotation, m_targetRotation, t);
+            m_currentZoom = math.lerp(m_currentZoom, m_targetZoom, t);
+
+            UpdateCameraPosition();
+        }
+
+        private void UpdateCameraPosition()
+        {
+            //Apply position and rotation settings
+            m_TargetTransform.SetPositionAndRotation(m_currentPosition, m_currentRotation);
+
+            //Apply zoom
+            var cameraUpOffset = m_cameraSettings.m_heightCurve.Evaluate(m_targetZoom);
+            var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_targetZoom);
+
+            var targetUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_targetZoom);
+            var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_targetZoom);
+
+            m_Transposer.m_FollowOffset = new Vector3(0, cameraUpOffset, cameraForwardOffset);
+            m_Composer.m_TrackedObjectOffset = new Vector3(0, targetUpOffset, targetForwardOffset);
         }
     }
 }
