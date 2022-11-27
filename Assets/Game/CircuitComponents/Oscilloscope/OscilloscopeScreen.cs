@@ -5,30 +5,49 @@ using Unity.Mathematics;
 using UnityEngine;
 using ViJApps.CanvasTexture;
 
+
+[Serializable]
+public struct OscilloscopeDataSettings
+{
+    public float MinVoltage;
+    public float MaxVoltage;
+    public float RenderPeriod;
+}
+
 public class OscilloscopeScreen : MonoBehaviour
 {
     private const int ScreenResolutionX = 320;
     private const int ScreenResolutionY = 240;
 
+    [Header("Optional renderer for debug")] [SerializeField]
+    private Renderer m_screenRenderer;
+
     [SerializeField] private RenderTexture m_renderTexture;
-    [SerializeField] private Renderer m_screenRenderer;
     [SerializeField] private OscilloscopeComponent m_oscilloscope;
-    [SerializeField] private bool m_DrawScanner = false;
+    [SerializeField] private bool m_drawScanner = false;
 
     private CanvasTexture m_canvasTexture;
     private int m_pointsCountW = ScreenResolutionX;
     private int m_pointsCountH = ScreenResolutionY;
-    private int m_BuffersEdgePixel;
+    private int m_buffersEdgePixel;
 
     private DisplayData[] m_displayData = new DisplayData[ScreenResolutionX];
-
     private List<(int, int2)> m_pixelsToDraw = new List<(int, int2)>(ScreenResolutionX);
     private List<(int, int2)> m_scanner = new List<(int, int2)>(1);
 
-    // TODO: make it visual settings
-    private float m_minValue = -5f;
-    private float m_maxValue = 5f;
-    private float m_renderPeriod = 0.5f;
+    [SerializeField] private OscilloscopeDataSettings m_settings = new OscilloscopeDataSettings
+    {
+        MinVoltage = -5,
+        MaxVoltage = 5,
+        RenderPeriod = 0.5f
+    };
+
+    public OscilloscopeDataSettings Settings
+    {
+        get => m_settings;
+        set => m_settings = value;
+    }
+
     public event Action<RenderTexture> OnRenderTextureChanged;
 
     public RenderTexture RenderTexture
@@ -87,7 +106,7 @@ public class OscilloscopeScreen : MonoBehaviour
             for (int i = 0; i < activeDataBuffer.Count; i++)
             {
                 var data = activeDataBuffer[i];
-                var x = (data.Time - startPoint) / m_renderPeriod;
+                var x = (data.Time - startPoint) / m_settings.RenderPeriod;
                 var y = data.Voltage;
                 var pixel = (int)(x * m_pointsCountW);
 
@@ -120,7 +139,7 @@ public class OscilloscopeScreen : MonoBehaviour
         }
 
         var lastPixel = maxPixel;
-        m_BuffersEdgePixel = lastPixel;
+        m_buffersEdgePixel = lastPixel;
 
         //BackBuffer
         //TODO: binary search to find first pixel to start from
@@ -130,7 +149,7 @@ public class OscilloscopeScreen : MonoBehaviour
             for (int i = 0; i < dataBackBuffer.Count; i++)
             {
                 var data = dataBackBuffer[i];
-                var x = (data.Time - startPoint) / m_renderPeriod;
+                var x = (data.Time - startPoint) / m_settings.RenderPeriod;
                 var y = data.Voltage;
                 var pixel = (int)(x * m_pointsCountW);
                 if (pixel < lastPixel)
@@ -184,8 +203,8 @@ public class OscilloscopeScreen : MonoBehaviour
         for (int i = 0; i < m_pointsCountW; i++)
         {
             var data = m_displayData[i];
-            var minPixel = (int)math.floor(math.remap(m_minValue, m_maxValue, 0, m_pointsCountH - 1, data.MinVoltage));
-            var maxPixel = (int)math.floor(math.remap(m_minValue, m_maxValue, 0, m_pointsCountH - 1, data.MaxVoltage));
+            var minPixel = (int)math.floor(math.remap(m_settings.MinVoltage, m_settings.MaxVoltage, 0, m_pointsCountH - 1, data.MinVoltage));
+            var maxPixel = (int)math.floor(math.remap(m_settings.MinVoltage, m_settings.MaxVoltage, 0, m_pointsCountH - 1, data.MaxVoltage));
 
             m_pixelsToDraw.Add(new(i, new int2(minPixel, maxPixel)));
         }
@@ -193,10 +212,10 @@ public class OscilloscopeScreen : MonoBehaviour
         m_canvasTexture.DrawColumns(m_pixelsToDraw, Color.red);
 
         //Prepare pixels of scanner
-        if (m_DrawScanner)
+        if (m_drawScanner)
         {
             m_scanner.Clear();
-            m_scanner.Add((m_BuffersEdgePixel, new int2(0, m_pointsCountH)));
+            m_scanner.Add((m_buffersEdgePixel, new int2(0, m_pointsCountH)));
             m_canvasTexture.DrawColumns(m_scanner, Color.green);
         }
 

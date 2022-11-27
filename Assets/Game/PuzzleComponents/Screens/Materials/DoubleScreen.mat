@@ -118,7 +118,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Float: 0
+    - _Float: 0.3
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -138,11 +138,13 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _ZeroVerticalOffset: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Bg: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 1}
     - _BgColor: {r: 1, g: 0, b: 0, a: 0}
-    - _CellCount: {r: 5, g: 5, b: 0, a: 0}
+    - _CameraOffsets: {r: 0.1, g: 0.3, b: 0, a: 0}
+    - _CellCount: {r: 2, g: 2, b: 0, a: 0}
     - _CenterOffset: {r: -0.5, g: -0.5, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 0.73324853, b: 0, a: 0}
