@@ -8,6 +8,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Plugins/Ours/CanvasTexture/Examples/LineMeshExample/LinesTest.unity
+    guid: b1a54fce4b9404221850226e8de69252
+  - enabled: 1
+    path: Assets/Scenes/DialoguesTestScene.unity
+    guid: cc3b64fd72175dd4eaa23a5668dddd99
+  - enabled: 1
+    path: Assets/Game/Dialogues/Scenes/Friend.unity
+    guid: c67713909b9742d4e808b4882215bbab
+  - enabled: 1
+    path: Assets/Game/Dialogues/Scenes/Bag.unity
+    guid: d968ebcd46e58524eacb9f29c01b5a54
+  - enabled: 1
+    path: Assets/Game/Dialogues/Scenes/Classroom.unity
+    guid: 145e0712ab3b0c744b614b1770e61b9e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: b08736ef564bd4c1a9b9d1fcdaf2b63f,
       type: 2}

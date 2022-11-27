@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
+  m_Name: DialogueBag
+  m_EditorClassIdentifier: 
+  m_LeftCharacter: {fileID: 0}
+  m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
+    type: 3}
+  m_Backgroud: {fileID: 7602538453456710455, guid: ac363d30560ffb246acbf9c186ba44d9,
+    type: 3}
+  m_Phrases:
+  - Text: So, I took notes for the whole semester.
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
+  - Text: But what about textbooks?
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
+  - Text: Yeah, here they are, all in place.
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
+  - Text: We need to get more pens.
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
+  - Text: I take everything I have.
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
+  - Text: I'm always out of luck with this.
+    Speaker: 1
+    BubbleTail: 0
+    BubbleForm: 0
+  m_Endings:
+  - Phrase:
+      Text: I don't remember what I put in the bag. Need to check. I will need a
+        lot of tools today.
+      Speaker: 1
+      BubbleTail: 6
+      BubbleForm: 0
+    End: {fileID: 11400000}
+  - Phrase:
+      Text: Let's go and ask a friend for help. He was always good at physics.
+      Speaker: 1
+      BubbleTail: 6
+      BubbleForm: 0
+    End: {fileID: 11400000, guid: e661e78b04083934e849ca07bcc8bf9c, type: 2}
+  - Phrase:
+      Text: It is necessary to go to class. Today they are talking about the most
+        difficult topic. I will surely learn something new about myself.
+      Speaker: 1
+      BubbleTail: 6
+      BubbleForm: 0
+    End: {fileID: 11400000, guid: 6c1be5b633172e445b3729bbb31fc874, type: 2}
