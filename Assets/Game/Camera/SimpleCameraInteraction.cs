@@ -33,13 +33,13 @@ namespace Game
         [SerializeField] private InteractionObject m_InteractionObject;
         [SerializeField] private CameraSettings m_cameraSettings;
         [SerializeField] private float m_RotationSensetivity = 1f;
+        [SerializeField] private float m_WheelSensitive = 0.001f;
 
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private CinemachineTransposer m_Transposer;
         private CinemachineComposer m_Composer;
         private Vector3 m_TargetDragStartPoint;
         private Vector3 m_TotalDelta;
-        private float m_WheelSensitive = 0.01f;
 
         public float Zoom
         {
@@ -47,12 +47,12 @@ namespace Game
             set
             {
                 m_zoom = math.clamp(value, 0, 1);
-                
+
                 var heightOffset = m_cameraSettings.m_heightCurve.Evaluate(m_zoom);
                 var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_zoom);
                 var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_zoom);
                 var cameraUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_zoom);
-                
+
                 m_Transposer.m_FollowOffset = new Vector3(0, heightOffset, cameraForwardOffset);
                 m_Composer.m_TrackedObjectOffset = new Vector3(0, cameraUpOffset, targetForwardOffset);
             }
