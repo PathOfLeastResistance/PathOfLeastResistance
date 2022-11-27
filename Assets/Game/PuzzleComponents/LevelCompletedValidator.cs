@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// This class takes all SignalsValidatorComponent that are his children, and suscribes their OnSignalValidated event;
+/// It throws a OnLevelCompleted event when all the signals are validated and have GOOD quality
+/// </summary>
 public class LevelCompletedValidator : MonoBehaviour
 {
     public event Action OnLevelCompleted;
@@ -29,7 +33,7 @@ public class LevelCompletedValidator : MonoBehaviour
 
     private void OnSignalReceived()
     {
-        m_allSignalsGood = m_levelValidators.All(c=> c.IsSignalGood);
+        m_allSignalsGood = m_levelValidators.All(c=> c.SignalQuality == SignalQualityType.Good);
     }
 
     private void Update()
