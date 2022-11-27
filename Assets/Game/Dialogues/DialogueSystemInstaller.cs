@@ -8,13 +8,14 @@ public class DialogueSystemInstaller : MonoExtendedInstaller
     {
         BindSingle<TransitorToNextScene>();
         BindSingle<EventManager>();
-        BindSingle<LevelManager>();
 
         BindScriptableObject(m_InitialDialogue);
 
         BindFromHierarchy<CharacterManager>();
         BindFromHierarchy<BackgroundManager>();
         BindFromHierarchy<DialogueManager>();
+        BindFromHierarchy<UIManager>();
+        BindFromHierarchy<LevelManager>();
 
         BindMonoBehaviour<EventStarter>().NonLazy();
     }

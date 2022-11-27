@@ -18,6 +18,11 @@ MonoBehaviour:
   m_Backgroud: {fileID: 7602538453456710455, guid: ac363d30560ffb246acbf9c186ba44d9,
     type: 3}
   m_Phrases:
+  - Text: I don't remember what I put in the bag. Need to check. I will need a lot
+      of tools today.
+    Speaker: 1
+    BubbleTail: 6
+    BubbleForm: 0
   - Text: So, I took notes for the whole semester.
     Speaker: 1
     BubbleTail: 6
@@ -43,13 +48,6 @@ MonoBehaviour:
     BubbleTail: 0
     BubbleForm: 0
   m_Endings:
-  - Phrase:
-      Text: I don't remember what I put in the bag. Need to check. I will need a
-        lot of tools today.
-      Speaker: 1
-      BubbleTail: 6
-      BubbleForm: 0
-    End: {fileID: 11400000}
   - Phrase:
       Text: Let's go and ask a friend for help. He was always good at physics.
       Speaker: 1
