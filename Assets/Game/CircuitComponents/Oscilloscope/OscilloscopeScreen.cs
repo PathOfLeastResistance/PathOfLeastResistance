@@ -16,8 +16,8 @@ public struct OscilloscopeDataSettings
 
 public class OscilloscopeScreen : MonoBehaviour
 {
-    private const int ScreenResolutionX = 320;
-    private const int ScreenResolutionY = 240;
+    private const int ScreenResolutionX = 320 / 2;
+    private const int ScreenResolutionY = 240 / 2;
 
     [Header("Optional renderer for debug")] [SerializeField]
     private Renderer m_screenRenderer;

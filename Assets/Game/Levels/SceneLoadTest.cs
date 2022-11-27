@@ -9,6 +9,8 @@ public class SceneLoadTest : MonoBehaviour
     [Inject] private ConnectionManager m_connectionManager;
     [Inject] private ILevelsProvider m_LevelsProvider;
 
+    [SerializeField] private int m_level = 0;
+    
     //We try to load and unload levels here. then we check that everything is ok in the scene.
     private void Start()
     {
@@ -22,7 +24,7 @@ public class SceneLoadTest : MonoBehaviour
             Debug.Log("Deinit: " + m_connectionManager.Sim.ElementsCount);
         }
 
-        var finalTestLevel = m_levelFactory.Create(m_LevelsProvider.LevelsCount - 1);
+        var finalTestLevel = m_levelFactory.Create(m_level);
         finalTestLevel.Init();
     }
 }

@@ -50,7 +50,7 @@ public class DoubleScreenVisualizer : MonoBehaviour
 
     public float VoltsPerCell
     {
-        get =>  m_VolstPerCell;
+        get => m_VolstPerCell;
         set
         {
             m_VolstPerCell = value;
@@ -58,7 +58,7 @@ public class DoubleScreenVisualizer : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void Start()
     {
         if (m_screen1 != null)
         {
@@ -69,7 +69,7 @@ public class DoubleScreenVisualizer : MonoBehaviour
         {
             Debug.LogWarning("Screen 1 is null");
         }
-        
+
         if (m_screen2 != null)
         {
             SetSecondTexture(m_screen2.RenderTexture);
@@ -91,12 +91,21 @@ public class DoubleScreenVisualizer : MonoBehaviour
 
         var zeroPos = math.remap(m_voltageRange.x, m_voltageRange.y, 0, 1, 0);
         mat.SetFloat("_ZeroVerticalOffset", zeroPos);
-        
+
         var verticalCellCount = (m_voltageRange.y - m_voltageRange.x) / m_VolstPerCell;
         mat.SetVector("_CellCount", new Vector4(5, verticalCellCount, 0, 0));
     }
 
-    private void SetSecondTexture(RenderTexture texture) =>     m_renderer.material.SetTexture("_Screen2", texture);
-    
-    private void SetFirstTexture(RenderTexture texture) =>      m_renderer.material.SetTexture("_Screen1", texture);
+    private void OnDestroy()
+    {
+        //DIRTY HACK TO UNSUBSCRIBE FROM EVENTS
+        if ((object)m_screen1 != null)
+            m_screen1.OnRenderTextureChanged -= SetFirstTexture;
+        if ((object)m_screen2 != null)
+            m_screen2.OnRenderTextureChanged -= SetSecondTexture;
+    }
+
+    private void SetSecondTexture(RenderTexture texture) => m_renderer.material.SetTexture("_Screen2", texture);
+
+    private void SetFirstTexture(RenderTexture texture) => m_renderer.material.SetTexture("_Screen1", texture);
 }
