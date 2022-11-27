@@ -7,6 +7,7 @@ using Zenject;
 public interface ILevelsProvider
 {
     Level GetLevelPrefab(int levelNumber);
+    int GetLevelNumber(Level level);
     int LevelsCount { get; }
 }
 
@@ -21,7 +22,7 @@ public class LevelFactory : IFactory<int, Level>
     }
 }
 
-public class Level : MonoBehaviour
+public class Level : MonoBehaviour, IEventState
 {
     public class Factory : PlaceholderFactory<int, Level>
     {
