@@ -14,9 +14,9 @@ public struct PinPair
 }
 
 public class TestSchemeBuilder : DisposableMonobehaviour
-{ 
+{
     [Inject] private CableBehaviour.Factory m_cablesFactory;
-    
+
     [SerializeField] private Transform m_connectorsRoot;
     [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
 
@@ -37,7 +37,7 @@ public class TestSchemeBuilder : DisposableMonobehaviour
         {
             if (pair.Pin1 != null && pair.Pin2 != null)
             {
-                Gizmos.DrawLine(pair.Pin1.transform.position, pair.Pin2.transform.position);
+                Gizmos.DrawLine(pair.Pin1.ConnectionPoint, pair.Pin2.ConnectionPoint);
             }
         }
     }

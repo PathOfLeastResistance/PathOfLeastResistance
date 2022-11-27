@@ -28,6 +28,16 @@ namespace CircuitJSharp
             resistance = res;
         }
 
+        public double Resistance
+        {
+            get => resistance;
+            set
+            {
+                resistance = value;
+                sim.needsStamp = true;
+            }
+        }
+
         //System.out.print(this + " res current set to " + current + "\n");
         public override void calculateCurrent() => current = (volts[0] - volts[1]) / resistance;
 

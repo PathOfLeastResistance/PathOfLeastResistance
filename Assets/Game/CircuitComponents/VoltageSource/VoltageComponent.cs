@@ -9,46 +9,59 @@ public class VoltageComponent : CircuitComponent
     [SerializeField] private ConnectorPinBehaviour m_pin0;
     [SerializeField] private ConnectorPinBehaviour m_pin1;
 
-    [SerializeField] private RotationHandle m_voltageHandle;
-    [SerializeField] private RotationHandle m_frequencyHandle;
-
     [Range(0, 10)] [SerializeField] private float m_volts = 5f;
     [Range(1, 50)] [SerializeField] private float m_frequency = 10f;
-    
     [SerializeField] private WaveForm m_waveForm = WaveForm.WF_DC;
 
-    private VoltageElm m_voltage;
+    private VoltageElm m_voltageElm;
+
+    public float MaxVoltage
+    {
+        get => m_volts;
+        set
+        {
+            m_volts = value;
+            m_voltageElm.MaxVoltage = m_volts;
+        }
+    }
+
+    public float Frequency
+    {
+        get => m_frequency;
+        set
+        {
+            m_frequency = value;
+            m_voltageElm.Frequency = m_frequency;
+        }
+    }
+    
+    public WaveForm WaveForm
+    {
+        get => m_waveForm;
+        set
+        {
+            m_waveForm = value;
+            m_voltageElm.Waveform = m_waveForm;
+        }
+    }
 
     protected override void InitComponent()
     {
+        // Init pins
         var post0 = m_uniquePostProvider.GetId();
         var post1 = m_uniquePostProvider.GetId();
-
-        m_voltage = new VoltageElm(post0, post1, m_waveForm);
         m_pin0.Init(() => post0);
         m_pin1.Init(() => post1);
-        m_connectionsManager.Sim.AddElement(m_voltage);
-
-        m_voltageHandle.Value = math.clamp(math.unlerp(0, 10, m_volts), 0, 1);
-        m_voltageHandle.SubscribeValue(OnVoltageHandle);
         
-        m_frequencyHandle.Value = math.clamp(math.unlerp(0, 50, m_frequency), 0, 1);
-        m_frequencyHandle.SubscribeValue(OnFrequencyHandle);
+        // Init component
+        m_voltageElm = new VoltageElm(post0, post1, m_waveForm);
+        m_connectionsManager.Sim.AddElement(m_voltageElm);
+        m_voltageElm.MaxVoltage = m_volts;
+        m_voltageElm.Frequency = m_frequency;
     }
-
-    private void OnVoltageHandle(float handlePosition)
-    {
-        m_voltage.MaxVoltage = math.lerp(0, 10, handlePosition);
-    }
-
-    private void OnFrequencyHandle(float handlePosition)
-    {
-        m_voltage.Frequency = math.lerp(1, 50, handlePosition);
-    }
-
 
     protected override void DeinitComponent()
     {
-        m_connectionsManager.Sim.RemoveElement(m_voltage);
+        m_connectionsManager.Sim.RemoveElement(m_voltageElm);
     }
 }

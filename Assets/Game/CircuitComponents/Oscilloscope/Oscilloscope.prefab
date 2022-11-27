@@ -181,7 +181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4176547837275240528
 Transform:
   m_ObjectHideFlags: 0
@@ -355,7 +355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5466737898833550377
 Transform:
   m_ObjectHideFlags: 0
@@ -433,9 +433,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfdd799b05714db7be0f1a0ea0a5894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_renderTexture: {fileID: 0}
   m_screenRenderer: {fileID: 6432493104891614128}
+  m_renderTexture: {fileID: 0}
   m_oscilloscope: {fileID: 4119079080284507168}
+  m_drawScanner: 0
+  m_settings:
+    MinVoltage: -5
+    MaxVoltage: 5
+    RenderPeriod: 0.5
 --- !u!1 &6366539490068425333
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8297459128754290336
 Transform:
   m_ObjectHideFlags: 0
@@ -583,13 +588,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4176547837275240528}
-  - {fileID: 8297459128754290336}
   - {fileID: 289269824532499473}
   - {fileID: 3841848689234514909}
+  - {fileID: 4176547837275240528}
+  - {fileID: 8297459128754290336}
   - {fileID: 5466737898833550377}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9206206789157372283
 MonoBehaviour:
@@ -716,7 +721,7 @@ PrefabInstance:
     - target: {fileID: 4260698411222080532, guid: 672309e28aeea4c3e8a94e15680c8aa8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0369
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4260698411222080532, guid: 672309e28aeea4c3e8a94e15680c8aa8,
         type: 3}
@@ -827,7 +832,7 @@ PrefabInstance:
     - target: {fileID: 4260698411222080532, guid: 672309e28aeea4c3e8a94e15680c8aa8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0369
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4260698411222080532, guid: 672309e28aeea4c3e8a94e15680c8aa8,
         type: 3}
