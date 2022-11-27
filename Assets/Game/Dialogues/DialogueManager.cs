@@ -12,7 +12,8 @@ public class DialogueManager : MonoBehaviour, IEventResolver<DialogueContainer>
     private readonly List<GameObject> m_TemporaryObject = new List<GameObject>();
 
     [Inject] private readonly EventManager m_DialogueManager = default;
-    [Inject] private readonly DialogueBackgroundManager m_DialogueBackgroundManager = default;
+    [Inject] private readonly BackgroundManager m_DialogueBackgroundManager = default;
+    [Inject] private readonly CharacterManager m_CharacterManager = default;
 
     [SerializeField] private Transform m_PhrasesRoot = default;
     [SerializeField] private Button m_NextButton = default;
@@ -34,6 +35,8 @@ public class DialogueManager : MonoBehaviour, IEventResolver<DialogueContainer>
         m_IsEnded = false;
 
         m_DialogueBackgroundManager.ActivateBackground(state.Backgroud);
+        m_CharacterManager.ActivateCharacter(state.LeftCharacter);
+        m_CharacterManager.ActivateCharacter(state.RightCharacter);
         Next();
     }
 
@@ -76,6 +79,8 @@ public class DialogueManager : MonoBehaviour, IEventResolver<DialogueContainer>
 
     private void Clear()
     {
+        m_CharacterManager.HideAll();
+
         foreach (var temp in m_TemporaryObject)
             Destroy(temp);
 

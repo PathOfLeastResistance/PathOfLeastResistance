@@ -11,8 +11,9 @@ public class DialogueSystemInstaller : MonoExtendedInstaller
 
         BindScriptableObject(m_InitialDialogue);
 
+        BindFromHierarchy<CharacterManager>();
+        BindFromHierarchy<BackgroundManager>();
         BindFromHierarchy<DialogueManager>();
-        BindFromHierarchy<DialogueBackgroundManager>();
 
         BindMonoBehaviour<EventStarter>().NonLazy();
     }

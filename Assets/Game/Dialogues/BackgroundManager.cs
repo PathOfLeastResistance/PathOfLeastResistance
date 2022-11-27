@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueBackgroundManager : MonoBehaviour
+public class BackgroundManager : MonoBehaviour
 {
     private Dictionary<BackgroundController, BackgroundController> m_Backgrounds = new Dictionary<BackgroundController, BackgroundController>();
 
@@ -9,8 +9,11 @@ public class DialogueBackgroundManager : MonoBehaviour
 
     public void ActivateBackground(BackgroundController request)
     {
-        var back = GetOrCreate(request);
-        back.ShowAnimated();
+        if (request != null)
+        {
+            var back = GetOrCreate(request);
+            back.ShowAnimated();
+        }
     }
 
     private BackgroundController GetOrCreate(BackgroundController request)

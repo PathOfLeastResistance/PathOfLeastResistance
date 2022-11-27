@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
   m_Name: DialogueBag
   m_EditorClassIdentifier: 
-  m_LeftCharacter: 
-  m_RightCharacter: 
+  m_LeftCharacter: {fileID: 0}
+  m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
+    type: 3}
   m_Backgroud: {fileID: 7602538453456710455, guid: ac363d30560ffb246acbf9c186ba44d9,
     type: 3}
   m_Phrases:

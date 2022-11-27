@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
   m_Name: DialogueLesson
   m_EditorClassIdentifier: 
-  m_LeftCharacter: 
-  m_RightCharacter: 
+  m_LeftCharacter: {fileID: 1287293077685400031, guid: d3d1f6bfb9755be478a0647e47b8d6ab,
+    type: 3}
+  m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
+    type: 3}
   m_Backgroud: {fileID: -8908940872165971174, guid: 039ef02149f8eeb47a75bf8fe4972717,
     type: 3}
   m_Phrases:

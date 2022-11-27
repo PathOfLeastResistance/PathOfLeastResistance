@@ -10,16 +10,16 @@ public class DialogueContainer : ScriptableObject, IEventState
         public Object End;
     }
 
-    [SerializeField] private string m_LeftCharacter = default;
-    [SerializeField] private string m_RightCharacter = default;
+    [SerializeField] private CharacterIconController m_LeftCharacter = default;
+    [SerializeField] private CharacterIconController m_RightCharacter = default;
 
     [SerializeField] private BackgroundController m_Backgroud = default;
 
     [SerializeField] private Phrase[] m_Phrases = default;
     [SerializeField] private Choice[] m_Endings = default;
 
-    public string LeftCharacter => m_LeftCharacter;
-    public string RightCharacter => m_RightCharacter;
+    public CharacterIconController LeftCharacter => m_LeftCharacter;
+    public CharacterIconController RightCharacter => m_RightCharacter;
     public BackgroundController Backgroud => m_Backgroud;
 
     public Phrase[] Phrases => m_Phrases;
