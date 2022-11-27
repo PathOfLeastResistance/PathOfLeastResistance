@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -28,7 +29,15 @@ public class EventManager
                 break;
 
             default:
-                Debug.LogError($"Unsupported type {nextState.GetType()}");
+                var stateInterface = nextState.GetComponent<IEventState>();
+                if (stateInterface == null)
+                {
+                    Debug.LogError($"Unsupported type {nextState.GetType()}");
+                }
+                else
+                {
+                    Proceed(stateInterface);
+                }
                 break;
         }
     }

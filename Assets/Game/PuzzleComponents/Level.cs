@@ -37,6 +37,12 @@ public class Level : MonoBehaviour, IEventState
 
     private bool m_wasInited = false;
 
+    [SerializeField] private UnityEngine.Object m_OnEnd = default;
+
+    public LevelCompletedValidator LevelCompletedValidator => m_LevelCompletedValidator;
+
+    public UnityEngine.Object OnEnd => m_OnEnd;
+
     public void Init()
     {
         if (m_wasInited)

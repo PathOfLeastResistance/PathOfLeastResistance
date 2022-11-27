@@ -57,22 +57,9 @@ MonoBehaviour:
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: I don't remember what I put in the bag. Need to check. I will need a
-        lot of tools today.
+      Text: I don't mess around with anything. Looks like the only way to pass the
+        exam is to steal the questions from the teacher's office.
       Speaker: 1
       BubbleTail: 6
       BubbleForm: 0
-    End: {fileID: 11400000, guid: e7e2ed58afeb1244bba9f6cf78e1647e, type: 2}
-  - Phrase:
-      Text: Let's go and ask a friend for help. He was always good at physics.
-      Speaker: 1
-      BubbleTail: 6
-      BubbleForm: 0
-    End: {fileID: 11400000, guid: e661e78b04083934e849ca07bcc8bf9c, type: 2}
-  - Phrase:
-      Text: It is necessary to go to class. Today they are talking about the most
-        difficult topic. I will surely learn something new about myself.
-      Speaker: 1
-      BubbleTail: 6
-      BubbleForm: 0
-    End: {fileID: 11400000}
+    End: {fileID: 11400000, guid: 37f238e5a41df3d4d84488e4c9b0e87f, type: 2}

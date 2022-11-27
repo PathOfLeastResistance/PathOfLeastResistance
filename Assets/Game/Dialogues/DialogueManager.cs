@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour, IEventResolver<DialogueContainer>
     public void Resolve(DialogueContainer state)
     {
         Clear();
+        gameObject.SetActive(true);
 
         m_CurrentState = state;
         m_CurrentStateIndex = 0;
@@ -73,6 +74,12 @@ public class DialogueManager : MonoBehaviour, IEventResolver<DialogueContainer>
     private void Deinit(Object onEnd)
     {
         Clear();
+
+        if (!(onEnd is DialogueContainer))
+        {
+            gameObject.SetActive(false);
+            m_DialogueBackgroundManager.HideAnimated();
+        }
 
         m_DialogueManager.Proceed(onEnd);
     }
