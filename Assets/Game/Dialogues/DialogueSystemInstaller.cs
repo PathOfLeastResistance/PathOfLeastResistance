@@ -7,12 +7,13 @@ public class DialogueSystemInstaller : MonoExtendedInstaller
     public override void InstallBindings()
     {
         BindSingle<TransitorToNextScene>();
-        BindSingle<DialogueManager>();
+        BindSingle<EventManager>();
 
         BindScriptableObject(m_InitialDialogue);
 
-        BindFromHierarchy<DialoguePanel>();
+        BindFromHierarchy<DialogueManager>();
+        BindFromHierarchy<DialogueBackgroundManager>();
 
-        BindMonoBehaviour<DialogueStarter>().NonLazy();
+        BindMonoBehaviour<EventStarter>().NonLazy();
     }
 }

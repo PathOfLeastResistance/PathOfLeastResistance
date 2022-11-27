@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using Zenject;
 
-public class TransitorToNextScene : IExecutableScriptableObjectResolver<SceneAsset>
+public class TransitorToNextScene : IEventResolver<SceneAsset>
 {
     [Inject] private readonly ISceneLoader m_SceneLoader = default;
 

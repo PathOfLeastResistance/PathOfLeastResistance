@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
-  m_Name: DialogueClassroom
+  m_Name: DialogueLesson
   m_EditorClassIdentifier: 
+  m_LeftCharacter: 
+  m_RightCharacter: 
+  m_Backgroud: {fileID: -8908940872165971174, guid: 039ef02149f8eeb47a75bf8fe4972717,
+    type: 3}
   m_Phrases:
   - Text: Today I will tell you about Kirchhoff's rule.
     Speaker: 0
@@ -56,17 +60,17 @@ MonoBehaviour:
       Speaker: 1
       BubbleTail: 6
       BubbleForm: 0
-    End: {fileID: 102900000, guid: d968ebcd46e58524eacb9f29c01b5a54, type: 3}
+    End: {fileID: 11400000, guid: e7e2ed58afeb1244bba9f6cf78e1647e, type: 2}
+  - Phrase:
+      Text: Let's go and ask a friend for help. He was always good at physics.
+      Speaker: 1
+      BubbleTail: 6
+      BubbleForm: 0
+    End: {fileID: 11400000, guid: e661e78b04083934e849ca07bcc8bf9c, type: 2}
   - Phrase:
       Text: It is necessary to go to class. Today they are talking about the most
         difficult topic. I will surely learn something new about myself.
       Speaker: 1
       BubbleTail: 6
       BubbleForm: 0
-    End: {fileID: 102900000, guid: 145e0712ab3b0c744b614b1770e61b9e, type: 3}
-  - Phrase:
-      Text: Let's go and ask a friend for help. He was always good at physics.
-      Speaker: 1
-      BubbleTail: 6
-      BubbleForm: 0
-    End: {fileID: 102900000, guid: c67713909b9742d4e808b4882215bbab, type: 3}
+    End: {fileID: 11400000}

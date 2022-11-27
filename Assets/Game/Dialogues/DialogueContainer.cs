@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class DialogueContainer : ScriptableObject, IExecutableObject
+public class DialogueContainer : ScriptableObject, IEventState
 {
     [System.Serializable]
     public class Choice
@@ -10,8 +10,17 @@ public class DialogueContainer : ScriptableObject, IExecutableObject
         public Object End;
     }
 
+    [SerializeField] private string m_LeftCharacter = default;
+    [SerializeField] private string m_RightCharacter = default;
+
+    [SerializeField] private BackgroundController m_Backgroud = default;
+
     [SerializeField] private Phrase[] m_Phrases = default;
     [SerializeField] private Choice[] m_Endings = default;
+
+    public string LeftCharacter => m_LeftCharacter;
+    public string RightCharacter => m_RightCharacter;
+    public BackgroundController Backgroud => m_Backgroud;
 
     public Phrase[] Phrases => m_Phrases;
     public Choice[] Endings => m_Endings;
