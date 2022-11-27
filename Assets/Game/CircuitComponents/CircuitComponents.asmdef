@@ -1,0 +1,22 @@
+{
+    "name": "CircuitComponents",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a51089cfb94f54b34a8ed3f87bb805de",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:ff8e1dee04c4b45c2a09b31c6281cc13",
+        "GUID:7fa81973fb36541039332d0467b5f12a",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:6278720eea99d423cb66be0dea653d43",
+        "GUID:0c7f145748d2e4ff2a0d9e79901bc5a9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

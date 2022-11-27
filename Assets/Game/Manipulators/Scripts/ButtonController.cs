@@ -25,13 +25,11 @@ public class ButtonController : MonoBehaviour
     {
         m_buttonTransform.localPosition = Vector3.zero;
         SetReleasedPos();
-        // Debug.Log("press canceled");
     }
 
     private void OnPress(object sender, PointerInteractionEventArgs args)
     {
         PressEvent?.Invoke();
-        // Debug.Log("pressed");
     }
 
     private void OnGrabStart(object sender, PointerInteractionEventArgs args)

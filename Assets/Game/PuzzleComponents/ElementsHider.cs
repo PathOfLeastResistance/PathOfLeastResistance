@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// This class disables every collider and disables any renderer that are parent to object with tag "Hidden"
+/// </summary>
 public class ElementsHider : MonoBehaviour
 {
     private List<Renderer> m_renderersToHide;
