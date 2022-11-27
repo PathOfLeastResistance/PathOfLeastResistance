@@ -10,7 +10,18 @@ public class LevelProvider : ILevelsProvider
 {
     [SerializeField] private List<LevelData> m_LevelDatas = new List<LevelData>();
     public Level GetLevelPrefab(int levelNumber) => m_LevelDatas[levelNumber].LevelPrefab;
-    
+
+    public int GetLevelNumber(Level level)
+    {
+        for (int i = 0; i < m_LevelDatas.Count; i++)
+        {
+            if (m_LevelDatas[i].LevelPrefab == level)
+                return i;
+        }
+
+        return -1;
+    }
+
     public int LevelsCount => m_LevelDatas.Count;
 }
 

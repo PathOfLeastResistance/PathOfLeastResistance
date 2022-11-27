@@ -6,6 +6,7 @@ public class EventManager
 {
     [Inject] private readonly IEventResolver<SceneAsset> m_SceneResolver = default;
     [Inject] private readonly IEventResolver<DialogueContainer> m_DialogueResolver = default;
+    [Inject] private readonly IEventResolver<Level> m_LevelResolver = default;
 
     public void Proceed(IEventState nextState) =>
         Proceed(nextState as Object);
@@ -20,6 +21,10 @@ public class EventManager
 
             case DialogueContainer state:
                 m_DialogueResolver.Resolve(state);
+                break;
+
+            case Level state:
+                m_LevelResolver.Resolve(state);
                 break;
 
             default:
