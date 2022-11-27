@@ -1,5 +1,7 @@
+using System;
 using CircuitJSharp;
 using UnityEngine;
+using UnityTools;
 
 public class ResistorComponent : CircuitComponent
 {
@@ -9,6 +11,7 @@ public class ResistorComponent : CircuitComponent
     [SerializeField] private float m_resistance;
     
     private ResistorElm m_resistorElm;
+    private event Action<float> m_resistanceChanged;
     
     public float Resistance
     {
@@ -16,8 +19,16 @@ public class ResistorComponent : CircuitComponent
         set
         {
             m_resistance = value;
-            m_resistorElm.Resistance = value;
+            m_resistorElm.Resistance = m_resistance;
+            m_resistanceChanged?.Invoke(m_resistance);
         }
+    }
+     
+    public IDisposable SubscribeResistanceValue(Action<float> resistanceHandler)
+    {
+        m_resistanceChanged += resistanceHandler;
+        resistanceHandler?.Invoke(m_resistance);
+        return new DisposableAction(()=> m_resistanceChanged -= resistanceHandler);
     }
 
     protected override void InitComponent()

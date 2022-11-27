@@ -5,18 +5,27 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
+public enum SignalQualityType
+{
+    Bad = 0,
+    Medium = 1,
+    Good = 2,
+}
+
 public class SignalsValidatorComponent : MonoBehaviour
 {
     [SerializeField] private OscilloscopeComponent m_oscilloscopeReference;
     [SerializeField] private OscilloscopeComponent m_oscilloscopeSignal;
-    [SerializeField] private float m_voltageTolerance = 0.1f;
+   
+    [SerializeField] private float m_goodSignalThresh = 0.15f;
+    [SerializeField] private float m_mediumSignalThresh = 0.3f;
 
     private bool m_refDone = false;
     private bool m_sigDone = false;
 
-    private bool m_isSignalGood = false;
+    private SignalQualityType m_signalQuality = SignalQualityType.Bad;
 
-    public event Action<bool> OnSignalValidated;
+    public event Action<SignalQualityType> OnSignalValidated;
 
     private void Awake()
     {
@@ -32,13 +41,13 @@ public class SignalsValidatorComponent : MonoBehaviour
         };
     }
 
-    public bool IsSignalGood
+    public SignalQualityType SignalQuality
     {
-        get => m_isSignalGood;
-        set
+        get => m_signalQuality;
+        private set
         {
-            m_isSignalGood = value;
-            OnSignalValidated?.Invoke(m_isSignalGood);
+            m_signalQuality = value;
+            OnSignalValidated?.Invoke(m_signalQuality);
         }
     }
 
@@ -49,15 +58,20 @@ public class SignalsValidatorComponent : MonoBehaviour
             // get the maximum error between the two signals
             var errors = m_oscilloscopeReference.ActiveDataBuffer.Zip(m_oscilloscopeSignal.ActiveDataBuffer, (refData, sigData) => math.abs(refData.Voltage - sigData.Voltage));
             var maxError = errors.Max();
-            if (maxError < m_voltageTolerance)
+            if (maxError < m_goodSignalThresh)
             {
-                IsSignalGood = true;
-                Debug.Log("Your signal is so... perfect!");
+                SignalQuality = SignalQualityType.Good;
+                Debug.Log($"Your signal is so... perfect!, the maximum error is {maxError}V");
+            }
+            else if (maxError < m_mediumSignalThresh)
+            {
+                SignalQuality = SignalQualityType.Medium;
+                Debug.Log($"Your signal is not perfect, the maximum error is {maxError}V");
             }
             else
             {
-                IsSignalGood = false;
-                Debug.Log($"Your signal is not perfect, the maximum error is {maxError}V");
+                SignalQuality = SignalQualityType.Bad;
+                Debug.Log($"Your signal is bad, the maximum error is {maxError}V");
             }
 
             m_refDone = false;
