@@ -15,7 +15,7 @@ MonoBehaviour:
   m_LeftCharacter: {fileID: 5057839205657763209, guid: 0fc2950d8fd924c4987b6b8ece081ccd,
     type: 3}
   m_RightCharacter: {fileID: 0}
-  m_Backgroud: {fileID: 7602538453456710455, guid: 14f12d8b770df430699a927eda190bf0,
+  m_Backgroud: {fileID: 7602538453456710455, guid: 6bc39e01ed5da4e738880e5857e9a7da,
     type: 3}
   m_Phrases:
   - Text: The security guard is slipping!
