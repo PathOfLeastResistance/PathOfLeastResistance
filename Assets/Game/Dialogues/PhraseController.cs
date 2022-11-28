@@ -25,6 +25,8 @@ public class PhraseController : MonoBehaviour, ICoroutineRunner
     [SerializeField] private Image m_BubbleBack = default;
 
     [SerializeField] private TextMeshProUGUI m_PhraseText = default;
+    [SerializeField] private Image m_Sprite = default;
+    [SerializeField] private VerticalLayoutGroup m_TextLayout = default;
     [SerializeField] private BubbleTailObject[] m_Tails = default;
     [SerializeField] private BubbleFormSprite[] m_Forms = default;
     [SerializeField] private HorizontalLayoutGroup m_Layout = default;
@@ -39,7 +41,31 @@ public class PhraseController : MonoBehaviour, ICoroutineRunner
 
     public void Init(Phrase phrase)
     {
-        m_PhraseText.text = phrase.Text;
+        if (phrase.SpriteInsteadOfText != null)
+        {
+            m_Sprite.sprite = phrase.SpriteInsteadOfText;
+            var spriteRect = phrase.SpriteInsteadOfText.rect;
+            var size = m_Sprite.rectTransform.sizeDelta;
+            size.y = spriteRect.height * size.x / spriteRect.width;
+            m_Sprite.rectTransform.sizeDelta = size;
+
+            m_TextLayout.childControlHeight = false;
+            m_TextLayout.childForceExpandHeight = false;
+
+            m_Sprite.enabled = true;
+            m_PhraseText.enabled = false;
+        }
+        else
+        {
+            m_PhraseText.text = phrase.Text;
+
+            m_TextLayout.childControlHeight = true;
+            m_TextLayout.childForceExpandHeight = true;
+
+            m_PhraseText.enabled = true;
+            m_Sprite.enabled = false;
+        }
+
         m_BubbleBack.sprite = m_Forms.FirstOrDefault(f => f.Form == phrase.BubbleForm).Sprite;
 
         foreach (var tail in m_Tails)
