@@ -171,9 +171,9 @@ MonoBehaviour:
   - Pin1: {fileID: 1224184129892711303}
     Pin2: {fileID: 1720064328051122074}
   - Pin1: {fileID: 1720064328051122074}
-    Pin2: {fileID: 7609434358757140119}
-  - Pin1: {fileID: 2778062624308232278}
     Pin2: {fileID: 6397759523737532763}
+  - Pin1: {fileID: 2778062624308232278}
+    Pin2: {fileID: 7609434358757140119}
 --- !u!114 &7938692945802044613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,7 +738,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -748,7 +748,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -793,7 +793,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8030425152287583200, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5621116271332690113}
   m_SourcePrefab: {fileID: 100100000, guid: 3f45b4fda22ad467698e9a4753a6e9c0, type: 3}
 --- !u!114 &2619266855827092013 stripped
 MonoBehaviour:
@@ -801,7 +805,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2121311742802722317}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8215028526452594157}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 574b27d1b76e6439795db85d76a9db2e, type: 3}
@@ -813,6 +817,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2121311742802722317}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8215028526452594157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8030425152287583200, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121311742802722317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1773428102 &5621116271332690113
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8215028526452594157}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: -0.0016, y: 0, z: 0.1831}
+  m_RotationAtRest: {x: 0, y: 90, z: 0}
+  m_TranslationOffsets:
+  - {x: -0.0016, y: 0, z: -0.18589999}
+  m_RotationOffsets:
+  - {x: 0, y: 90, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 3567293478293177176}
+    weight: 1
 --- !u!114 &8579732614707394085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7665474636257773608, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
@@ -995,6 +1032,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainBlackBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 3998746460364523043, guid: 58c42c7630cd343d6877ed046b57c280,
+        type: 3}
+      propertyPath: m_VolstPerCell
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5951252888474131180, guid: 58c42c7630cd343d6877ed046b57c280,
         type: 3}
