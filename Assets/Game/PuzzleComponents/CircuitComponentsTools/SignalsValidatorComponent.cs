@@ -26,7 +26,13 @@ public class SignalsValidatorComponent : MonoBehaviour
     private SignalQualityType m_signalQuality = SignalQualityType.Bad;
 
     public event Action<SignalQualityType> OnSignalValidated;
+    
+    public float? VoltageError { get; private set; }
 
+    public float GoodSignalThresh => m_goodSignalThresh;
+    
+    public float MediumSignalThresh => m_mediumSignalThresh;
+    
     private void Awake()
     {
         m_oscilloscopeReference.RecordFinishEvent += () =>
@@ -58,6 +64,7 @@ public class SignalsValidatorComponent : MonoBehaviour
             // get the maximum error between the two signals
             var errors = m_oscilloscopeReference.ActiveDataBuffer.Zip(m_oscilloscopeSignal.ActiveDataBuffer, (refData, sigData) => math.abs(refData.Voltage - sigData.Voltage));
             var maxError = errors.Max();
+            VoltageError = maxError;
             if (maxError < m_goodSignalThresh)
             {
                 SignalQuality = SignalQualityType.Good;
@@ -73,6 +80,7 @@ public class SignalsValidatorComponent : MonoBehaviour
                 SignalQuality = SignalQualityType.Bad;
                 Debug.Log($"Your signal is bad, the maximum error is {maxError}V");
             }
+            
 
             m_refDone = false;
             m_sigDone = false;
