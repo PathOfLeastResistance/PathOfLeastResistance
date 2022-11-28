@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityTools;
 using ViJApps.CanvasTexture;
 
 
@@ -16,8 +17,8 @@ public struct OscilloscopeDataSettings
 
 public class OscilloscopeScreen : MonoBehaviour
 {
-    private const int ScreenResolutionX = 320 / 2;
-    private const int ScreenResolutionY = 240 / 2;
+    public const int ScreenResolutionX = 320 / 2;
+    public const int ScreenResolutionY = 240 / 2;
 
     [Header("Optional renderer for debug")] [SerializeField]
     private Renderer m_screenRenderer;
@@ -25,6 +26,7 @@ public class OscilloscopeScreen : MonoBehaviour
     [SerializeField] private RenderTexture m_renderTexture;
     [SerializeField] private OscilloscopeComponent m_oscilloscope;
     [SerializeField] private bool m_drawScanner = false;
+    [SerializeField] private bool m_drawText = false;
 
     private CanvasTexture m_canvasTexture;
     private int m_pointsCountW = ScreenResolutionX;
@@ -34,21 +36,33 @@ public class OscilloscopeScreen : MonoBehaviour
     private DisplayData[] m_displayData = new DisplayData[ScreenResolutionX];
     private List<(int, int2)> m_pixelsToDraw = new List<(int, int2)>(ScreenResolutionX);
     private List<(int, int2)> m_scanner = new List<(int, int2)>(1);
+    
+    private event Action<RenderTexture> OnRenderTextureChanged;
 
     [SerializeField] private OscilloscopeDataSettings m_settings = new OscilloscopeDataSettings
     {
         MinVoltage = -5,
         MaxVoltage = 5,
-        RenderPeriod = 0.5f
+        RenderPeriod = 0.5f,
     };
+    
+    public bool DrawScanner
+    {
+        get => m_drawScanner;
+        set => m_drawScanner = value;
+    }
+    
+    public bool DrawText
+    {
+        get => m_drawText;
+        set => m_drawText = value;
+    }
 
     public OscilloscopeDataSettings Settings
     {
         get => m_settings;
         set => m_settings = value;
     }
-
-    public event Action<RenderTexture> OnRenderTextureChanged;
 
     public RenderTexture RenderTexture
     {
@@ -58,6 +72,13 @@ public class OscilloscopeScreen : MonoBehaviour
             m_renderTexture = value;
             OnRenderTextureChanged?.Invoke(m_renderTexture);
         }
+    }
+    
+    public IDisposable SubscribeRenderTexture(Action<RenderTexture> onRenderTextureChanged)
+    {
+        OnRenderTextureChanged += onRenderTextureChanged;
+        onRenderTextureChanged?.Invoke(m_renderTexture);
+        return new DisposableAction(() => OnRenderTextureChanged -= onRenderTextureChanged);
     }
 
     private async void Awake()

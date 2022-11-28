@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
+  m_Name: 02-IntroDialog-pt2
+  m_EditorClassIdentifier: 
+  m_LeftCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
+    type: 3}
+  m_RightCharacter: {fileID: 575695226109758653, guid: 5b0869b43ca13da40bc957e97c813e9c,
+    type: 3}
+  m_Backgroud: {fileID: 8413037071429018841, guid: 12c04fdbb3b0e9d44be365a40bca3021,
+    type: 3}
+  m_Phrases:
+  - Text: Are you preparing to exam?
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: Yep, and what about you?
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: I'm not, I have a better idea.
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: What you got on you mind this time?
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: "*Whispering* \nI know the place where he keeps the answers to the test"
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 1
+  - Text: You're mad!
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: "Shhh. You know I failed my last exam. \nIf I don't pass this one perfectly,
+      \nI won't get scholarships. \nBut I may need your help."
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: So you want to get me in this trouble!
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: I know you won't let me down. Bye bye, I'll text you later.
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: Oh, please, be carefull!
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  m_Endings:
+  - Phrase:
+      Text: Next...
+      Speaker: 2
+      BubbleTail: 0
+      BubbleForm: 1
+    End: {fileID: 11400000, guid: 03057a5390713466891a8f88facbb66a, type: 2}

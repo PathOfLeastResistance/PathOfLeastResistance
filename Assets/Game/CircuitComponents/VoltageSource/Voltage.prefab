@@ -473,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 7106634714765200548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.04, z: 0.2}
+  m_LocalScale: {x: 0.06375, y: 0.0319836, z: 0.15750001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8463596520847921537}
@@ -517,7 +517,7 @@ Transform:
   - {fileID: 289269824532499473}
   - {fileID: 3841848689234514909}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9206206789157372283
 MonoBehaviour:
@@ -533,20 +533,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_resetPids: 0
   m_rotationSensitivity: 0.1
-  m_positionPidSettings:
-    m_kp: 20
-    m_ki: 1
-    m_kd: 1
-    m_n: 1
-    m_outputUpperLimit: Infinity
-    m_outputLowerLimit: -Infinity
-  m_rotationPidSettings:
-    m_kp: 0.01
-    m_ki: 0.1
-    m_kd: 0.32
-    m_n: 1
-    m_outputUpperLimit: Infinity
-    m_outputLowerLimit: -Infinity
 --- !u!114 &5634673920208122419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,7 +571,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 2
 --- !u!114 &4981068053392385408
 MonoBehaviour:
@@ -1074,6 +1060,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5589479492540673743, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0ff3bfce4ed5d41fb905073603508820, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

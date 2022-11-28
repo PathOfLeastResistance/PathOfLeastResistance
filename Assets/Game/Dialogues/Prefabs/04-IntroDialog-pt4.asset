@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
+  m_Name: 04-IntroDialog-pt4
+  m_EditorClassIdentifier: 
+  m_LeftCharacter: {fileID: 5057839205657763209, guid: 0fc2950d8fd924c4987b6b8ece081ccd,
+    type: 3}
+  m_RightCharacter: {fileID: 0}
+  m_Backgroud: {fileID: 7602538453456710455, guid: 6bc39e01ed5da4e738880e5857e9a7da,
+    type: 3}
+  m_Phrases:
+  - Text: The security guard is slipping!
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: That's great!
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  m_Endings:
+  - Phrase:
+      Text: All I have to do is to find a way to open teachers box!
+      Speaker: 0
+      BubbleTail: 0
+      BubbleForm: 1
+    End: {fileID: 4602963215855895507, guid: 0f99e03eb0d9b4e9da38c83cbe703e57, type: 3}
