@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour, IEventResolver<Level>
         level.transform.SetParent(m_Root);
         level.Init();
         level.LevelCompletedValidator.OnLevelCompleted += OnLevelCompleted;
-        m_CurrentLevel = state;
+        m_CurrentLevel = level;
     }
 
     private void OnLevelCompleted()
