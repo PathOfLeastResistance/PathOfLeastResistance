@@ -173,20 +173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_resetPids: 0
   m_rotationSensitivity: 0.1
-  m_positionPidSettings:
-    m_kp: 20
-    m_ki: 1
-    m_kd: 1
-    m_n: 1
-    m_outputUpperLimit: Infinity
-    m_outputLowerLimit: -Infinity
-  m_rotationPidSettings:
-    m_kp: 0.01
-    m_ki: 0.1
-    m_kd: 0.32
-    m_n: 1
-    m_outputUpperLimit: Infinity
-    m_outputLowerLimit: -Infinity
 --- !u!114 &5634673920208122419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +211,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 2
 --- !u!114 &6831247046662628956
 MonoBehaviour:

@@ -20,13 +20,12 @@ namespace Game
         private Rigidbody m_rigidbody;
 
         [Inject] private CameraRaycaster m_cameraRaycaster;
+        [Inject] private IPidSettingsProvider m_pidSettingsProvider;
 
         // Object positioning
         [SerializeField] private bool m_resetPids = false;
         [SerializeField] private float m_rotationSensitivity = 0.1f;
-        [SerializeField] private PidSettings m_positionPidSettings = PidSettings.Default;
-        [SerializeField] private PidSettings m_rotationPidSettings = PidSettings.Default;
-
+        
         //Position PID controller
         private Vector3PidController m_positionPidController;
         private Vector3 m_LocalInitialTouchPoint;
@@ -47,8 +46,8 @@ namespace Game
             m_interactionObject.SubscribePointerGrabEvent(OnObjectGrabStart, OnObjectGrabEnd);
 
             m_rigidbody.isKinematic = true;
-            m_positionPidController = new Vector3PidController(m_positionPidSettings);
-            m_rotationPidController = new DoublePidController(m_rotationPidSettings);
+            m_positionPidController = new Vector3PidController(m_pidSettingsProvider.TranslationSettings);
+            m_rotationPidController = new DoublePidController(m_pidSettingsProvider.RotationSettings);
         }
 
         private void OnObjectGrabStart(object sender, PointerInteractionEventArgs args)
@@ -127,11 +126,11 @@ namespace Game
 
         private void Update()
         {
-            m_positionPidController.SetSettings(m_positionPidSettings);
-            m_rotationPidController.SetSettings(m_rotationPidSettings);
-
             if (m_resetPids)
             {
+                m_positionPidController.SetSettings(m_pidSettingsProvider.TranslationSettings);
+                m_rotationPidController.SetSettings(m_pidSettingsProvider.RotationSettings);
+                
                 m_positionPidController.ResetAllDimensions();
                 m_rotationPidController.ResetAllDimensions();
                 m_resetPids = false;
