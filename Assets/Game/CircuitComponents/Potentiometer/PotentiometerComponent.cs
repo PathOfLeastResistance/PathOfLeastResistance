@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CircuitJSharp;
 using UnityEngine;
+using UnityTools;
 
 public class PotentiometerComponent : CircuitComponent
 {
@@ -13,8 +15,28 @@ public class PotentiometerComponent : CircuitComponent
     [SerializeField] private float m_resistance = 1000f;
     [Range(0f,1f)] [SerializeField] private float m_position = 0.5f;
     
-    private PotElm m_potentiometer; 
+    private PotElm m_potentiometer;
 
+    private event Action<float> ResistanceChanged;
+
+    public float Resistance
+    {
+        get => m_resistance;
+        set
+        {
+            m_resistance = value;
+            ResistanceChanged?.Invoke(m_resistance);
+        }
+    }
+
+    public IDisposable SubscribeResistanceValue(Action<float> resistanceHandler)
+    {
+        ResistanceChanged += resistanceHandler;
+        resistanceHandler?.Invoke(m_resistance);
+        return new DisposableAction(() => ResistanceChanged -= resistanceHandler);
+    }
+    
+    
     protected override void InitComponent()
     {
         var post0 = m_uniquePostProvider.GetId();

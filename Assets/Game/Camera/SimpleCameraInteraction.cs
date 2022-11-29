@@ -10,81 +10,79 @@ using Zenject;
 
 namespace Game
 {
-    [Serializable]
-    public struct CameraSettings
-    {
-        public AnimationCurve m_heightCurve;
-        public AnimationCurve m_targetForwardOffsetCurve;
-        public AnimationCurve m_cameraForwardOffsetCurve;
-        public AnimationCurve m_cameraUpOffsetCurve;
-    }
-
     public class SimpleCameraInteraction : MonoBehaviour
     {
-        [Inject] private CameraRaycaster m_cameraRaycaster;
+        [Inject] private CameraRaycaster m_CameraRaycaster;
 
         [SerializeField] private Camera m_camera;
-        [SerializeField] private PlanarColliderPositionClamper m_Clamper;
+        [SerializeField] private PlanarColliderPositionClamper m_clamper;
 
-        [SerializeField] private CinemachineVirtualCamera m_virtualCamera;
-        [SerializeField] private Transform m_TargetTransform;
+        [SerializeField] private Transform m_cameraMainRoot;
+        [SerializeField] private Transform m_cameraRotationXRoot;
+        [SerializeField] private Transform m_cameraDistanceRoot;
 
-        [SerializeField] private InteractionObject m_InteractionObject;
-        [SerializeField] private CameraSettings m_cameraSettings;
-        [SerializeField] private float m_RotationSensetivity = 1f;
-        [SerializeField] private float m_WheelSensitive = 0.001f;
+        [SerializeField] private float m_rotationSensitivity = 1f;
+        [SerializeField] private float m_wheelSensitive = 0.001f;
         [SerializeField] private float m_movementDuration = 10;
+        [SerializeField] private Vector2 m_minMaxZoom = new Vector2(0, 1);
+        [SerializeField] private Vector2 m_MinMaxAngle = new Vector2(30, 89);
 
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
-        private CinemachineTransposer m_Transposer;
-        private CinemachineComposer m_Composer;
         private Vector3 m_TargetDragStartPoint;
         private Vector3 m_TotalDelta;
+        private InteractionObject m_InteractionObject;
 
-        private Vector3 m_currentPosition;
-        private Quaternion m_currentRotation;
-        private float m_currentZoom;
+        private Vector3 m_CurrentPosition;
+        private float m_CurrentZoom;
+        private float m_CurrentYRotation = 0;
+        private float m_CurrentXRotation = 0;
 
-        private Vector3 m_targetPosition;
-        private Quaternion m_targetRotation;
-        private float m_targetZoom = 1f;
+        private Vector3 m_TargetPosition;
+        private float m_TargetZoom = 1f;
+        private float m_TargetYRotation = 0;
+        private float m_TargetXRotation = 0;
 
         public float TargetZoom
         {
-            get => m_targetZoom;
-            set => m_targetZoom = math.clamp(value, 0, 1);
+            get => m_TargetZoom;
+            set => m_TargetZoom = math.clamp(value, m_minMaxZoom.x, m_minMaxZoom.y);
         }
 
         public Vector3 TargetPosition
         {
-            get => m_targetPosition;
-            set => m_targetPosition = m_Clamper.ClampPosition(value);
+            get => m_TargetPosition;
+            set => m_TargetPosition = m_clamper.ClampPosition(value);
         }
 
-        public Quaternion TargetRotation
+        public float TargetYRotation
         {
-            get => m_targetRotation;
-            set => m_targetRotation = value;
+            get => m_TargetYRotation;
+            set => m_TargetYRotation = value;
+        }
+
+        public float TargetXRotation
+        {
+            get => m_TargetXRotation;
+            set => m_TargetXRotation = math.clamp(m_TargetXRotation = value, m_MinMaxAngle.x, m_MinMaxAngle.y);
         }
 
         private void Awake()
         {
             InputManager.Instance.RegisterCamera(m_camera);
+            m_InteractionObject = m_camera.GetComponent<InteractionObject>();
             SimpleMouseInput.Instance.OnWheelEvent += OnWheel;
             SimpleMouseInput.Instance.SubscribeLeftButtonDrag(OnLeftDragStart, OnLeftDragPerformed, OnLeftDragEnd);
             SimpleMouseInput.Instance.SubscribeRightButtonDrag(OnRightDragStart, OnRightDragPerformed, OnRightDragEnd);
-
-            m_Transposer = m_virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            m_Composer = m_virtualCamera.GetCinemachineComponent<CinemachineComposer>();
 
             ResetCameraPos();
         }
 
         public void ResetCameraPos()
         {
-            m_currentPosition = TargetPosition = Vector3.zero;
-            m_currentRotation = TargetRotation = Quaternion.identity;
-            m_currentZoom = TargetZoom = 1f;
+            m_CurrentPosition = TargetPosition = Vector3.zero;
+            m_CurrentZoom = TargetZoom = 1f;
+            m_CurrentYRotation = TargetYRotation = 0;
+            m_CurrentXRotation = TargetXRotation = m_cameraRotationXRoot.eulerAngles.x;
 
             UpdateCameraPosition();
         }
@@ -103,9 +101,9 @@ namespace Game
 
         private void OnLeftDragPerformed(MouseDragEventArgs args)
         {
-            if (!CheckInputInterruption())
+            if (!IsCameraIntercepted())
             {
-                if (m_cameraRaycaster.RaycastDeltaOnPlane(args.MousePosition - args.MouseDelta, args.MousePosition, m_InteractionPlane, out var delta))
+                if (m_CameraRaycaster.RaycastDeltaOnPlane(args.MousePosition - args.MouseDelta, args.MousePosition, m_InteractionPlane, out var delta))
                 {
                     m_TotalDelta += delta;
                     TargetPosition = m_TargetDragStartPoint - m_TotalDelta;
@@ -123,8 +121,11 @@ namespace Game
 
         private void OnRightDragPerformed(MouseDragEventArgs args)
         {
-            if (!CheckInputInterruption())
-                TargetRotation *= Quaternion.AngleAxis(-args.MouseDelta.x * m_RotationSensetivity, Vector3.up);
+            if (!IsCameraIntercepted())
+            {
+                TargetYRotation += args.MouseDelta.x * m_rotationSensitivity;
+                TargetXRotation += args.MouseDelta.y * m_rotationSensitivity;
+            }
         }
 
         private void OnRightDragEnd(MouseDragEventArgs args)
@@ -133,23 +134,21 @@ namespace Game
 
         private void OnWheel(float delta)
         {
-            if (!CheckInputInterruption())
-                TargetZoom += delta * m_WheelSensitive;
+            if (!IsCameraIntercepted())
+                TargetZoom -= delta * m_wheelSensitive;
         }
 
-        private bool CheckInputInterruption()
-        {
-            return InputManager.Instance.ActiveGestures.Any(c => c.InteractionObject != m_InteractionObject);
-        }
+        private bool IsCameraIntercepted() => InputManager.Instance.ActiveGestures.Any(c => c.InteractionObject != m_InteractionObject);
 
         #endregion
 
         private void Update()
         {
             var t = Time.deltaTime / m_movementDuration;
-            m_currentPosition = math.lerp(m_currentPosition, m_targetPosition, t);
-            m_currentRotation = Quaternion.Lerp(m_currentRotation, m_targetRotation, t);
-            m_currentZoom = math.lerp(m_currentZoom, m_targetZoom, t);
+            m_CurrentPosition = math.lerp(m_CurrentPosition, m_TargetPosition, t);
+            m_CurrentZoom = math.lerp(m_CurrentZoom, m_TargetZoom, t);
+            m_CurrentXRotation = math.lerp(m_CurrentXRotation, m_TargetXRotation, t);
+            m_CurrentYRotation = math.lerp(m_CurrentYRotation, m_TargetYRotation, t);
 
             UpdateCameraPosition();
         }
@@ -157,17 +156,12 @@ namespace Game
         private void UpdateCameraPosition()
         {
             //Apply position and rotation settings
-            m_TargetTransform.SetPositionAndRotation(m_currentPosition, m_currentRotation);
+            m_cameraMainRoot.localPosition = m_CurrentPosition;
+            m_cameraMainRoot.localRotation = Quaternion.AngleAxis(m_CurrentYRotation, Vector3.up);
+            m_cameraRotationXRoot.localRotation = Quaternion.AngleAxis(m_CurrentXRotation, Vector3.right);
 
             //Apply zoom
-            var cameraUpOffset = m_cameraSettings.m_heightCurve.Evaluate(m_targetZoom);
-            var cameraForwardOffset = m_cameraSettings.m_cameraForwardOffsetCurve.Evaluate(m_targetZoom);
-
-            var targetUpOffset = m_cameraSettings.m_cameraUpOffsetCurve.Evaluate(m_targetZoom);
-            var targetForwardOffset = m_cameraSettings.m_targetForwardOffsetCurve.Evaluate(m_targetZoom);
-
-            m_Transposer.m_FollowOffset = new Vector3(0, cameraUpOffset, cameraForwardOffset);
-            m_Composer.m_TrackedObjectOffset = new Vector3(0, targetUpOffset, targetForwardOffset);
+            m_cameraDistanceRoot.transform.localPosition = Vector3.back * m_CurrentZoom;
         }
     }
 }
