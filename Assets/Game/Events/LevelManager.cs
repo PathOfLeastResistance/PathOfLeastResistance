@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour, IEventResolver<Level>
         level.Init();
         level.LevelCompletedValidator.OnLevelCompleted += OnLevelCompleted;
         m_CurrentLevel = level;
+        m_UIManager.ShowObjective();
     }
 
     private void OnLevelCompleted()
