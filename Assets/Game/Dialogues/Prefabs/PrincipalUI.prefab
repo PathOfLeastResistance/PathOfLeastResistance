@@ -1486,9 +1486,9 @@ MonoBehaviour:
   m_MovingTransformHideTarget: {fileID: 1390876434100015328}
   m_MovingTransformShowTarget: {fileID: 3006992663781408044}
   m_Dialogues: {fileID: 11400000, guid: 9ba72c03062449243805ea740ae09eb6, type: 2}
-  m_PhraseControllerPrefab: {fileID: 7639537557318637693, guid: 23a03bda7324c3a4f9dc6349d40d3df1,
+  m_PhraseControllerPrefab: {fileID: 6142997294916111152, guid: 6f6c52475525e3f46be19cbeb9908ef1,
     type: 3}
-  m_ChoiceControllerPrefab: {fileID: 4060028130829494517, guid: aad4e7b73a1feb44398e1b744f1d6dc2,
+  m_ChoiceControllerPrefab: {fileID: 3505824855964883990, guid: de46388d77e00644a81e0bbfd0350123,
     type: 3}
 --- !u!225 &8670791678179567623
 CanvasGroup:
