@@ -5,7 +5,6 @@ using Zenject;
 
 public class EventManager
 {
-    [Inject] private readonly IEventResolver<SceneAsset> m_SceneResolver = default;
     [Inject] private readonly IEventResolver<DialogueContainer> m_DialogueResolver = default;
     [Inject] private readonly IEventResolver<Level> m_LevelResolver = default;
 
@@ -16,10 +15,6 @@ public class EventManager
     {
         switch (nextState)
         {
-            case SceneAsset state:
-                m_SceneResolver.Resolve(state);
-                break;
-
             case DialogueContainer state:
                 m_DialogueResolver.Resolve(state);
                 break;
