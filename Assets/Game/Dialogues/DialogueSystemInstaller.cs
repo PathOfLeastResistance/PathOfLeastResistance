@@ -6,7 +6,6 @@ public class DialogueSystemInstaller : MonoExtendedInstaller
 
     public override void InstallBindings()
     {
-        BindSingle<TransitorToNextScene>();
         BindSingle<EventManager>();
 
         BindScriptableObject(m_InitialDialogue);
