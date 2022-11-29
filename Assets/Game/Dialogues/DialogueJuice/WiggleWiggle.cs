@@ -31,8 +31,8 @@ public class WiggleWiggle : MonoBehaviour
 
     private void UpdatePos()
     {
-        var x = Mathf.PerlinNoise1D((Time.time + m_t1) * m_speed);
-        var y = Mathf.PerlinNoise1D((Time.time + m_t2) * m_speed);
+        var x = Mathf.PerlinNoise((Time.time + m_t1) * m_speed, 0);
+        var y = Mathf.PerlinNoise((Time.time + m_t2) * m_speed, 0);
 
         for (int i = 0; i < m_rectsToWiggle.Count; i++)
         {
