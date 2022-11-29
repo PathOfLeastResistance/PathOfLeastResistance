@@ -11,7 +11,7 @@ public interface IPidSettingsProvider
 }
 
 [CreateAssetMenu(fileName = "PidSettingsProvider", menuName = "ScriptableObjects/PidSettingsProvider")]
-public class PidSettingsProvider : ScriptableObject, IPidSettingsProvider
+public class RigidBodySettingsProvider : ScriptableObject, IPidSettingsProvider
 {
     [SerializeField] private PidSettings m_globalTranslationPidSettings;
     [SerializeField] private PidSettings m_globalRotationPidSettings;

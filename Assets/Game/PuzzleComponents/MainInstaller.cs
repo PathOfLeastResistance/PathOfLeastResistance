@@ -35,7 +35,7 @@ public class MainInstaller : MonoInstaller
 {
     [SerializeField] private CableBehaviour m_cableBehaviourPrefab;
     [SerializeField] private LevelProvider m_levelProvider;
-    [SerializeField] private PidSettingsProvider m_pidSettingsProvider;
+    [SerializeField] private RigidBodySettingsProvider m_pidSettingsProvider;
 
     public override void InstallBindings()
     {
@@ -47,7 +47,7 @@ public class MainInstaller : MonoInstaller
         Container.Bind<CameraRaycaster>().To<CameraRaycaster>().FromComponentsInHierarchy().AsSingle();
         
         //Pid controllers for object translation and rotation
-        Container.Bind<IPidSettingsProvider>().To<PidSettingsProvider>().FromInstance(m_pidSettingsProvider).AsSingle();
+        Container.Bind<IPidSettingsProvider>().To<RigidBodySettingsProvider>().FromInstance(m_pidSettingsProvider).AsSingle();
         
         //Electricity
         Container.Bind<ConnectionManager>().To<ConnectionManager>().FromComponentsInHierarchy().AsSingle();
