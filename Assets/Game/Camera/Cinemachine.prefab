@@ -167,10 +167,10 @@ MonoBehaviour:
   m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 3
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
+    m_Style: 0
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
-  m_StandbyUpdate: 2
+  m_StandbyUpdate: 0
   m_LookAt: {fileID: 6184745158826196046}
   m_Follow: {fileID: 8030853509703970997}
   m_Lens:
@@ -364,7 +364,7 @@ Transform:
   - {fileID: 5128405192487928484}
   - {fileID: 2704200390818593513}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1284549174
 MonoBehaviour:
@@ -378,14 +378,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 446c74fe061ee4ccea74860787239dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_brain: {fileID: 3797090538870238564}
   m_camera: {fileID: 1291665337848220124}
   m_clamper: {fileID: 2647334561585991466}
   m_cameraMainRoot: {fileID: 5128405192487928484}
   m_cameraRotationXRoot: {fileID: 6184745158826196046}
   m_cameraDistanceRoot: {fileID: 8030853509703970997}
   m_rotationSensitivity: 0.2
-  m_wheelSensitive: 0.0001
-  m_movementDuration: 0.05
+  m_wheelSensitive: 0.00008
+  m_movementDuration: 0.1
   m_MinMaxAngle: {x: 10, y: 89}
   m_ZoomCurve:
     serializedVersion: 2
