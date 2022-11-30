@@ -17,63 +17,117 @@ MonoBehaviour:
   m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
     type: 3}
   m_Phrases:
-  - Text: 'Please help
-
-'
+  - Text: Hi! Are you here? I need help!
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 0
+    BubbleTail: 1
+    BubbleForm: 0
+  - Text: What?
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
-    BubbleTail: 6
+    BubbleTail: 3
     BubbleForm: 0
-  - Text: ....
+  - Text: The box with test answers is a digital safe!
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 1
     BubbleForm: 0
-  - Text: ....
+  - Text: Oh, maybe you should go home and prepare to exam instead of this?
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: Noooo, please, send me some theory about electrodinamics, I will solve
+      this
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 1
     BubbleForm: 0
-  - Text: ....
+  - Text: Ooooook
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: So lets start from basics, do you remember ohm's law?
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: Hm...  that the current through a conductor between two points... is...
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 1
     BubbleForm: 0
-  - Text: ....
+  - Text: Is directly proportional to the voltage across the two points. Wait.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: 
+    SpriteInsteadOfText: {fileID: 21300000, guid: fcc979188a9994fc1a662d181161d50c,
+      type: 3}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: And in case you nead to tweak the voltage... try to use potentiometers
+      and series/parallel resistors
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: 
+    SpriteInsteadOfText: {fileID: 21300000, guid: 15d7f4d7cc88f4896933928a5a59d0bb,
+      type: 3}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: 
+    SpriteInsteadOfText: {fileID: 21300000, guid: 12862676554ff4826b0b59e3436411b0,
+      type: 3}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: You are the best! thank you!
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 1
     BubbleForm: 0
-  - Text: ....
+  - Text: Do you see any diodes there?
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: Not sure... And what about diodes?
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 2
     BubbleForm: 0
-  - Text: ....
+  - Text: You can use them as voltage rectifires, like this
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: 
+    SpriteInsteadOfText: {fileID: 21300000, guid: 76089198a70cc4afd8f97a65883683b9,
+      type: 3}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: Omg... Thank you, I will try
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 5
+    BubbleTail: 1
     BubbleForm: 0
-  - Text: ....
+  - Text: Glad to help!
     SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 5
-    BubbleForm: 0
-  - Text: ....
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 5
-    BubbleForm: 0
-  - Text: ....
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 5
+    Speaker: 1
+    BubbleTail: 3
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: I'll try
+      Text: Hide phone
       SpriteInsteadOfText: {fileID: 0}
-      Speaker: 1
-      BubbleTail: 6
-      BubbleForm: 0
+      Speaker: 2
+      BubbleTail: 0
+      BubbleForm: 1
     End: {fileID: 0}

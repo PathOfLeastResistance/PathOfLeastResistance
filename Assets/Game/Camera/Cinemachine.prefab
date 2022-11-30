@@ -81,17 +81,9 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -156,9 +148,6 @@ MonoBehaviour:
   m_Dithering: 1
   m_ClearDepth: 1
   m_AllowXRRendering: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -395,10 +384,33 @@ MonoBehaviour:
   m_cameraRotationXRoot: {fileID: 6184745158826196046}
   m_cameraDistanceRoot: {fileID: 8030853509703970997}
   m_rotationSensitivity: 0.2
-  m_wheelSensitive: 0.001
-  m_movementDuration: 0.1
-  m_minMaxZoom: {x: 0.1, y: 1.5}
+  m_wheelSensitive: 0.0001
+  m_movementDuration: 0.05
   m_MinMaxAngle: {x: 10, y: 89}
+  m_ZoomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.08
+      inSlope: 0.03751657
+      outSlope: 0.03751657
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.6663701
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.9639525
+      outSlope: 2.9639525
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.19306052
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &3256187189923702730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,18 +541,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7833046374434951178}
   m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2647334561585991466
 MonoBehaviour:

@@ -18,16 +18,26 @@ MonoBehaviour:
   m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
     type: 3}
   m_Phrases:
-  - Text: Yes! They are in my hands.
-    Speaker: 0
+  - Text: What? It looks like there is nothing here
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
-  - Text: It's time to go home, I hope I have time to sleep.
-    Speaker: 0
+  - Text: Wait, I see a letter...
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
-  - Text: Or not?
-    Speaker: 0
+  - Text: Lets look at it...
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
-  m_Endings: []
+  m_Endings:
+  - Phrase:
+      Text: Read...
+      SpriteInsteadOfText: {fileID: 0}
+      Speaker: 2
+      BubbleTail: 0
+      BubbleForm: 0
+    End: {fileID: 11400000, guid: e095d98d2aeaf4619a98f03e39b77019, type: 2}

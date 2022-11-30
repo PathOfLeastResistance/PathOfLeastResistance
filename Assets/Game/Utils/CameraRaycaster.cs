@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityTools;
 
@@ -8,20 +9,23 @@ namespace Game
     {
         private Camera m_camera;
 
+        private string[] m_layersToIgnore = new string[]{"LevelLimits"};
+        private int m_Mask;
+
         private void Awake()
         {
             m_camera = Camera.main;
+            m_Mask = ~LayerMask.GetMask(m_layersToIgnore);
         }
 
         public bool RaycastScreenToPhysics(Vector3 point, out Vector3 result)
         {
             var ray = m_camera.ScreenPointToRay(point);
-            if (Physics.Raycast(ray, out var hit))
+            if (Physics.Raycast(ray,  out var hit, float.PositiveInfinity, m_Mask))
             {
                 result = hit.point;
                 return true;
             }
-
             result = Vector3.zero;
             return false;
         }

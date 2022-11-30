@@ -20,49 +20,61 @@ MonoBehaviour:
     type: 3}
   m_Phrases:
   - Text: Are you preparing to exam?
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1
     BubbleForm: 0
-  - Text: Yep, and what about you?
+  - Text: Of course, and what about you?
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
     BubbleTail: 3
     BubbleForm: 0
-  - Text: I'm not, I have a better idea.
+  - Text: No, I have a better idea.
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1
     BubbleForm: 0
   - Text: What you got on you mind this time?
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
     BubbleTail: 3
     BubbleForm: 0
-  - Text: "*Whispering* \nI know the place where he keeps the answers to the test"
+  - Text: "*Whispering* \nI know the place where the teacher keeps answers to the
+      test"
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1
     BubbleForm: 1
   - Text: You're mad!
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
     BubbleTail: 3
     BubbleForm: 0
   - Text: "Shhh. You know I failed my last exam. \nIf I don't pass this one perfectly,
       \nI won't get scholarships. \nBut I may need your help."
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1
     BubbleForm: 0
-  - Text: So you want to get me in this trouble!
+  - Text: And you decided to get me in this trouble too!
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
     BubbleTail: 3
     BubbleForm: 0
   - Text: I know you won't let me down. Bye bye, I'll text you later.
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1
     BubbleForm: 0
   - Text: Oh, please, be carefull!
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 1
     BubbleTail: 3
     BubbleForm: 0
   m_Endings:
   - Phrase:
       Text: Next...
+      SpriteInsteadOfText: {fileID: 0}
       Speaker: 2
       BubbleTail: 0
       BubbleForm: 1

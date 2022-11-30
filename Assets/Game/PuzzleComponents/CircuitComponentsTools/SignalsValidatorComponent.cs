@@ -80,7 +80,6 @@ public class SignalsValidatorComponent : MonoBehaviour
                 SignalQuality = SignalQualityType.Bad;
                 Debug.Log($"Your signal is bad, the maximum error is {maxError}V");
             }
-            
 
             m_refDone = false;
             m_sigDone = false;

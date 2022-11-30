@@ -919,7 +919,7 @@ MonoBehaviour:
   m_ObjectiveRoot: {fileID: 4754634784064023740}
   m_ObjectiveController: {fileID: 150010513716040876}
   m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the key's signal.
+    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
@@ -1502,7 +1502,7 @@ RectTransform:
   - {fileID: 4626449106940641616}
   - {fileID: 4371878603379594440}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1938,7 +1938,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
+    serializedVersion: 2
     m_TransformParent: {fileID: 4734763899598794037}
     m_Modifications:
     - target: {fileID: 908382659829501064, guid: aad4e7b73a1feb44398e1b744f1d6dc2,
@@ -2137,9 +2137,7 @@ PrefabInstance:
       value: 177.08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aad4e7b73a1feb44398e1b744f1d6dc2, type: 3}
 --- !u!114 &150010513716040876 stripped
 MonoBehaviour:
@@ -2176,7 +2174,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
+    serializedVersion: 2
     m_TransformParent: {fileID: 6323791858178667675}
     m_Modifications:
     - target: {fileID: 908382659829501064, guid: aad4e7b73a1feb44398e1b744f1d6dc2,
@@ -2375,9 +2373,7 @@ PrefabInstance:
       value: 177.08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aad4e7b73a1feb44398e1b744f1d6dc2, type: 3}
 --- !u!114 &4872465532874738094 stripped
 MonoBehaviour:

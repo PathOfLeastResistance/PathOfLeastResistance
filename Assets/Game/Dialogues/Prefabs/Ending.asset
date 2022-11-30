@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
-  m_Name: DialogueTeacherOffice
+  m_Name: Ending
   m_EditorClassIdentifier: 
   m_LeftCharacter: {fileID: 0}
   m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
@@ -18,15 +18,29 @@ MonoBehaviour:
   m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
     type: 3}
   m_Phrases:
-  - Text: All I have to do is open the box he keeps the ticket safe key in and success
-      is guaranteed.
-    Speaker: 0
+  - Text: Great job student!
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
+    BubbleTail: 5
+    BubbleForm: 0
+  - Text: You have successfully unlocked the safe, and that means you are well prepared
+      for exam
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
+    BubbleTail: 5
+    BubbleForm: 0
+  - Text: But acting like this is not very honestly, agree.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: Let's go
-      Speaker: 1
-      BubbleTail: 6
+      Text: 'So I hope you will assis me in the lab for next 3 months!
+
+        Congratulations!'
+      SpriteInsteadOfText: {fileID: 0}
+      Speaker: 2
+      BubbleTail: 0
       BubbleForm: 0
-    End: {fileID: 4602963215855895507, guid: 0f99e03eb0d9b4e9da38c83cbe703e57, type: 3}
+    End: {fileID: 0}

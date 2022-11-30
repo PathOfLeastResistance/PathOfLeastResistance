@@ -15,16 +15,18 @@ MonoBehaviour:
   m_LeftCharacter: {fileID: 0}
   m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
     type: 3}
-  m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
+  m_Backgroud: {fileID: 7602538453456710455, guid: 143ad6347d54c493fac2745341b039f8,
     type: 3}
   m_Phrases:
   - Text: Almost done. I feel like there isn't much left.
+    SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 5
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: Let's go slowly
+      Text: The last one!
+      SpriteInsteadOfText: {fileID: 0}
       Speaker: 1
       BubbleTail: 6
       BubbleForm: 0
