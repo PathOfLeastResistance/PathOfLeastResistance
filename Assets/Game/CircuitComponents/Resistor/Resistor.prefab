@@ -434,6 +434,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 4176547837275240528}
     m_Modifications:
+    - target: {fileID: 817162771024021588, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
+        type: 3}
+      propertyPath: m_text
+      value: Resistor
+      objectReference: {fileID: 0}
     - target: {fileID: 2035183439093907549, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
         type: 3}
       propertyPath: m_Name
@@ -598,6 +603,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResistorText
       objectReference: {fileID: 0}
+    - target: {fileID: 3361131425802301406, guid: 1353caa33c2f24b76977886a53f522e6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3361131425802301406, guid: 1353caa33c2f24b76977886a53f522e6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5021054545543641826, guid: 1353caa33c2f24b76977886a53f522e6,
         type: 3}
       propertyPath: m_RootOrder
@@ -611,12 +626,12 @@ PrefabInstance:
     - target: {fileID: 5021054545543641826, guid: 1353caa33c2f24b76977886a53f522e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.015093336
+      value: 0.0371
       objectReference: {fileID: 0}
     - target: {fileID: 5021054545543641826, guid: 1353caa33c2f24b76977886a53f522e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.036257595
+      value: -0.0504
       objectReference: {fileID: 0}
     - target: {fileID: 5021054545543641826, guid: 1353caa33c2f24b76977886a53f522e6,
         type: 3}

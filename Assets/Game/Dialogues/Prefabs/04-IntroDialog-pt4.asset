@@ -19,17 +19,20 @@ MonoBehaviour:
     type: 3}
   m_Phrases:
   - Text: The security guard is slipping!
-    Speaker: 0
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 1
     BubbleForm: 0
   - Text: That's great!
-    Speaker: 0
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 1
     BubbleForm: 0
   m_Endings:
   - Phrase:
       Text: All I have to do is to find a way to open teachers box!
-      Speaker: 0
+      SpriteInsteadOfText: {fileID: 0}
+      Speaker: 2
       BubbleTail: 0
       BubbleForm: 1
     End: {fileID: 4602963215855895507, guid: 0f99e03eb0d9b4e9da38c83cbe703e57, type: 3}

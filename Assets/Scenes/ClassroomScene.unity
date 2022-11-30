@@ -696,6 +696,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PrincipalUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7342371064880848722, guid: 4f851c1d56d78824cbf5732a3ae55fb6,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f851c1d56d78824cbf5732a3ae55fb6, type: 3}

@@ -20,16 +20,19 @@ MonoBehaviour:
   m_Phrases:
   - Text: "So the lesson is over. \nI hope you understand that tomorrow exam is very
       important."
-    Speaker: 1
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 3
     BubbleForm: 0
   - Text: I hope you will be ready for it
-    Speaker: 1
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
     BubbleTail: 3
     BubbleForm: 0
   m_Endings:
   - Phrase:
       Text: Next
+      SpriteInsteadOfText: {fileID: 0}
       Speaker: 2
       BubbleTail: 0
       BubbleForm: 1

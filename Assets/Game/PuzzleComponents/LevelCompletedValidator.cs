@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// This class takes all SignalsValidatorComponent that are his children, and suscribes their OnSignalValidated event;
@@ -12,14 +13,14 @@ public class LevelCompletedValidator : MonoBehaviour
 {
     public event Action OnLevelCompleted;
 
-    private SignalsValidatorComponent[] m_levelValidators;
-    private bool m_allSignalsGood = false;
-    private bool m_checkSignals = true;
-    
+    private SignalsValidatorComponent[] m_LevelValidators;
+    private bool m_AllSignalsGood = false;
+    private bool m_CheckSignals = true;
+
     private void Start()
     {
-        m_levelValidators = GetComponentsInChildren<SignalsValidatorComponent>();
-        foreach (var validator in m_levelValidators)
+        m_LevelValidators = GetComponentsInChildren<SignalsValidatorComponent>();
+        foreach (var validator in m_LevelValidators)
             validator.OnSignalValidated += (c) => OnSignalReceived();
 
         Reset();
@@ -27,22 +28,29 @@ public class LevelCompletedValidator : MonoBehaviour
 
     public void Reset()
     {
-        m_checkSignals = true;
-        m_allSignalsGood = false;
+        m_CheckSignals = true;
+        m_AllSignalsGood = false;
     }
 
     private void OnSignalReceived()
     {
-        m_allSignalsGood = m_levelValidators.All(c=> c.SignalQuality == SignalQualityType.Good);
+        m_AllSignalsGood = m_LevelValidators.All(c => c.SignalQuality == SignalQualityType.Good);
     }
 
     private void Update()
     {
-        if (m_checkSignals)
+        
+#if UNITY_EDITOR
+        //Winner 
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            m_AllSignalsGood = true;
+#endif
+        
+        if (m_CheckSignals)
         {
-            if (m_allSignalsGood)
+            if (m_AllSignalsGood)
             {
-                m_checkSignals = false;
+                m_CheckSignals = false;
                 OnLevelCompleted?.Invoke();
                 Debug.LogWarning("Level Completed");
             }
