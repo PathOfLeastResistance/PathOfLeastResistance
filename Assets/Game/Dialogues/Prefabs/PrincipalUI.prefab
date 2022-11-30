@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 1006583917284747400}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -908,22 +908,10 @@ MonoBehaviour:
   m_ToNextLevel: {fileID: 4872465532874738094}
   m_LevelFinished: {fileID: 8141747377535551252}
   m_EndingController: {fileID: 5965892651279179767}
-  m_EndingPhrase:
-    Text: Hooray! I finished! I can go further.
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 6
-    BubbleForm: 0
   m_HideObjective: {fileID: 1387552422767936245}
   m_ShowObjective: {fileID: 4015422474603721141}
   m_ObjectiveRoot: {fileID: 4754634784064023740}
   m_ObjectiveController: {fileID: 150010513716040876}
-  m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 6
-    BubbleForm: 0
   m_PhoneButton: {fileID: 593766002515384977}
 --- !u!1 &3876231016158192229
 GameObject:

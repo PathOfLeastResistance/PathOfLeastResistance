@@ -38,10 +38,14 @@ public class Level : MonoBehaviour, IEventState
     private bool m_wasInited = false;
 
     [SerializeField] private UnityEngine.Object m_OnEnd = default;
+    [SerializeField] private Phrase m_ObjectivePhrase = default;
+    [SerializeField] private Phrase m_EndingPhrase = default;
 
     public LevelCompletedValidator LevelCompletedValidator => m_LevelCompletedValidator;
 
     public UnityEngine.Object OnEnd => m_OnEnd;
+    public Phrase ObjectivePhrase => m_ObjectivePhrase;
+    public Phrase EndingPhrase => m_EndingPhrase;
 
     public void Init()
     {
