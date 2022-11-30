@@ -14,6 +14,7 @@ namespace Game
     {
         [Inject] private CameraRaycaster m_CameraRaycaster;
 
+        [SerializeField] private CinemachineBrain m_brain;
         [SerializeField] private Camera m_camera;
         [SerializeField] private PlanarColliderPositionClamper m_clamper;
 
@@ -164,6 +165,8 @@ namespace Game
 
             //Apply zoom
             m_cameraDistanceRoot.transform.localPosition = Vector3.back * m_ZoomCurve.Evaluate(m_CurrentZoom);
+
+            m_brain.ManualUpdate();
         }
     }
 }
