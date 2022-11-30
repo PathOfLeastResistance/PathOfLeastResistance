@@ -439,6 +439,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Resistor
       objectReference: {fileID: 0}
+    - target: {fileID: 817162771024021588, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     - target: {fileID: 2035183439093907549, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
         type: 3}
       propertyPath: m_Name
@@ -499,11 +504,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5589479492540673743, guid: ee4a8a9cc2963c14fa2e5de5b1099232,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0ff3bfce4ed5d41fb905073603508820, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ee4a8a9cc2963c14fa2e5de5b1099232, type: 3}
@@ -667,6 +667,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388055382225194387, guid: 1353caa33c2f24b76977886a53f522e6,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
