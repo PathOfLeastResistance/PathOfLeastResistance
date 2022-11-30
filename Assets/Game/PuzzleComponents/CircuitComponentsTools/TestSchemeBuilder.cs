@@ -22,7 +22,7 @@ public class TestSchemeBuilder : DisposableMonobehaviour
 
     [SerializeField] private Transform m_connectorsRoot;
     [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
-    [SerializeField] private bool m_isHidden;
+    [SerializeField] private bool m_isHidden = true;
 
     private List<CableBehaviour> m_cables = new List<CableBehaviour>();
 

@@ -188,7 +188,7 @@ MonoBehaviour:
     Pin2: {fileID: 844178948807535627}
   - Pin1: {fileID: 5582744558783387335}
     Pin2: {fileID: 4243635566197437383}
-  m_isHidden: 0
+  m_isHidden: 1
 --- !u!114 &5394363679239180517
 MonoBehaviour:
   m_ObjectHideFlags: 0
