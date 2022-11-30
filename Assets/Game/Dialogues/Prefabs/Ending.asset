@@ -15,7 +15,7 @@ MonoBehaviour:
   m_LeftCharacter: {fileID: 0}
   m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
     type: 3}
-  m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
+  m_Backgroud: {fileID: 7602538453456710455, guid: 3b3aff3a4d5924283a24a9179eb317c4,
     type: 3}
   m_Phrases:
   - Text: Great job student!

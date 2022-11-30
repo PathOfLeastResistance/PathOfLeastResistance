@@ -604,6 +604,11 @@ PrefabInstance:
       propertyPath: m_waveForm
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6502578065524074585, guid: 8f5c796eedb194562820cc52dab57e4b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 8030425152287583200, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
       propertyPath: m_Name
@@ -1189,6 +1194,11 @@ PrefabInstance:
       propertyPath: m_VolstPerCell
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9215599435859831214, guid: 58c42c7630cd343d6877ed046b57c280,
+        type: 3}
+      propertyPath: m_initialCount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2165433317829244141, guid: 58c42c7630cd343d6877ed046b57c280,
@@ -1677,6 +1687,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1718787154147044145}
     m_Modifications:
+    - target: {fileID: 2587957449090014744, guid: 58c50b215084444bfa2e1c5385501f8b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 58c50b215084444bfa2e1c5385501f8b,
         type: 3}
       propertyPath: m_RootOrder
@@ -1731,6 +1746,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4910731260663542168, guid: 58c50b215084444bfa2e1c5385501f8b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8030425152287583200, guid: 58c50b215084444bfa2e1c5385501f8b,
         type: 3}
@@ -1954,6 +1974,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 4306869021735515259}
     m_Modifications:
+    - target: {fileID: 2587957449090014744, guid: 58c50b215084444bfa2e1c5385501f8b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 58c50b215084444bfa2e1c5385501f8b,
         type: 3}
       propertyPath: m_RootOrder
@@ -2008,6 +2033,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4910731260663542168, guid: 58c50b215084444bfa2e1c5385501f8b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8030425152287583200, guid: 58c50b215084444bfa2e1c5385501f8b,
         type: 3}
@@ -2114,6 +2144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_waveForm
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502578065524074585, guid: 8f5c796eedb194562820cc52dab57e4b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8030425152287583200, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
