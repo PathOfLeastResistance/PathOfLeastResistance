@@ -32,9 +32,9 @@ public class UIManager : MonoBehaviour
     public void ShowObjective(Phrase objectivePhrase)
     {
         m_ShowObjective.gameObject.SetActive(true);
-        m_ObjectiveController.Init(objectivePhrase);
-        m_ObjectiveRoot.SetActive(true);
         m_PhoneButton.SetActive(true);
+        m_ObjectiveRoot.SetActive(true);
+        m_ObjectiveController.Init(objectivePhrase);
     }
 
     public void LevelCompleted(Phrase endingPhrase)

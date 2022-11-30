@@ -24,6 +24,7 @@ public class BackgroundManager : MonoBehaviour, ICoroutineRunner
     {
         var visible = request != null;
         m_CanvasGroup.blocksRaycasts = visible;
+        m_CanvasGroup.interactable = visible;
         
         if (visible)
         {
@@ -37,21 +38,16 @@ public class BackgroundManager : MonoBehaviour, ICoroutineRunner
         {
             var back = GetOrCreate(request);
             foreach (var backgrond in m_Backgrounds)
-            {
-                if (backgrond.Value != back)
-                    backgrond.Value.gameObject.SetActive(false);
-            }
-
+                backgrond.Value.gameObject.SetActive(backgrond.Key == request);
+            
             m_ShowAnimation.StartAnimation();
         }
         else if (m_PreviousBack != null && !visible)
         {
             foreach (var backgrond in m_Backgrounds)
-            {
-                if (backgrond.Value != m_PreviousBack)
-                    backgrond.Value.gameObject.SetActive(false);
-            }
-
+                backgrond.Value.gameObject.SetActive(backgrond.Key == m_PreviousBack);
+            
+            m_PreviousBack = null;
             m_HideAnimation.StartAnimation();
         }
 
