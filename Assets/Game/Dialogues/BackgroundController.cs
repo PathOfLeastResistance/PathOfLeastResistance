@@ -8,11 +8,14 @@ public class BackgroundController : MonoBehaviour, ICoroutineRunner
     [SerializeField] private AnimationCurve m_Alpha = default;
     [SerializeField] private CanvasGroup m_CanvasGroup = default;
 
-    public void ShowAnimated()
+    public void SetFirst()
     {
         gameObject.transform.SetAsLastSibling();
         gameObject.SetActive(true);
+    }
 
+    public void ShowAnimated()
+    {
         mAnimation ??= new PlainAnimation(this, m_Duration, SetAnimationState);
         mAnimation.StartAnimation();
     }

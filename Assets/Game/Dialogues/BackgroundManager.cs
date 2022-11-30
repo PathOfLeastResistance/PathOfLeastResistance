@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class BackgroundManager : MonoBehaviour, ICoroutineRunner
 {
-    private PlainAnimation mAnimation;
+    private PlainAnimation m_ShowAnimation;
+    private PlainAnimation m_HideAnimation;
 
     private Dictionary<BackgroundController, BackgroundController> m_Backgrounds = new Dictionary<BackgroundController, BackgroundController>();
 
+    [SerializeField] private BackgroundController m_PreviousBack;
     [SerializeField] private Transform m_Root = default;
     [SerializeField] private float m_Duration = 0.5f;
     [SerializeField] private AnimationCurve m_Alpha = default;
@@ -14,33 +16,56 @@ public class BackgroundManager : MonoBehaviour, ICoroutineRunner
 
     private void Awake()
     {
-        mAnimation = new PlainAnimation(this, m_Duration, SetAnimationState);
+        m_ShowAnimation = new PlainAnimation(this, m_Duration, SetShowAnimationState);
+        m_HideAnimation = new PlainAnimation(this, m_Duration, SetHideAnimationState);
     }
 
     public void ActivateBackground(BackgroundController request)
     {
-        m_CanvasGroup.blocksRaycasts = true;
-
-        if (request != null)
+        var visible = request != null;
+        m_CanvasGroup.blocksRaycasts = visible;
+        
+        if (visible)
         {
             var back = GetOrCreate(request);
-            back.ShowAnimated();
+            back.SetFirst();
+            if (m_PreviousBack != null)
+                back.ShowAnimated();
         }
-    }
 
-    internal void HideAnimated()
-    {
-        mAnimation.StartAnimation();
-        m_CanvasGroup.blocksRaycasts = false;
+        if (m_PreviousBack == null && visible)
+        {
+            var back = GetOrCreate(request);
+            foreach (var backgrond in m_Backgrounds)
+            {
+                if (backgrond.Value != back)
+                    backgrond.Value.gameObject.SetActive(false);
+            }
+
+            m_ShowAnimation.StartAnimation();
+        }
+        else if (m_PreviousBack != null && !visible)
+        {
+            foreach (var backgrond in m_Backgrounds)
+            {
+                if (backgrond.Value != m_PreviousBack)
+                    backgrond.Value.gameObject.SetActive(false);
+            }
+
+            m_HideAnimation.StartAnimation();
+        }
+
+        m_PreviousBack = request;
     }
 
     private void OnDestroy() =>
-        mAnimation?.Dispose();
+        m_ShowAnimation?.Dispose();
 
-    private void SetAnimationState(float state)
-    {
+    private void SetShowAnimationState(float state) =>
+        m_CanvasGroup.alpha = 1f - m_Alpha.Evaluate(state);
+
+    private void SetHideAnimationState(float state) =>
         m_CanvasGroup.alpha = m_Alpha.Evaluate(state);
-    }
 
     private BackgroundController GetOrCreate(BackgroundController request)
     {
