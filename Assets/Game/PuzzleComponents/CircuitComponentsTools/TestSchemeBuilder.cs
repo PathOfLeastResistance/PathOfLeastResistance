@@ -22,7 +22,8 @@ public class TestSchemeBuilder : DisposableMonobehaviour
 
     [SerializeField] private Transform m_connectorsRoot;
     [SerializeField] private List<PinPair> m_pinPairs = new List<PinPair>();
-    
+    [SerializeField] private bool m_isHidden = true;
+
     private List<CableBehaviour> m_cables = new List<CableBehaviour>();
 
     public void CreateConnections()
@@ -37,12 +38,12 @@ public class TestSchemeBuilder : DisposableMonobehaviour
             var cable = m_cablesFactory.Create();
             cable.CableEnding1.Pin = pair.Pin1;
             cable.CableEnding2.Pin = pair.Pin2;
-            cable.transform.SetParent(m_connectorsRoot);
+            cable.transform.SetParent(m_isHidden ? m_connectorsRoot : null);
         }
     }
 
     protected override void OnDispose()
-    {   
+    {
         base.OnDispose();
         foreach (var cable in m_cables)
             cable.Dispose();

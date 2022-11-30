@@ -66,7 +66,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_resetPids: 0
-  m_rotationSensitivity: 0.1
 --- !u!54 &2802665780594637071
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -586,10 +585,25 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6821976437526349212}
     m_Modifications:
+    - target: {fileID: 810121792781617163, guid: 81566098253c2468291e58c278fb8cb7,
+        type: 3}
+      propertyPath: m_text
+      value: -5.00 V
+      objectReference: {fileID: 0}
+    - target: {fileID: 810121792781617163, guid: 81566098253c2468291e58c278fb8cb7,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 923400908397822587, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_Name
       value: VoltageVisualizer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293745952412949349, guid: 81566098253c2468291e58c278fb8cb7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.011
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
@@ -599,22 +613,22 @@ PrefabInstance:
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4302971
+      value: 0.3732483
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4302971
+      value: 0.3732483
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4302971
+      value: 0.3732483
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0041
+      value: 0.0038
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
@@ -624,7 +638,7 @@ PrefabInstance:
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0164
+      value: 0.016182
       objectReference: {fileID: 0}
     - target: {fileID: 2524819564134444918, guid: 81566098253c2468291e58c278fb8cb7,
         type: 3}

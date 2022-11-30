@@ -20,6 +20,7 @@ MonoBehaviour:
   m_Endings:
   - Phrase:
       Text: A few hours later...
+      SpriteInsteadOfText: {fileID: 0}
       Speaker: 2
       BubbleTail: 0
       BubbleForm: 1

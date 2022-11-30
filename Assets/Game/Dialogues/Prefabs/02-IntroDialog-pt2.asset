@@ -40,7 +40,7 @@ MonoBehaviour:
     BubbleTail: 3
     BubbleForm: 0
   - Text: "*Whispering* \nI know the place where the teacher keeps answers to the
-      test"
+      test. The unswers are in the box on his table... I just need to..."
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 1

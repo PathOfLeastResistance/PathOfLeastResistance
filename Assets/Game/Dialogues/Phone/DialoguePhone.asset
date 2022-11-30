@@ -100,7 +100,7 @@ MonoBehaviour:
   - Text: Not sure... And what about diodes?
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
-    BubbleTail: 2
+    BubbleTail: 1
     BubbleForm: 0
   - Text: You can use them as voltage rectifires, like this
     SpriteInsteadOfText: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: Hide phone
+      Text: Close
       SpriteInsteadOfText: {fileID: 0}
       Speaker: 2
       BubbleTail: 0

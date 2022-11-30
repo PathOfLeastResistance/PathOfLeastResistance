@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e45c4fdeb23ef4c99f7769c40f174d, type: 3}
+  m_Name: 00-Menu
+  m_EditorClassIdentifier: 
+  m_LeftCharacter: {fileID: 0}
+  m_RightCharacter: {fileID: 1287293077685400031, guid: d3d1f6bfb9755be478a0647e47b8d6ab,
+    type: 3}
+  m_Backgroud: {fileID: 7602538453456710455, guid: ac363d30560ffb246acbf9c186ba44d9,
+    type: 3}
+  m_Phrases:
+  - Text: The path of least resistance is the physical or metaphorical pathway that
+      provides the least resistance to forward motion by a given object or entity,
+      among a set of alternative paths. The concept is often used to describe why
+      an object or entity takes a given path. The way in which water flows is often
+      given as an example for the idea.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  - Text: In physics, the "path of least resistance" is a heuristic from folk physics
+      that can sometimes, in very simple situations, describe approximately what
+      happens. It is an approximation of the tendency to the least energy state.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 1
+    BubbleTail: 3
+    BubbleForm: 0
+  m_Endings:
+  - Phrase:
+      Text: Start Game
+      SpriteInsteadOfText: {fileID: 0}
+      Speaker: 2
+      BubbleTail: 0
+      BubbleForm: 1
+    End: {fileID: 11400000, guid: e7e2ed58afeb1244bba9f6cf78e1647e, type: 2}

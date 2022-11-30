@@ -15,32 +15,40 @@ MonoBehaviour:
   m_LeftCharacter: {fileID: 0}
   m_RightCharacter: {fileID: 5057839205657763209, guid: bfb552ea5623db1418af243eb05fba3e,
     type: 3}
-  m_Backgroud: {fileID: 8413037071429018841, guid: 68466516e51ba174fb4ff3f8b6d66004,
+  m_Backgroud: {fileID: 7602538453456710455, guid: 3b3aff3a4d5924283a24a9179eb317c4,
     type: 3}
   m_Phrases:
   - Text: Great job student!
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
-    BubbleTail: 5
+    BubbleTail: 0
     BubbleForm: 0
   - Text: You have successfully unlocked the safe, and that means you are well prepared
       for exam
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
-    BubbleTail: 5
+    BubbleTail: 0
     BubbleForm: 0
   - Text: But acting like this is not very honestly, agree.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
+    BubbleTail: 0
+    BubbleForm: 0
+  - Text: 'So I hope you will assist me in the lab for next 3 months!
+
+      Congratulations!'
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: 'So I hope you will assis me in the lab for next 3 months!
+      Text: 'Not sure it was the path of least resistance...
 
-        Congratulations!'
+        (Return to
+        main menu)'
       SpriteInsteadOfText: {fileID: 0}
-      Speaker: 2
-      BubbleTail: 0
+      Speaker: 0
+      BubbleTail: 1
       BubbleForm: 0
-    End: {fileID: 0}
+    End: {fileID: 11400000, guid: b5ebe4349c07a43e095c6b2ed6f7ee27, type: 2}

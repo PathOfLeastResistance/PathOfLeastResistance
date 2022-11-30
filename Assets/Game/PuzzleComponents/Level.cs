@@ -31,7 +31,7 @@ public class Level : MonoBehaviour, IEventState
     [Inject] private ConnectionManager m_connectionsManager;
     
     private CircuitComponent[] m_circuitComponents;
-    private TestSchemeBuilder m_SchemeBuilder;
+    private TestSchemeBuilder[] m_SchemeBuilders;
     private ElementsHider m_ElementsHider;
     private LevelCompletedValidator m_LevelCompletedValidator;
 
@@ -60,8 +60,9 @@ public class Level : MonoBehaviour, IEventState
             circuitComponent.Init();
 
         //And then we connect them
-        m_SchemeBuilder = GetComponent<TestSchemeBuilder>();
-        m_SchemeBuilder.CreateConnections();
+        m_SchemeBuilders = GetComponents<TestSchemeBuilder>();
+        foreach (var builder in m_SchemeBuilders)
+            builder.CreateConnections();
 
         //Now hide things we don't need to see
         m_ElementsHider = GetComponent<ElementsHider>();
