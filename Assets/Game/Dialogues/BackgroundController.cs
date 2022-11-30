@@ -8,6 +8,12 @@ public class BackgroundController : MonoBehaviour, ICoroutineRunner
     [SerializeField] private AnimationCurve m_Alpha = default;
     [SerializeField] private CanvasGroup m_CanvasGroup = default;
 
+    private void Awake()
+    {
+        m_CanvasGroup.blocksRaycasts = false;
+        m_CanvasGroup.interactable = false;
+    }
+
     public void SetFirst()
     {
         gameObject.transform.SetAsLastSibling();
