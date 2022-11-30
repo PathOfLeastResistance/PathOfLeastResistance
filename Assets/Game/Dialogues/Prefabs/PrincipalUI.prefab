@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 1006583917284747400}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -908,22 +908,10 @@ MonoBehaviour:
   m_ToNextLevel: {fileID: 4872465532874738094}
   m_LevelFinished: {fileID: 8141747377535551252}
   m_EndingController: {fileID: 5965892651279179767}
-  m_EndingPhrase:
-    Text: Hooray! I finished! I can go further.
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 6
-    BubbleForm: 0
   m_HideObjective: {fileID: 1387552422767936245}
   m_ShowObjective: {fileID: 4015422474603721141}
   m_ObjectiveRoot: {fileID: 4754634784064023740}
   m_ObjectiveController: {fileID: 150010513716040876}
-  m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
-    SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
-    BubbleTail: 6
-    BubbleForm: 0
   m_PhoneButton: {fileID: 593766002515384977}
 --- !u!1 &3876231016158192229
 GameObject:
@@ -1416,6 +1404,9 @@ MonoBehaviour:
     type: 3}
   m_ChoiceControllerPrefab: {fileID: 3505824855964883990, guid: de46388d77e00644a81e0bbfd0350123,
     type: 3}
+  m_LeftBubbleColor: {r: 1, g: 0.91, b: 0.8, a: 1}
+  m_RightBubbleColor: {r: 0.8, g: 0.98452234, b: 1, a: 1}
+  m_CenterBubbleColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
 --- !u!225 &8670791678179567623
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1687,6 +1678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b14a0944b3b85a740bcafeea46deb409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PreviousBack: {fileID: 7602538453456710455, guid: ac363d30560ffb246acbf9c186ba44d9,
+    type: 3}
   m_Root: {fileID: 814751713086634504}
   m_Duration: 0.5
   m_Alpha:

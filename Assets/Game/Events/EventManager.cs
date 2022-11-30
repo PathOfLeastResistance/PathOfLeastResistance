@@ -1,5 +1,4 @@
 ﻿using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +6,7 @@ public class EventManager
 {
     [Inject] private readonly IEventResolver<DialogueContainer> m_DialogueResolver = default;
     [Inject] private readonly IEventResolver<Level> m_LevelResolver = default;
+    [Inject] private readonly BackgroundManager m_DialogueBackgroundManager = default;
 
     public void Proceed(IEventState nextState) =>
         Proceed(nextState as Object);
@@ -17,10 +17,12 @@ public class EventManager
         {
             case DialogueContainer state:
                 m_DialogueResolver.Resolve(state);
+                m_DialogueBackgroundManager.ActivateBackground(state.Backgroud);
                 break;
 
             case Level state:
                 m_LevelResolver.Resolve(state);
+                m_DialogueBackgroundManager.ActivateBackground(null);
                 break;
 
             default:

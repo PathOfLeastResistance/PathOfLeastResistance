@@ -26,6 +26,10 @@ public class PhoneHelpManager : MonoBehaviour, ICoroutineRunner
     [SerializeField] private PhraseController m_PhraseControllerPrefab = default;
     [SerializeField] private PhraseController m_ChoiceControllerPrefab = default;
 
+    [SerializeField] private Color m_LeftBubbleColor = default;
+    [SerializeField] private Color m_RightBubbleColor = default;
+    [SerializeField] private Color m_CenterBubbleColor = default;
+
     private void Awake()
     {
         m_AnimationShow = new PlainAnimation(this, m_Duration, SetShowAnimationState);
@@ -76,6 +80,28 @@ public class PhoneHelpManager : MonoBehaviour, ICoroutineRunner
     {
         var reply = Instantiate(prefeab, m_PhrasesRoot);
         reply.Init(phrase);
+
+        foreach (var image in reply.GetComponentsInChildren<Image>())
+        {
+            switch (phrase.Speaker)
+            {
+                case BubbleAlignment.Left:
+                    image.color = m_LeftBubbleColor;
+                    break;
+
+                case BubbleAlignment.Right:
+                    image.color = m_RightBubbleColor;
+                    break;
+
+                case BubbleAlignment.Center:
+                    image.color = m_CenterBubbleColor;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         return reply.gameObject;
     }
 
