@@ -127,7 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_OnEnd: {fileID: 11400000, guid: 6b91913a651d9dd4d8183f70bd412187, type: 2}
   m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
+    Text: Hmm... Looks like I have to build a circuit that repeats the "orange" signal,
+      that shows -4V
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6

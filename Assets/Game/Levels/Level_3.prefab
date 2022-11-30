@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_OnEnd: {fileID: 11400000, guid: 477cdefb57268614fb4d10de6684f402, type: 2}
   m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
+    Text: Oh, it looks like sine wave, but all voltages are positive...
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6

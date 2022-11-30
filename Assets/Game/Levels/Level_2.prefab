@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_OnEnd: {fileID: 11400000, guid: 95d016bc61f354045b42cdd269fecf0e, type: 2}
   m_ObjectivePhrase:
-    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
+    Text: Two oscilloscopes this time... 4V and 2V...
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
@@ -168,6 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_connectorsRoot: {fileID: 4306869021735515259}
   m_pinPairs:
+  - Pin1: {fileID: 1495160423524733948}
+    Pin2: {fileID: 7516685889639533965}
   - Pin1: {fileID: 8290998554425093742}
     Pin2: {fileID: 6731725523520127629}
   - Pin1: {fileID: 2732748342571977776}
@@ -176,18 +178,16 @@ MonoBehaviour:
     Pin2: {fileID: 6414231589811098177}
   - Pin1: {fileID: 7516685889639533965}
     Pin2: {fileID: 844178948807535627}
-  - Pin1: {fileID: 1495160423524733948}
-    Pin2: {fileID: 7516685889639533965}
   - Pin1: {fileID: 4243635566197437383}
     Pin2: {fileID: 7798168481110252865}
-  - Pin1: {fileID: 6397759523737532763}
-    Pin2: {fileID: 6414231589811098177}
   - Pin1: {fileID: 7609434358757140119}
-    Pin2: {fileID: 5582744558783387335}
+    Pin2: {fileID: 6414231589811098177}
   - Pin1: {fileID: 8947149155397470475}
-    Pin2: {fileID: 844178948807535627}
-  - Pin1: {fileID: 5582744558783387335}
+    Pin2: {fileID: 6397759523737532763}
+  - Pin1: {fileID: 8947149155397470475}
     Pin2: {fileID: 4243635566197437383}
+  - Pin1: {fileID: 5582744558783387335}
+    Pin2: {fileID: 844178948807535627}
   m_isHidden: 1
 --- !u!114 &5394363679239180517
 MonoBehaviour:
@@ -670,7 +670,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.012369041
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -680,7 +680,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.9999235
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -695,7 +695,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 178.583
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -1843,7 +1843,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.05054835
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -1853,7 +1853,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.99872166
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
@@ -1868,7 +1868,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -174.205
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
         type: 3}
