@@ -1415,6 +1415,9 @@ MonoBehaviour:
     type: 3}
   m_ChoiceControllerPrefab: {fileID: 3505824855964883990, guid: de46388d77e00644a81e0bbfd0350123,
     type: 3}
+  m_LeftBubbleColor: {r: 1, g: 0.91, b: 0.8, a: 1}
+  m_RightBubbleColor: {r: 0.8, g: 0.98452234, b: 1, a: 1}
+  m_CenterBubbleColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
 --- !u!225 &8670791678179567623
 CanvasGroup:
   m_ObjectHideFlags: 0
