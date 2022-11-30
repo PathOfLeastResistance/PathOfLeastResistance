@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityTools;
 
@@ -109,15 +110,18 @@ public class SimpleMouseInput : SingletonMonobehaviour<SimpleMouseInput>
             }
             else
             {
-                m_DragStarted = true;
-                switch (m_ActiveButton)
+                if (!EventSystem.current.IsPointerOverGameObject(m_ActiveButton))
                 {
-                    case 0:
-                        OnLeftDragStartEvent?.Invoke(new MouseDragEventArgs(m_mousePos, delta));
-                        break;
-                    case 1:
-                        OnRightDragStartEvent?.Invoke(new MouseDragEventArgs(m_mousePos, delta));
-                        break;
+                    m_DragStarted = true;
+                    switch (m_ActiveButton)
+                    {
+                        case 0:
+                            OnLeftDragStartEvent?.Invoke(new MouseDragEventArgs(m_mousePos, delta));
+                            break;
+                        case 1:
+                            OnRightDragStartEvent?.Invoke(new MouseDragEventArgs(m_mousePos, delta));
+                            break;
+                    }
                 }
             }
         }
