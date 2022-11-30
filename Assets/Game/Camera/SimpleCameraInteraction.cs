@@ -22,10 +22,10 @@ namespace Game
         [SerializeField] private Transform m_cameraDistanceRoot;
 
         [SerializeField] private float m_rotationSensitivity = 1f;
-        [SerializeField] private float m_wheelSensitive = 0.001f;
+        [SerializeField] private float m_wheelSensitive = 0.0001f;
         [SerializeField] private float m_movementDuration = 10;
-        [SerializeField] private Vector2 m_minMaxZoom = new Vector2(0, 1);
         [SerializeField] private Vector2 m_MinMaxAngle = new Vector2(30, 89);
+        [SerializeField] private AnimationCurve m_ZoomCurve = AnimationCurve.EaseInOut(0, 0.05f, 1, 1);
 
         private Plane m_InteractionPlane = new Plane(Vector3.up, Vector3.zero);
         private Vector3 m_TargetDragStartPoint;
@@ -45,7 +45,7 @@ namespace Game
         public float TargetZoom
         {
             get => m_TargetZoom;
-            set => m_TargetZoom = math.clamp(value, m_minMaxZoom.x, m_minMaxZoom.y);
+            set => m_TargetZoom = math.clamp(value, 0, 1);
         }
 
         public Vector3 TargetPosition
@@ -69,6 +69,8 @@ namespace Game
         private void Awake()
         {
             InputManager.Instance.RegisterCamera(m_camera);
+            InputManager.Instance.CameraTracer.LayerSettings.RemoveLayers("LevelLimits", "TableThings");
+            
             m_InteractionObject = m_camera.GetComponent<InteractionObject>();
             SimpleMouseInput.Instance.OnWheelEvent += OnWheel;
             SimpleMouseInput.Instance.SubscribeLeftButtonDrag(OnLeftDragStart, OnLeftDragPerformed, OnLeftDragEnd);
@@ -161,7 +163,7 @@ namespace Game
             m_cameraRotationXRoot.localRotation = Quaternion.AngleAxis(m_CurrentXRotation, Vector3.right);
 
             //Apply zoom
-            m_cameraDistanceRoot.transform.localPosition = Vector3.back * m_CurrentZoom;
+            m_cameraDistanceRoot.transform.localPosition = Vector3.back * m_ZoomCurve.Evaluate(m_CurrentZoom);
         }
     }
 }
