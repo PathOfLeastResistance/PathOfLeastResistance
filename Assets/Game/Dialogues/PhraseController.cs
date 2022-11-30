@@ -74,15 +74,15 @@ public class PhraseController : MonoBehaviour, ICoroutineRunner
         switch (phrase.Speaker)
         {
             case BubbleAlignment.Left:
-                m_Layout.childAlignment =  TextAnchor.MiddleLeft;
+                m_Layout.childAlignment = TextAnchor.UpperLeft;
                 break;
 
             case BubbleAlignment.Right:
-                m_Layout.childAlignment =  TextAnchor.MiddleRight;
+                m_Layout.childAlignment = TextAnchor.UpperRight;
                 break;
 
             case BubbleAlignment.Center:
-                m_Layout.childAlignment =  TextAnchor.MiddleCenter;
+                m_Layout.childAlignment = TextAnchor.UpperCenter;
                 break;
 
             default:
