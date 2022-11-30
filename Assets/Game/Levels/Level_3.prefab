@@ -186,6 +186,7 @@ MonoBehaviour:
     Pin2: {fileID: 6397759523737532763}
   - Pin1: {fileID: 2778062624308232278}
     Pin2: {fileID: 7609434358757140119}
+  m_isHidden: 0
 --- !u!114 &7938692945802044613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1173,6 +1174,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainBlackBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 3998746460364523043, guid: 58c42c7630cd343d6877ed046b57c280,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3998746460364523043, guid: 58c42c7630cd343d6877ed046b57c280,
         type: 3}
