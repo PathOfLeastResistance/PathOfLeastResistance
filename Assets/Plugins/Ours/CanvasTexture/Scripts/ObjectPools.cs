@@ -30,8 +30,12 @@ namespace ViJApps.CanvasTexture
 
         private static TextComponent CreateFromAddressable()
         {
-            var op = Addressables.InstantiateAsync("TextComponent");
-            var renderer = op.WaitForCompletion().GetComponent<TextComponent>();
+            // var op = Addressables.InstantiateAsync("TextComponent");
+            // var renderer = op.WaitForCompletion().GetComponent<TextComponent>();
+            // return renderer;
+            
+            var op = Object.Instantiate(Resources.Load("TextComponent"));
+            var renderer = ((GameObject)op).GetComponent<TextComponent>();
             return renderer;
         }
     }

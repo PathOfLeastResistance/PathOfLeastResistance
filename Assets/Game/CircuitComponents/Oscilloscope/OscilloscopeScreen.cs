@@ -81,9 +81,8 @@ public class OscilloscopeScreen : MonoBehaviour
         return new DisposableAction(() => OnRenderTextureChanged -= onRenderTextureChanged);
     }
 
-    private async void Awake()
+    private void Awake()
     {
-        await MaterialProvider.Initialization;
         m_canvasTexture = new CanvasTexture();
         var desc = new RenderTextureDescriptor(m_pointsCountW, m_pointsCountH);
         m_canvasTexture.Init(desc);
@@ -94,9 +93,8 @@ public class OscilloscopeScreen : MonoBehaviour
             m_screenRenderer.material.mainTexture = RenderTexture;
     }
 
-    private async void Update()
+    private void Update()
     {
-        await MaterialProvider.Initialization;
         UpdateRenderData();
         DrawData();
     }

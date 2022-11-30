@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 70e8f681d3b4b4c7185d72a372252e7c
   m_CachedHash:
     serializedVersion: 2
-    Hash: fa87533dd37ecad6fcd0318b91fd0815
+    Hash: 80aca2127df196ad5d00a0f297fac831
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -46,7 +46,6 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: cafe125d4a97347048897998d4f84b93, type: 2}
   - {fileID: 11400000, guid: fa265c50534714de582ba4e1d40ef0e1, type: 2}
-  - {fileID: 11400000, guid: 18ba1474f423d44fa844fdac95aa2834, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -65,9 +64,9 @@ MonoBehaviour:
       - m_Id: 90a06e829ae284d968745fe8ef12a461
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: 48898b40ee3ad47e898a48262fa5933e
-        m_Value: ServerData/[BuildTarget]
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
       - m_Id: 1e07269b96a1541ca9eba49a6b02047a
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
     m_ProfileEntryNames:
     - m_Id: 57406b3d095954616a75be55c9eb16d1
       m_Name: BuildTarget
@@ -88,6 +87,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - ViJApps.SimpleUnlit
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 4f415636b1f4d4775be31949f6f954ef, type: 2}
