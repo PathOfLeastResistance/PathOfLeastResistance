@@ -65,6 +65,8 @@ public class PhoneHelpManager : MonoBehaviour, ICoroutineRunner
                 {
                     var choice = CreateReply(m_ChoiceControllerPrefab, end.Phrase);
                     choice.GetComponent<Button>().onClick.AddListener(HideHelp);
+                    choice.GetComponent<CanvasGroup>().interactable = true;
+                    choice.GetComponent<CanvasGroup>().blocksRaycasts = true;
                 }
             }
         }
@@ -102,6 +104,7 @@ public class PhoneHelpManager : MonoBehaviour, ICoroutineRunner
             }
         }
 
+        reply.GetComponent<PhoneIconSetter>().Init(phrase);
         return reply.gameObject;
     }
 
