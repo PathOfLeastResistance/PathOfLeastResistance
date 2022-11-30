@@ -130,6 +130,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_OnEnd: {fileID: 11400000, guid: 95d016bc61f354045b42cdd269fecf0e, type: 2}
+  m_ObjectivePhrase:
+    Text: Hmm... Looks like I need to build a circuit that repeats the "orange" signal
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 0
+    BubbleTail: 6
+    BubbleForm: 0
+  m_EndingPhrase:
+    Text: Hooray! I finished! I can go further.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 0
+    BubbleTail: 6
+    BubbleForm: 0
 --- !u!114 &5095056396746257658
 MonoBehaviour:
   m_ObjectHideFlags: 0

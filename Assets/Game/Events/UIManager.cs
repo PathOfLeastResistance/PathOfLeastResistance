@@ -7,13 +7,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button m_ToNextLevel = default;
     [SerializeField] private GameObject m_LevelFinished = default;
     [SerializeField] private PhraseController m_EndingController = default;
-    [SerializeField] private Phrase m_EndingPhrase = default;
 
     [SerializeField] private Button m_HideObjective = default;
     [SerializeField] private Button m_ShowObjective = default;
     [SerializeField] private GameObject m_ObjectiveRoot = default;
     [SerializeField] private PhraseController m_ObjectiveController = default;
-    [SerializeField] private Phrase m_ObjectivePhrase = default;
 
     [SerializeField] private GameObject m_PhoneButton = default;
 
@@ -31,21 +29,21 @@ public class UIManager : MonoBehaviour
         m_ShowObjective.onClick.AddListener(() => m_ObjectiveRoot.SetActive(true));
     }
 
-    public void ShowObjective()
+    public void ShowObjective(Phrase objectivePhrase)
     {
         m_ShowObjective.gameObject.SetActive(true);
-        m_ObjectiveController.Init(m_ObjectivePhrase);
+        m_ObjectiveController.Init(objectivePhrase);
         m_ObjectiveRoot.SetActive(true);
         m_PhoneButton.SetActive(true);
     }
 
-    public void LevelCompleted()
+    public void LevelCompleted(Phrase endingPhrase)
     {
         m_ShowObjective.gameObject.SetActive(false);
         m_LevelFinished.SetActive(true);
         m_ObjectiveRoot.SetActive(false);
         m_PhoneButton.SetActive(false);
-        m_EndingController.Init(m_EndingPhrase);
+        m_EndingController.Init(endingPhrase);
     }
 
     public void LevelAbandoned()

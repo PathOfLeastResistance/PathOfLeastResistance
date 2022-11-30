@@ -27,13 +27,13 @@ public class LevelManager : MonoBehaviour, IEventResolver<Level>
         level.transform.SetParent(m_Root);
         level.Init();
         level.LevelCompletedValidator.OnLevelCompleted += OnLevelCompleted;
+        m_UIManager.ShowObjective(level.ObjectivePhrase);
         m_CurrentLevel = level;
-        m_UIManager.ShowObjective();
     }
 
     private void OnLevelCompleted()
     {
-        m_UIManager.LevelCompleted();
+        m_UIManager.LevelCompleted(m_CurrentLevel.EndingPhrase);
         m_CurrentLevel.LevelCompletedValidator.OnLevelCompleted -= OnLevelCompleted;
     }
 
