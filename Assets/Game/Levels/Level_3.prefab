@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 5095056396746257658}
   - component: {fileID: 6531238858434603368}
   - component: {fileID: 7938692945802044613}
+  - component: {fileID: 4128579237998892565}
   m_Layer: 0
   m_Name: Level_3
   m_TagString: Untagged
@@ -130,13 +131,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_OnEnd: {fileID: 11400000, guid: 477cdefb57268614fb4d10de6684f402, type: 2}
   m_ObjectivePhrase:
-    Text: Oh, it looks like sine wave, but all voltages are positive...
+    Text: Oh, it looks like sine wave, but all voltages are positive... I should
+      find a way to ivert negative voltages...
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
     BubbleForm: 0
   m_EndingPhrase:
-    Text: Hooray! I finished! I can go further.
+    Text: Yes! It's opening! I am as cool as HACKERMAN
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
@@ -200,6 +202,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42019ea3b9d694749b20c093984cd716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4128579237998892565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4602963215855895507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c408e1895ca5447f9d97b5b7d0df2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_connectorsRoot: {fileID: 0}
+  m_pinPairs:
+  - Pin1: {fileID: 3906408691079065710}
+    Pin2: {fileID: 6067932014670139098}
+  - Pin1: {fileID: 532856705216966562}
+    Pin2: {fileID: 7306787328863899926}
+  m_isHidden: 0
 --- !u!1001 &1021126270320591458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,6 +856,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2121311742802722317}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6067932014670139098 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5279848028658512087, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121311742802722317}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7306787328863899926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8653250616113295131, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121311742802722317}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8215028526452594157 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8030425152287583200, guid: 3f45b4fda22ad467698e9a4753a6e9c0,
@@ -1320,7 +1365,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 25ce56d2a614c4a968b9feb76deed582,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.277
+      value: -0.2629
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 25ce56d2a614c4a968b9feb76deed582,
         type: 3}
@@ -1330,7 +1375,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 25ce56d2a614c4a968b9feb76deed582,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0999
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 25ce56d2a614c4a968b9feb76deed582,
         type: 3}
@@ -2177,7 +2222,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.494
+      value: -0.2219
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
@@ -2187,7 +2232,7 @@ PrefabInstance:
     - target: {fileID: 3119079074341787181, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.1262
       objectReference: {fileID: 0}
     - target: {fileID: 3119079074341787181, guid: 8f5c796eedb194562820cc52dab57e4b,
         type: 3}
@@ -2242,6 +2287,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f5c796eedb194562820cc52dab57e4b, type: 3}
+--- !u!114 &532856705216966562 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8653250616113295131, guid: 8f5c796eedb194562820cc52dab57e4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9183846582464315577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3906408691079065710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5279848028658512087, guid: 8f5c796eedb194562820cc52dab57e4b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9183846582464315577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6069341755533661844 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3119079074341787181, guid: 8f5c796eedb194562820cc52dab57e4b,

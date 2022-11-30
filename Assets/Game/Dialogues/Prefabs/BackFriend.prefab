@@ -312,7 +312,7 @@ MonoBehaviour:
     Amplitude: 25
   - RectTransform: {fileID: 345414823445650036}
     Amplitude: 75
-  m_speed: 0.3
+  m_speed: 0.1
 --- !u!1 &4473848869846694920
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,26 +21,34 @@ MonoBehaviour:
   - Text: Great job student!
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
-    BubbleTail: 5
+    BubbleTail: 0
     BubbleForm: 0
   - Text: You have successfully unlocked the safe, and that means you are well prepared
       for exam
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
-    BubbleTail: 5
+    BubbleTail: 0
     BubbleForm: 0
   - Text: But acting like this is not very honestly, agree.
+    SpriteInsteadOfText: {fileID: 0}
+    Speaker: 2
+    BubbleTail: 0
+    BubbleForm: 0
+  - Text: 'So I hope you will assist me in the lab for next 3 months!
+
+      Congratulations!'
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: 'So I hope you will assis me in the lab for next 3 months!
+      Text: 'Not sure it was the path of least resistance...
 
-        Congratulations!'
+        (Return to
+        main menu)'
       SpriteInsteadOfText: {fileID: 0}
-      Speaker: 2
-      BubbleTail: 0
+      Speaker: 0
+      BubbleTail: 1
       BubbleForm: 0
-    End: {fileID: 0}
+    End: {fileID: 11400000, guid: b5ebe4349c07a43e095c6b2ed6f7ee27, type: 2}

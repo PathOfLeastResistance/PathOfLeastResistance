@@ -138,7 +138,7 @@ MonoBehaviour:
     BubbleTail: 6
     BubbleForm: 0
   m_EndingPhrase:
-    Text: Hooray! I finished! I can go further.
+    Text: Hooray! Well done! I can go further.
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6

@@ -167,4 +167,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec14d0d8587436148a0ec34727aed242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InitialDialogue: {fileID: 11400000, guid: e7e2ed58afeb1244bba9f6cf78e1647e, type: 2}
+  m_InitialDialogue: {fileID: 11400000, guid: b5ebe4349c07a43e095c6b2ed6f7ee27, type: 2}

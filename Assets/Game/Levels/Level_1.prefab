@@ -135,7 +135,7 @@ MonoBehaviour:
     BubbleTail: 6
     BubbleForm: 0
   m_EndingPhrase:
-    Text: Hooray! I finished! I can go further.
+    Text: Hooray! The first signal is correct!
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
@@ -205,6 +205,10 @@ MonoBehaviour:
     Pin2: {fileID: 532856705216966562}
   - Pin1: {fileID: 3578356571752509245}
     Pin2: {fileID: 7306787328863899926}
+  - Pin1: {fileID: 4482445518751982616}
+    Pin2: {fileID: 3906408691079065710}
+  - Pin1: {fileID: 5126249427741822726}
+    Pin2: {fileID: 532856705216966562}
   m_isHidden: 0
 --- !u!114 &1167739124330991959
 MonoBehaviour:
@@ -452,7 +456,7 @@ PrefabInstance:
     - target: {fileID: 3685203077541100378, guid: f964c4d6b5f1f47119be6d015b559383,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.331
+      value: -0.305
       objectReference: {fileID: 0}
     - target: {fileID: 3685203077541100378, guid: f964c4d6b5f1f47119be6d015b559383,
         type: 3}
@@ -508,6 +512,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 752245001368090724}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4482445518751982616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3766234851441335420, guid: f964c4d6b5f1f47119be6d015b559383,
+    type: 3}
+  m_PrefabInstance: {fileID: 752245001368090724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5126249427741822726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5572248402110084962, guid: f964c4d6b5f1f47119be6d015b559383,
+    type: 3}
+  m_PrefabInstance: {fileID: 752245001368090724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287a16192ec0c4a63848a709c6eacf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &799686726759219573
 PrefabInstance:
   m_ObjectHideFlags: 0
