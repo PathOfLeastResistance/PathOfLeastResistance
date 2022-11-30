@@ -23,8 +23,8 @@ namespace Game
         [Inject] private IPidSettingsProvider m_pidSettingsProvider;
 
         // Object positioning
-        [SerializeField] private bool m_resetPids = false;
-        [SerializeField] private float m_rotationSensitivity = 0.1f;
+        [SerializeField] private bool m_resetPids = false; 
+        private float m_rotationSensitivity = 0.01f;
         
         //Position PID controller
         private Vector3PidController m_positionPidController;

@@ -385,7 +385,7 @@ MonoBehaviour:
   m_cameraRotationXRoot: {fileID: 6184745158826196046}
   m_cameraDistanceRoot: {fileID: 8030853509703970997}
   m_rotationSensitivity: 0.2
-  m_wheelSensitive: 0.00008
+  m_wheelSensitive: 0.00003
   m_movementDuration: 0.1
   m_MinMaxAngle: {x: 10, y: 89}
   m_ZoomCurve:
