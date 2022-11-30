@@ -64,6 +64,16 @@ namespace CircuitJSharp
             }
         }
 
+        public double resistance
+        {
+            get => maxResistance;
+            set
+            {
+                sim.needsStamp = true;
+                maxResistance = value;
+            }
+        }
+
         public override int getPostCount() => 3;
 
         public override Point getPost(int n) => points[n];

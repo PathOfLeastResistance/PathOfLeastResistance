@@ -59,18 +59,14 @@ public class OscilloscopeScreenText : MonoBehaviour
 
     private async void Start()
     {
-        await MaterialProvider.Initialization;
-
         m_canvasTexture = new CanvasTexture();
         m_canvasTexture.Init(OscilloscopeScreen.ScreenResolutionX * 2, OscilloscopeScreen.ScreenResolutionY * 2);
         RenderTexture = m_canvasTexture.RenderTexture;
         RenderTexture.autoGenerateMips = true;
     }
 
-    private async void Update()
+    private void Update()
     {
-        await MaterialProvider.Initialization;
-
         //Temporal peace of sheet
         if (m_isDirty)
         {
