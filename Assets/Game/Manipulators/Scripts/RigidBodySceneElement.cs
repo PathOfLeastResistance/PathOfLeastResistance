@@ -24,7 +24,7 @@ namespace Game
 
         // Object positioning
         [SerializeField] private bool m_resetPids = false; 
-        private float m_rotationSensitivity = 0.01f;
+        public static float RotationSensitivity = 0.01f; 
         
         //Position PID controller
         private Vector3PidController m_positionPidController;
@@ -75,7 +75,7 @@ namespace Game
 
         private void OnWheel(float delta)
         {
-            m_TargetRotation += delta * m_rotationSensitivity;
+            m_TargetRotation += delta * RotationSensitivity;
         }
 
         private void OnDragStart(object sender, PointerDragInteractionEventArgs args)
