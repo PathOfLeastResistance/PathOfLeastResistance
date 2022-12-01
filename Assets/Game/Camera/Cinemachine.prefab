@@ -384,8 +384,8 @@ MonoBehaviour:
   m_cameraMainRoot: {fileID: 5128405192487928484}
   m_cameraRotationXRoot: {fileID: 6184745158826196046}
   m_cameraDistanceRoot: {fileID: 8030853509703970997}
-  m_rotationSensitivity: 0.2
-  m_wheelSensitive: 0.00003
+  m_rotationSensitivity: 0.6
+  m_wheelSensitive: 0.0001
   m_movementDuration: 0.1
   m_MinMaxAngle: {x: 10, y: 89}
   m_ZoomCurve:
@@ -394,20 +394,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.08
-      inSlope: 0.03751657
-      outSlope: 0.03751657
+      inSlope: 0.08517255
+      outSlope: 0.08517255
       tangentMode: 0
       weightedMode: 3
       inWeight: 0
-      outWeight: 0.6663701
+      outWeight: 0.5053381
     - serializedVersion: 3
-      time: 1
+      time: 2.5
       value: 1
-      inSlope: 2.9639525
-      outSlope: 2.9639525
+      inSlope: 0.83609855
+      outSlope: 0.83609855
       tangentMode: 0
       weightedMode: 3
-      inWeight: 0.19306052
+      inWeight: 0.20462632
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -46,7 +46,7 @@ namespace Game
         public float TargetZoom
         {
             get => m_TargetZoom;
-            set => m_TargetZoom = math.clamp(value, 0, 1);
+            set => m_TargetZoom = math.clamp(value, 0, m_ZoomCurve.keys.Last().time);
         }
 
         public Vector3 TargetPosition
@@ -71,7 +71,7 @@ namespace Game
         {
             InputManager.Instance.RegisterCamera(m_camera);
             InputManager.Instance.CameraTracer.LayerSettings.RemoveLayers("LevelLimits", "TableThings");
-            
+
             m_InteractionObject = m_camera.GetComponent<InteractionObject>();
             SimpleMouseInput.Instance.OnWheelEvent += OnWheel;
             SimpleMouseInput.Instance.SubscribeLeftButtonDrag(OnLeftDragStart, OnLeftDragPerformed, OnLeftDragEnd);
@@ -83,7 +83,7 @@ namespace Game
         public void ResetCameraPos()
         {
             m_CurrentPosition = TargetPosition = Vector3.zero;
-            m_CurrentZoom = TargetZoom = 1f;
+            m_CurrentZoom = TargetZoom = m_ZoomCurve.keys.Last().time;
             m_CurrentYRotation = TargetYRotation = 0;
             m_CurrentXRotation = TargetXRotation = m_cameraRotationXRoot.eulerAngles.x;
 
