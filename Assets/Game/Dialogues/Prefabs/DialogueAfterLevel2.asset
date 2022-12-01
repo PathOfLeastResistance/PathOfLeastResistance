@@ -20,14 +20,14 @@ MonoBehaviour:
   m_Phrases:
   - Text: Almost done. I feel like there isn't much left.
     SpriteInsteadOfText: {fileID: 0}
-    Speaker: 0
+    Speaker: 2
     BubbleTail: 5
     BubbleForm: 0
   m_Endings:
   - Phrase:
-      Text: The last one!
+      Text: Lets hack the last one!
       SpriteInsteadOfText: {fileID: 0}
-      Speaker: 1
+      Speaker: 2
       BubbleTail: 6
       BubbleForm: 0
     End: {fileID: 4602963215855895507, guid: e232ff97f8faf4ced810f04f75fe1f41, type: 3}

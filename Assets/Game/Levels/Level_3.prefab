@@ -132,7 +132,7 @@ MonoBehaviour:
   m_OnEnd: {fileID: 11400000, guid: 477cdefb57268614fb4d10de6684f402, type: 2}
   m_ObjectivePhrase:
     Text: Oh, it looks like sine wave, but all voltages are positive... I should
-      find a way to ivert negative voltages...
+      find a way to invert negative voltages...
     SpriteInsteadOfText: {fileID: 0}
     Speaker: 0
     BubbleTail: 6
