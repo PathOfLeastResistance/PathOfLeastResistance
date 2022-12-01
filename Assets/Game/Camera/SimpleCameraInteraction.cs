@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Game
 {
-    public class SimpleCameraInteraction : MonoBehaviour
+    public class SimpleCameraInteraction : SingletonMonobehaviour<SimpleCameraInteraction>
     {
         [Inject] private CameraRaycaster m_CameraRaycaster;
 
@@ -42,6 +42,12 @@ namespace Game
         private float m_TargetZoom = 1f;
         private float m_TargetYRotation = 0;
         private float m_TargetXRotation = 0;
+        
+        public float WheelSensitive
+        {
+            get => m_wheelSensitive;
+            set => m_wheelSensitive = value;
+        }
 
         public float TargetZoom
         {
@@ -138,7 +144,9 @@ namespace Game
         private void OnWheel(float delta)
         {
             if (!IsCameraIntercepted())
+            { 
                 TargetZoom -= delta * m_wheelSensitive;
+            }
         }
 
         private bool IsCameraIntercepted() => InputManager.Instance.ActiveGestures.Any(c => c.InteractionObject != m_InteractionObject);
