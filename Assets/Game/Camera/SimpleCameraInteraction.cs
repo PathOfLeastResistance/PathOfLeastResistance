@@ -83,7 +83,7 @@ namespace Game
         public void ResetCameraPos()
         {
             m_CurrentPosition = TargetPosition = Vector3.zero;
-            m_CurrentZoom = TargetZoom = 1f;
+            m_CurrentZoom = TargetZoom = m_ZoomCurve.keys.Last().time;
             m_CurrentYRotation = TargetYRotation = 0;
             m_CurrentXRotation = TargetXRotation = m_cameraRotationXRoot.eulerAngles.x;
 
